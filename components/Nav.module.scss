@@ -1,6 +1,12 @@
+@use 'theme';
+
 .root {
+	grid-area: nav;
 	display: flex;
 	align-items: center;
+	padding: 0.5rem 1rem;
+	background: rgba(theme.$gray, 0.1);
+	border-bottom: 1px solid theme.$gray;
 }
 
 .user {
