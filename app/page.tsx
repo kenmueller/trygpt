@@ -1,41 +1,16 @@
-if (!process.env.NEXT_PUBLIC_ORIGIN)
-	throw new Error('Missing NEXT_PUBLIC_ORIGIN')
-
 import { redirect } from 'next/navigation'
 
 import userFromRequest from '@/lib/user/fromRequest'
 import SignInButton from '@/components/SignInButton'
-import preview from '@/assets/preview.jpg'
+import pageMetadata from '@/lib/metadata/page'
 
 import styles from './page.module.scss'
 
-const url = process.env.NEXT_PUBLIC_ORIGIN
-const title = 'TryGPT'
-const description = 'TryGPT'
-
-export const metadata = {
-	alternates: { canonical: url },
-	title,
-	description,
-	openGraph: {
-		type: 'website',
-		title,
-		description,
-		siteName: 'TryGPT',
-		locale: 'en_US',
-		url,
-		images: preview,
-		countryName: 'United States'
-	},
-	twitter: {
-		card: 'summary_large_image',
-		site: '@trygpt',
-		creator: '@trygpt',
-		title,
-		description,
-		images: preview
-	}
-}
+export const metadata = pageMetadata({
+	path: '',
+	title: 'TryGPT',
+	description: 'TryGPT'
+})
 
 const LandingPage = async () => {
 	const user = await userFromRequest()

@@ -1,14 +1,6 @@
 @use 'theme';
 
 .root {
-	grid-area: sidebar;
-	width: 15rem;
-	padding: 0.5rem;
-	background: rgba(theme.$gray, 0.5);
-	border-right: 2px solid theme.$gray;
-}
-
-.newChat {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -31,7 +23,7 @@
 	}
 }
 
-.newChatIcon {
+.icon {
 	height: 1.5rem;
 	margin-right: 0.5rem;
 }
