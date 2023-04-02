@@ -1,0 +1,9 @@
+@use 'theme' as *;
+
+:export {
+	white: $white;
+	yellow: $yellow;
+	blue: $blue;
+	gray: $gray;
+	dark: $dark;
+}

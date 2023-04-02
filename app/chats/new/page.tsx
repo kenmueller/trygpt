@@ -4,14 +4,14 @@ if (!process.env.NEXT_PUBLIC_ORIGIN)
 import { redirect } from 'next/navigation'
 
 import userFromRequest from '@/lib/user/fromRequest'
-import SignInButton from '@/components/SignInButton'
+import DashboardPage from '@/components/DashboardPage'
 import preview from '@/assets/preview.jpg'
 
 import styles from './page.module.scss'
 
-const url = process.env.NEXT_PUBLIC_ORIGIN
-const title = 'TryGPT'
-const description = 'TryGPT'
+const url = `${process.env.NEXT_PUBLIC_ORIGIN}/chats/new`
+const title = 'New Chat | TryGPT'
+const description = 'New Chat | TryGPT'
 
 export const metadata = {
 	alternates: { canonical: url },
@@ -37,17 +37,15 @@ export const metadata = {
 	}
 }
 
-const LandingPage = async () => {
+const NewChatPage = async () => {
 	const user = await userFromRequest()
-	if (user) redirect('/chats/new')
+	if (!user) redirect('/')
 
 	return (
-		<main className={styles.root}>
-			<h1>TryGPT</h1>
-			<p>Pay-as-you-go ChatGPT</p>
-			<SignInButton />
-		</main>
+		<DashboardPage user={user} page={{ key: 'new-chat' }}>
+			New Chat
+		</DashboardPage>
 	)
 }
 
-export default LandingPage
+export default NewChatPage

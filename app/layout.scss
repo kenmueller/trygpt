@@ -1,3 +1,5 @@
+@use 'theme';
+
 *,
 ::before,
 ::after {
@@ -5,6 +7,8 @@
 	margin: 0;
 	padding: 0;
 	font-family: inherit;
+	word-wrap: break-word;
+	word-break: break-word;
 	border: none;
 	outline: none;
 }
@@ -12,6 +16,11 @@
 html,
 body {
 	height: 100%;
+}
+
+body {
+	color: theme.$white;
+	background: theme.$dark;
 }
 
 a {

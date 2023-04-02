@@ -3,7 +3,35 @@
 .root {
 	grid-area: sidebar;
 	width: 15rem;
+	padding: 0.5rem;
+	background: rgba(theme.$gray, 0.5);
+	border-right: 2px solid theme.$gray;
+}
+
+.newChat {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	padding: 0.5rem 1rem;
-	background: rgba(theme.$gray, 0.1);
-	border-right: 1px solid theme.$gray;
+	font-weight: 700;
+	color: theme.$white;
+	background: rgba(theme.$white, 0.1);
+	border: 2px solid rgba(theme.$white, 0.1);
+	border-radius: 0.5rem;
+	transition: color 0.3s, border-color 0.3s, opacity 0.3s;
+
+	&[aria-current] {
+		pointer-events: none;
+		color: theme.$blue;
+		border-color: theme.$blue;
+	}
+
+	&:hover {
+		opacity: 0.7;
+	}
+}
+
+.newChatIcon {
+	height: 1.5rem;
+	margin-right: 0.5rem;
 }

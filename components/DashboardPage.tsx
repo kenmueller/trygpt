@@ -1,16 +1,27 @@
+import { ReactNode } from 'react'
+
 import User from '@/lib/user'
-import Nav from './Nav'
 import Sidebar from './Sidebar'
 
 import styles from './DashboardPage.module.scss'
 
-const DashboardPage = ({ user }: { user: User }) => (
+export type DashboardPage =
+	| { key: 'new-chat' }
+	| { key: 'chat'; id: string }
+	| { key: 'profile' }
+
+const DashboardPage = ({
+	user,
+	page,
+	children
+}: {
+	user: User
+	page: DashboardPage
+	children: ReactNode
+}) => (
 	<main className={styles.root}>
-		<Nav user={user} />
-		<Sidebar user={user} />
-		<main className={styles.main}>
-			<h1>Dashboard</h1>
-		</main>
+		<Sidebar user={user} page={page} />
+		<main className={styles.main}>{children}</main>
 	</main>
 )
 

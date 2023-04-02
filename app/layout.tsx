@@ -8,6 +8,7 @@ import userFromRequest from '@/lib/user/fromRequest'
 import UpdateUser from '@/components/UpdateUser'
 import favicon from '@/assets/favicon.png'
 
+import theme from '@/styles/theme.module.scss'
 import './layout.scss'
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' })
@@ -17,7 +18,7 @@ export const metadata = {
 	authors: [{ name: 'Ken Mueller', url: process.env.NEXT_PUBLIC_ORIGIN }],
 	publisher: 'TryGPT',
 	creator: 'Ken Mueller',
-	themeColor: 'white',
+	themeColor: theme.dark,
 	manifest: '/manifest.webmanifest',
 	icons: favicon.src
 }
