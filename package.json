@@ -1,6 +1,9 @@
 {
 	"name": "trygpt",
 	"version": "1.0.0",
+	"engines": {
+		"node": ">=19.6.1"
+	},
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
