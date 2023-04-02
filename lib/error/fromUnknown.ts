@@ -2,12 +2,14 @@ import HttpError from './http'
 import DEFAULT_ERROR_MESSAGE from './defaultMessage'
 import ErrorCode from './code'
 
-const errorFromUnknown = (value: unknown) =>
-	value instanceof HttpError
-		? value
+const errorFromUnknown = (unknownError: unknown) =>
+	unknownError instanceof HttpError
+		? unknownError
 		: new HttpError(
 				ErrorCode.Internal,
-				value instanceof Error ? value.message : DEFAULT_ERROR_MESSAGE
+				unknownError instanceof Error
+					? unknownError.message
+					: DEFAULT_ERROR_MESSAGE
 		  )
 
 export default errorFromUnknown

@@ -1,4 +1,5 @@
 const { join } = require('path')
+const { IgnorePlugin } = require('webpack')
 
 /** @type {import('next').NextConfig} */
 const config = {
@@ -7,6 +8,10 @@ const config = {
 	},
 	sassOptions: {
 		includePaths: [join(__dirname, 'styles')]
+	},
+	webpack: config => {
+		config.plugins.push(new IgnorePlugin({ resourceRegExp: /^pg-native$/ }))
+		return config
 	}
 }
 

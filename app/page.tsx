@@ -1,9 +1,10 @@
 if (!process.env.NEXT_PUBLIC_ORIGIN)
 	throw new Error('Missing NEXT_PUBLIC_ORIGIN')
 
+import userFromRequest from '@/lib/user/fromRequest'
+import DashboardPage from '@/components/DashboardPage'
+import LandingPage from '@/components/LandingPage'
 import preview from '@/assets/preview.jpg'
-
-import styles from './page.module.scss'
 
 const url = process.env.NEXT_PUBLIC_ORIGIN
 const title = 'TryGPT'
@@ -33,11 +34,9 @@ export const metadata = {
 	}
 }
 
-const HomePage = () => (
-	<main className={styles.root}>
-		<h1 className={styles.title}>TryGPT</h1>
-		<p className={styles.description}>Pay-as-you-go ChatGPT</p>
-	</main>
-)
+const IndexPage = async () => {
+	const user = await userFromRequest()
+	return user ? <DashboardPage user={user} /> : <LandingPage />
+}
 
-export default HomePage
+export default IndexPage
