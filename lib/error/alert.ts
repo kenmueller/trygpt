@@ -1,4 +1,4 @@
-import 'use-client'
+import 'client-only'
 
 import errorFromUnknown from './fromUnknown'
 
