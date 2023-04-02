@@ -1,9 +1,19 @@
 @use 'theme';
 
+.root,
+.scrollable {
+	overflow-y: auto;
+}
+
 .root {
 	grid-area: sidebar;
+	display: grid;
+	grid-template-rows: 1fr auto;
 	width: 15rem;
-	padding: 0.5rem;
 	background: rgba(theme.$gray, 0.5);
 	border-right: 2px solid theme.$gray;
+}
+
+.scrollable {
+	padding: 0.5rem 0;
 }

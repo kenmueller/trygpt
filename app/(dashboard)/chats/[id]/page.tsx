@@ -14,11 +14,11 @@ export const generateMetadata = async ({
 	params: { id: string }
 }) => {
 	const [user, chat] = await Promise.all([
-		userFromRequest() as Promise<User>,
+		userFromRequest(),
 		chatFromId(decodeURIComponent(id))
 	])
 
-	if (!(chat && user.id === chat.userId)) return {}
+	if (!(user && chat && user.id === chat.userId)) return {}
 
 	return pageMetadata({
 		path: `/chats/${id}`,

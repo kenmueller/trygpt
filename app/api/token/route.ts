@@ -43,7 +43,7 @@ export const POST = async (request: NextRequest) => {
 
 		return new NextResponse('', {
 			headers: {
-				'set-cookie': setCookie('token', data && data.token)
+				'set-cookie': setCookie('token', data?.token ?? null)
 			}
 		})
 	} catch (unknownError) {

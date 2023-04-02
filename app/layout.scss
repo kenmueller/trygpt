@@ -32,7 +32,7 @@ button {
 	background: none;
 
 	&:disabled {
-		cursor: default;
+		pointer-events: none;
 	}
 }
 

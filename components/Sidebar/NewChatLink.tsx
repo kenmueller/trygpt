@@ -7,7 +7,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
 import styles from './NewChatLink.module.scss'
 
-const NewChatLink = () => {
+const SidebarNewChatLink = () => {
 	const pathname = usePathname()
 
 	return (
@@ -22,4 +22,4 @@ const NewChatLink = () => {
 	)
 }
 
-export default NewChatLink
+export default SidebarNewChatLink

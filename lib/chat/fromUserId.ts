@@ -24,7 +24,7 @@ const chatsFromUserIdWithConnection = async (
 				   ORDER BY updated DESC`
 	)
 
-	return chats
+	return chats as Chat[]
 }
 
 export default chatsFromUserId

@@ -2,21 +2,18 @@
 
 .root {
 	display: flex;
-	justify-content: center;
 	align-items: center;
-	margin: 0 0.5rem 0.5rem;
-	padding: 0.5rem 1rem;
+	width: 100%;
+	padding: 1rem;
 	font-weight: 700;
 	color: theme.$white;
 	background: rgba(theme.$white, 0.1);
-	border: 2px solid rgba(theme.$white, 0.1);
-	border-radius: 0.5rem;
-	transition: color 0.3s, border-color 0.3s, opacity 0.3s;
+	transition: color 0.3s, background 0.3s, opacity 0.3s;
 
 	&[aria-current] {
 		pointer-events: none;
 		color: theme.$blue;
-		border-color: theme.$blue;
+		background: rgba(theme.$blue, 0.1);
 	}
 
 	&:hover {
@@ -24,7 +21,7 @@
 	}
 }
 
-.icon {
-	height: 1.5rem;
+.image {
 	margin-right: 0.5rem;
+	border-radius: 0.5rem;
 }
