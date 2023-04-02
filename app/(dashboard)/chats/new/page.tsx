@@ -1,4 +1,5 @@
 import pageMetadata from '@/lib/metadata/page'
+import NewChatInput from '@/components/NewChatInput'
 
 import styles from './page.module.scss'
 
@@ -8,6 +9,11 @@ export const metadata = pageMetadata({
 	description: 'New Chat | TryGPT'
 })
 
-const NewChatPage = async () => <main className={styles.root}></main>
+const NewChatPage = () => (
+	<main className={styles.root}>
+		New Chat
+		<NewChatInput />
+	</main>
+)
 
 export default NewChatPage

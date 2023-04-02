@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 
 import userFromRequest from '@/lib/user/fromRequest'
 import Sidebar from '@/components/Sidebar'
+import InitialPromptProvider from '@/components/InitialPromptProvider'
 
 import styles from './layout.module.scss'
 
@@ -13,7 +14,7 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
 	return (
 		<div className={styles.root}>
 			<Sidebar user={user} />
-			{children}
+			<InitialPromptProvider>{children}</InitialPromptProvider>
 		</div>
 	)
 }
