@@ -18,19 +18,7 @@ export const generateMetadata = async ({
 		chatFromId(decodeURIComponent(id))
 	])
 
-	if (!chat)
-		return pageMetadata({
-			path: `/chats/${id}`,
-			title: 'Chat not found | TryGPT',
-			description: 'Chat not found | TryGPT'
-		})
-
-	if (user.id !== chat.userId)
-		return pageMetadata({
-			path: `/chats/${id}`,
-			title: 'Forbidden | TryGPT',
-			description: 'Forbidden | TryGPT'
-		})
+	if (!(chat && user.id === chat.userId)) return {}
 
 	return pageMetadata({
 		path: `/chats/${id}`,
