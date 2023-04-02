@@ -1,11 +1,7 @@
-export default interface User {
+export default interface Chat {
+	userId: string
 	id: string
-
-	/** Photo URL. */
-	photo: string | null
-
-	name: string
-	email: string
+	name: string | null
 
 	/** Milliseconds since epoch. */
 	created: number

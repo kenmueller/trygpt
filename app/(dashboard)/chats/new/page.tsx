@@ -1,5 +1,5 @@
 import pageMetadata from '@/lib/metadata/page'
-import NewChatInput from '@/components/NewChatInput'
+import NewChatInput from '@/components/ChatInput/New'
 
 import styles from './page.module.scss'
 
