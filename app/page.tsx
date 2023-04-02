@@ -33,10 +33,11 @@ export const metadata = {
 	}
 }
 
-const Home = () => (
+const HomePage = () => (
 	<main className={styles.root}>
 		<h1 className={styles.title}>TryGPT</h1>
+		<p className={styles.description}>Pay-as-you-go ChatGPT</p>
 	</main>
 )
 
-export default Home
+export default HomePage
