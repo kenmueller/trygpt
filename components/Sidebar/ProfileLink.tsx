@@ -25,6 +25,7 @@ const SidebarProfileLink = ({ user }: { user: User }) => {
 				referrerPolicy={user.photo ? 'no-referrer' : undefined}
 				width={50}
 				height={50}
+				priority
 			/>
 			Profile
 		</Link>
