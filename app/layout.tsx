@@ -8,7 +8,7 @@ import favicon from '@/assets/favicon.png'
 
 import './layout.scss'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'], display: 'swap' })
 
 export const metadata = {
 	applicationName: 'TryGPT',
