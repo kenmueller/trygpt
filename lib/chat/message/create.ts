@@ -1,13 +1,14 @@
 import 'server-only'
 
 import { sql, DatabasePoolConnection } from 'slonik'
+import { nanoid } from 'nanoid'
 
 import { connect } from '@/lib/pool'
 import ChatMessage from '.'
 
 export type CreateChatMessageData = Pick<
 	ChatMessage,
-	'chatId' | 'id' | 'role' | 'text'
+	'chatId' | 'role' | 'text'
 >
 
 const createChatMessage = (
@@ -21,14 +22,18 @@ const createChatMessage = (
 		  )
 
 const createChatMessageWithConnection = async (
-	{ chatId, id, role, text }: CreateChatMessageData,
+	{ chatId, role, text }: CreateChatMessageData,
 	connection: DatabasePoolConnection
 ) => {
+	const id = nanoid()
+
 	await connection.query(
 		sql.unsafe`INSERT INTO
-				   chats (chat_id, id, role, text)
+				   chat_messages (chat_id, id, role, text)
 				   VALUES (${chatId}, ${id}, ${role}, ${text})`
 	)
+
+	return id
 }
 
 export default createChatMessage

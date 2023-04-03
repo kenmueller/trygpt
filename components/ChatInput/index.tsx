@@ -41,11 +41,7 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
 				try {
 					const response = await fetch(
 						`/api/chats/${encodeURIComponent(chatId)}/messages`,
-						{
-							method: 'POST',
-							headers: { 'content-type': 'application/json' },
-							body: JSON.stringify(userMessage.text)
-						}
+						{ method: 'POST', body: userMessage.text }
 					)
 
 					if (!response.ok) throw errorFromResponse(response)

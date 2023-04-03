@@ -17,6 +17,8 @@ const BaseChatInput = ({
 }) => {
 	const input = useRef<HTMLInputElement | null>(null)
 
+	const normalizedPrompt = prompt.trim()
+
 	const onChange = useCallback(
 		(event: ChangeEvent<HTMLInputElement>) => {
 			setPrompt(event.target.value)
@@ -27,9 +29,9 @@ const BaseChatInput = ({
 	const _onSubmit = useCallback(
 		(event: FormEvent<HTMLFormElement>) => {
 			event.preventDefault()
-			onSubmit(prompt)
+			onSubmit(normalizedPrompt)
 		},
-		[onSubmit, prompt]
+		[onSubmit, normalizedPrompt]
 	)
 
 	useEffect(() => {
@@ -46,7 +48,10 @@ const BaseChatInput = ({
 				disabled={isLoading}
 				onChange={onChange}
 			/>
-			<button className={styles.submit} disabled={!prompt || isLoading}>
+			<button
+				className={styles.submit}
+				disabled={!normalizedPrompt || isLoading}
+			>
 				Submit
 			</button>
 		</form>

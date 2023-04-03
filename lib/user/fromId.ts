@@ -16,12 +16,11 @@ const userFromIdWithConnection = async (
 	id: string,
 	connection: DatabasePoolConnection
 ) => {
-	const users: readonly User[] = await connection.any(
+	const users = (await connection.any(
 		sql.unsafe`SELECT id, photo, name, email, created, updated
 				   FROM users
-				   WHERE id = ${id}
-				   LIMIT 1`
-	)
+				   WHERE id = ${id}`
+	)) as User[]
 
 	return (users[0] as User | undefined) ?? null
 }

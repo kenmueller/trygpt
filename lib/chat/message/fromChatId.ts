@@ -19,14 +19,14 @@ const chatMessagesFromChatIdWithConnection = async (
 	chatId: string,
 	connection: DatabasePoolConnection
 ) => {
-	const chats: readonly ChatMessage[] = await connection.any(
+	const chats = (await connection.any(
 		sql.unsafe`SELECT chat_id AS "chatId", id, role, text, created
 				   FROM chat_messages
 				   WHERE chat_id = ${chatId}
 				   ORDER BY created ASC`
-	)
+	)) as ChatMessage[]
 
-	return chats as ChatMessage[]
+	return chats
 }
 
 export default chatMessagesFromChatId

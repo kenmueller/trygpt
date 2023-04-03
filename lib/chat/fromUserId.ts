@@ -17,14 +17,14 @@ const chatsFromUserIdWithConnection = async (
 	userId: string,
 	connection: DatabasePoolConnection
 ) => {
-	const chats: readonly Chat[] = await connection.any(
+	const chats = (await connection.any(
 		sql.unsafe`SELECT user_id AS "userId", id, name, created, updated
 				   FROM chats
 				   WHERE user_id = ${userId}
 				   ORDER BY updated DESC`
-	)
+	)) as Chat[]
 
-	return chats as Chat[]
+	return chats
 }
 
 export default chatsFromUserId

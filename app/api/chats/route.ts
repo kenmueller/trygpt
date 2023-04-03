@@ -9,15 +9,6 @@ import createChat from '@/lib/chat/create'
 export const revalidate = 0
 export const dynamic = 'force-dynamic'
 
-export const GET = async () => {
-	try {
-		return NextResponse.json([])
-	} catch (unknownError) {
-		const { code, message } = errorFromUnknown(unknownError)
-		return new NextResponse(message, { status: code })
-	}
-}
-
 export const POST = async () => {
 	try {
 		const user = await userFromRequest()

@@ -16,12 +16,11 @@ const chatFromIdWithConnection = async (
 	id: string,
 	connection: DatabasePoolConnection
 ) => {
-	const chats: readonly Chat[] = await connection.any(
+	const chats = (await connection.any(
 		sql.unsafe`SELECT user_id AS "userId", id, name, created, updated
 				   FROM chats
-				   WHERE id = ${id}
-				   LIMIT 1`
-	)
+				   WHERE id = ${id}`
+	)) as Chat[]
 
 	return (chats[0] as Chat | undefined) ?? null
 }
