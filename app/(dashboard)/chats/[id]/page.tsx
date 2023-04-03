@@ -3,10 +3,12 @@ import { redirect } from 'next/navigation'
 import pageMetadata from '@/lib/metadata/page'
 import userFromRequest from '@/lib/user/fromRequest'
 import chatFromId from '@/lib/chat/fromId'
-import User from '@/lib/user'
 import ChatInput from '@/components/ChatInput'
+import ChatMessagesProvider from '@/components/Provider/ChatMessages'
+import ChatMessages from '@/components/Chat/Messages'
 
 import styles from './page.module.scss'
+import { Suspense } from 'react'
 
 export const generateMetadata = async ({
 	params: { id }
@@ -34,10 +36,17 @@ const ChatPage = async ({ params: { id } }: { params: { id: string } }) => {
 	if (!(chat && user.id === chat.userId)) redirect('/chats/new')
 
 	return (
-		<main className={styles.root}>
-			New Chat
-			<ChatInput />
-		</main>
+		<ChatMessagesProvider initialValue={null}>
+			<main className={styles.root}>
+				<div className={styles.main}>
+					<Suspense fallback={<h1 className={styles.loading}>Loading...</h1>}>
+						{/* @ts-expect-error */}
+						<ChatMessages chatId={id} />
+					</Suspense>
+				</div>
+				<ChatInput />
+			</main>
+		</ChatMessagesProvider>
 	)
 }
 
