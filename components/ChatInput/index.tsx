@@ -57,7 +57,8 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
 						id: nanoid(),
 						role: 'assistant',
 						text: '',
-						created: Date.now()
+						created: Date.now(),
+						loading: true
 					}
 
 					setMessages(messages => messages && [...messages, responseMessage])
@@ -86,6 +87,16 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
 						)
 
 						throw unknownError
+					} finally {
+						setMessages(
+							messages =>
+								messages &&
+								messages.map(message =>
+									message.id === responseMessage.id
+										? { ...message, loading: undefined }
+										: message
+								)
+						)
 					}
 				} catch (unknownError) {
 					setMessages(

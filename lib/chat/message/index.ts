@@ -9,6 +9,9 @@ export default interface ChatMessage {
 	/** Milliseconds since epoch. */
 	created: number
 
-	/** If this response generated an error. */
+	/** If this message is loading. Only for assistant responses. */
+	loading?: true
+
+	/** If this message generated an error. */
 	error?: true
 }
