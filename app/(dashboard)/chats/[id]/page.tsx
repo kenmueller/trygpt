@@ -13,12 +13,11 @@ export const generateMetadata = async ({
 }: {
 	params: { id: string }
 }) => {
-	const [user, chat] = await Promise.all([
-		userFromRequest(),
-		chatFromId(decodeURIComponent(id))
-	])
+	const user = await userFromRequest()
+	if (!user) return {}
 
-	if (!(user && chat && user.id === chat.userId)) return {}
+	const chat = await chatFromId(decodeURIComponent(id))
+	if (!(chat && user.id === chat.userId)) return {}
 
 	return pageMetadata({
 		path: `/chats/${id}`,
@@ -28,11 +27,10 @@ export const generateMetadata = async ({
 }
 
 const ChatPage = async ({ params: { id } }: { params: { id: string } }) => {
-	const [user, chat] = await Promise.all([
-		userFromRequest() as Promise<User>,
-		chatFromId(decodeURIComponent(id))
-	])
+	const user = await userFromRequest()
+	if (!user) redirect('/')
 
+	const chat = await chatFromId(decodeURIComponent(id))
 	if (!(chat && user.id === chat.userId)) redirect('/chats/new')
 
 	return (
