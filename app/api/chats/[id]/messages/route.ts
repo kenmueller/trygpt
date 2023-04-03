@@ -5,7 +5,7 @@ import userFromRequest from '@/lib/user/fromRequest'
 import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
 import createChatMessage from '@/lib/chat/message/create'
-import chatIsOwnedByUser from '@/lib/chat/isOwnedByUser'
+import isChatOwnedByUser from '@/lib/chat/isOwnedByUser'
 
 export const revalidate = 0
 export const dynamic = 'force-dynamic'
@@ -20,7 +20,7 @@ export const POST = async (
 		const user = await userFromRequest()
 		if (!user) throw new HttpError(ErrorCode.Unauthorized, 'Unauthorized')
 
-		if (!chatIsOwnedByUser(chatId, user.id))
+		if (!isChatOwnedByUser(chatId, user.id))
 			throw new HttpError(ErrorCode.Forbidden, 'You do not own this chat')
 
 		const text = (await request.text()).trim()

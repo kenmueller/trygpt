@@ -4,18 +4,17 @@ import { cache } from 'react'
 import { sql, DatabasePoolConnection } from 'slonik'
 
 import { connect } from '@/lib/pool'
-import Chat from '.'
 
-const chatIsOwnedByUser = cache(
+const isChatOwnedByUser = cache(
 	(chatId: string, userId: string, connection?: DatabasePoolConnection) =>
 		connection
-			? chatIsOwnedByUserWithConnection(chatId, userId, connection)
+			? isChatOwnedByUserWithConnection(chatId, userId, connection)
 			: connect(connection =>
-					chatIsOwnedByUserWithConnection(chatId, userId, connection)
+					isChatOwnedByUserWithConnection(chatId, userId, connection)
 			  )
 )
 
-const chatIsOwnedByUserWithConnection = async (
+const isChatOwnedByUserWithConnection = async (
 	chatId: string,
 	userId: string,
 	connection: DatabasePoolConnection
@@ -31,4 +30,4 @@ const chatIsOwnedByUserWithConnection = async (
 	return exists
 }
 
-export default chatIsOwnedByUser
+export default isChatOwnedByUser
