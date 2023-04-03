@@ -13,8 +13,8 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
 	if (!user) redirect('/')
 
 	return (
-		<ChatsProvider initialValue={null}>
-			<InitialPromptProvider initialValue={null}>
+		<ChatsProvider>
+			<InitialPromptProvider>
 				<div className={styles.root}>
 					<Sidebar user={user} />
 					{children}

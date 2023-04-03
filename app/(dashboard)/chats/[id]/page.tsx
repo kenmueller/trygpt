@@ -36,7 +36,7 @@ const ChatPage = async ({ params: { id } }: { params: { id: string } }) => {
 	if (!(chat && user.id === chat.userId)) redirect('/chats/new')
 
 	return (
-		<ChatMessagesProvider initialValue={null}>
+		<ChatMessagesProvider>
 			<main className={styles.root}>
 				<div className={styles.main}>
 					<Suspense fallback={<p className={styles.loading}>Loading...</p>}>

@@ -1,25 +1,21 @@
 'use client'
 
-import {
-	ChangeEvent,
-	FormEvent,
-	useCallback,
-	useEffect,
-	useRef,
-	useState
-} from 'react'
+import { ChangeEvent, FormEvent, useCallback, useEffect, useRef } from 'react'
 
 import styles from './Base.module.scss'
 
 const BaseChatInput = ({
+	prompt,
+	setPrompt,
+	isLoading,
 	onSubmit
 }: {
+	prompt: string
+	setPrompt: (prompt: string) => void
+	isLoading: boolean
 	onSubmit: (prompt: string) => void | Promise<void>
 }) => {
 	const input = useRef<HTMLInputElement | null>(null)
-
-	const [prompt, setPrompt] = useState('')
-	const [isLoading, setIsLoading] = useState(false)
 
 	const onChange = useCallback(
 		(event: ChangeEvent<HTMLInputElement>) => {
@@ -29,19 +25,11 @@ const BaseChatInput = ({
 	)
 
 	const _onSubmit = useCallback(
-		async (event: FormEvent<HTMLFormElement>) => {
-			try {
-				event.preventDefault()
-
-				setIsLoading(true)
-
-				setPrompt('')
-				await onSubmit(prompt)
-			} finally {
-				setIsLoading(false)
-			}
+		(event: FormEvent<HTMLFormElement>) => {
+			event.preventDefault()
+			onSubmit(prompt)
 		},
-		[setIsLoading, setPrompt, onSubmit, prompt]
+		[onSubmit, prompt]
 	)
 
 	useEffect(() => {

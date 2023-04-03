@@ -5,14 +5,8 @@ import { ReactNode, useState } from 'react'
 import ChatMessagesContext from '@/lib/context/chatMessages'
 import ChatMessage from '@/lib/chat/message'
 
-const ChatMessagesProvider = ({
-	initialValue,
-	children
-}: {
-	initialValue: ChatMessage[] | null
-	children: ReactNode
-}) => {
-	const chatMessagesState = useState(initialValue)
+const ChatMessagesProvider = ({ children }: { children: ReactNode }) => {
+	const chatMessagesState = useState<ChatMessage[] | null>(null)
 
 	return (
 		<ChatMessagesContext.Provider value={chatMessagesState}>
