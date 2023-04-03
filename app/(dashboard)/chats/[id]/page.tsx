@@ -39,7 +39,7 @@ const ChatPage = async ({ params: { id } }: { params: { id: string } }) => {
 		<ChatMessagesProvider initialValue={null}>
 			<main className={styles.root}>
 				<div className={styles.main}>
-					<Suspense fallback={<h1 className={styles.loading}>Loading...</h1>}>
+					<Suspense fallback={<p className={styles.loading}>Loading...</p>}>
 						{/* @ts-expect-error */}
 						<ChatMessages chatId={id} />
 					</Suspense>
