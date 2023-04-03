@@ -1,10 +1,10 @@
 import 'server-only'
 
 import { sql, DatabasePoolConnection } from 'slonik'
+import { nanoid } from 'nanoid'
 
 import User from '@/lib/user'
 import { connect } from '@/lib/pool'
-import { nanoid } from 'nanoid'
 
 const createChat = (user: User, connection?: DatabasePoolConnection) =>
 	connection
@@ -20,8 +20,7 @@ const createChatWithConnection = async (
 	await connection.query(
 		sql.unsafe`INSERT INTO
 				   chats (user_id, id)
-				   VALUES (${user.id}, ${id})
-				   ON CONFLICT (id) DO NOTHING`
+				   VALUES (${user.id}, ${id})`
 	)
 
 	return id

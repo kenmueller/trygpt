@@ -8,23 +8,37 @@ import { connect } from '@/lib/pool'
 /** If the user already exists, nothing happens. */
 const createUserFromTokenData = (
 	tokenData: UserTokenData,
+	doNothingIfExists = true,
 	connection?: DatabasePoolConnection
 ) =>
 	connection
-		? createUserFromTokenDataWithConnection(tokenData, connection)
+		? createUserFromTokenDataWithConnection(
+				tokenData,
+				doNothingIfExists,
+				connection
+		  )
 		: connect(connection =>
-				createUserFromTokenDataWithConnection(tokenData, connection)
+				createUserFromTokenDataWithConnection(
+					tokenData,
+					doNothingIfExists,
+					connection
+				)
 		  )
 
 const createUserFromTokenDataWithConnection = async (
 	{ id, photo, name, email }: UserTokenData,
+	doNothingIfExists: boolean,
 	connection: DatabasePoolConnection
 ) => {
 	await connection.query(
 		sql.unsafe`INSERT INTO
 				   users (id, photo, name, email)
 				   VALUES (${id}, ${photo}, ${name}, ${email})
-				   ON CONFLICT (id) DO NOTHING`
+				   ${
+							doNothingIfExists
+								? sql.fragment`ON CONFLICT (id) DO NOTHING`
+								: sql.fragment``
+						}`
 	)
 }
 

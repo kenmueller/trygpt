@@ -8,4 +8,7 @@ export default interface ChatMessage {
 
 	/** Milliseconds since epoch. */
 	created: number
+
+	/** If this response generated an error. */
+	error?: true
 }

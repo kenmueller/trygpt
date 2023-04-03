@@ -8,6 +8,10 @@ import BaseChatInput from './Base'
 import ChatMessagesContext from '@/lib/context/chatMessages'
 import ChatMessage from '@/lib/chat/message'
 import InitialPromptContext from '@/lib/context/initialPrompt'
+import streamResponse from '@/lib/streamResponse'
+import errorFromResponse from '@/lib/error/fromResponse'
+import HttpError from '@/lib/error/http'
+import ErrorCode from '@/lib/error/code'
 
 const ChatInput = ({ chatId }: { chatId: string }) => {
 	const [initialPrompt, setInitialPrompt] = useContext(InitialPromptContext)
@@ -24,15 +28,78 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
 				setPrompt('')
 				setIsLoading(true)
 
-				const message: ChatMessage = {
+				const userMessage: ChatMessage = {
 					chatId,
-					id: nanoid(),
+					id: nanoid(), // Random ID, does not match the server
 					role: 'user',
 					text: prompt,
 					created: Date.now()
 				}
 
-				setMessages(messages => messages && [...messages, message])
+				setMessages(messages => messages && [...messages, userMessage])
+
+				try {
+					const response = await fetch(
+						`/api/chats/${encodeURIComponent(chatId)}/messages`,
+						{
+							method: 'POST',
+							headers: { 'content-type': 'application/json' },
+							body: JSON.stringify(userMessage.text)
+						}
+					)
+
+					if (!response.ok) throw errorFromResponse(response)
+					if (!response.body)
+						throw new HttpError(ErrorCode.Internal, 'No response body')
+
+					const responseMessage: ChatMessage = {
+						chatId,
+						id: nanoid(),
+						role: 'assistant',
+						text: '',
+						created: Date.now()
+					}
+
+					setMessages(messages => messages && [...messages, responseMessage])
+
+					try {
+						await streamResponse(response.body, chunk => {
+							setMessages(
+								messages =>
+									messages &&
+									messages.map(message =>
+										message.id === responseMessage.id
+											? { ...message, text: `${message.text}${chunk}` }
+											: message
+									)
+							)
+						})
+					} catch (unknownError) {
+						setMessages(
+							messages =>
+								messages &&
+								messages.map(message =>
+									message.id === responseMessage.id
+										? { ...message, error: true }
+										: message
+								)
+						)
+
+						throw unknownError
+					}
+				} catch (unknownError) {
+					setMessages(
+						messages =>
+							messages &&
+							messages.map(message =>
+								message.id === userMessage.id
+									? { ...message, error: true }
+									: message
+							)
+					)
+
+					throw unknownError
+				}
 			} catch (unknownError) {
 				alertError(unknownError)
 			} finally {
