@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 
 import alertError from '@/lib/error/alert'
 import errorFromResponse from '@/lib/error/fromResponse'
-import InitialPromptContext from '@/lib/initialPrompt/context'
+import InitialPromptContext from '@/lib/context/initialPrompt'
 import BaseChatInput from './Base'
 
 const NewChatInput = () => {

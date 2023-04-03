@@ -1,5 +1,5 @@
 import Chat from '@/lib/chat'
-import ChatLink from './ChatLink'
+import ChatsResolved from './ChatsResolved'
 
 const SidebarChats = async ({
 	chats: chatsPromise
@@ -7,8 +7,7 @@ const SidebarChats = async ({
 	chats: Promise<Chat[]>
 }) => {
 	const chats = await chatsPromise
-
-	return chats.map(chat => <ChatLink key={chat.id} chat={chat} />)
+	return <ChatsResolved initialValue={chats} />
 }
 
 export default SidebarChats

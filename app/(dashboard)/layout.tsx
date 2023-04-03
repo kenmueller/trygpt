@@ -3,7 +3,8 @@ import { redirect } from 'next/navigation'
 
 import userFromRequest from '@/lib/user/fromRequest'
 import Sidebar from '@/components/Sidebar'
-import InitialPromptProvider from '@/components/InitialPromptProvider'
+import InitialPromptProvider from '@/components/Provider/InitialPrompt'
+import ChatsProvider from '@/components/Provider/Chats'
 
 import styles from './layout.module.scss'
 
@@ -12,10 +13,14 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
 	if (!user) redirect('/')
 
 	return (
-		<div className={styles.root}>
-			<Sidebar user={user} />
-			<InitialPromptProvider>{children}</InitialPromptProvider>
-		</div>
+		<ChatsProvider initialValue={null}>
+			<InitialPromptProvider initialValue={null}>
+				<div className={styles.root}>
+					<Sidebar user={user} />
+					{children}
+				</div>
+			</InitialPromptProvider>
+		</ChatsProvider>
 	)
 }
 
