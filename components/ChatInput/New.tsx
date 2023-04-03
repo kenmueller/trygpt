@@ -5,11 +5,15 @@ import { useRouter } from 'next/navigation'
 
 import alertError from '@/lib/error/alert'
 import errorFromResponse from '@/lib/error/fromResponse'
+import ChatsContext from '@/lib/context/chats'
 import InitialPromptContext from '@/lib/context/initialPrompt'
 import BaseChatInput from './Base'
+import Chat from '@/lib/chat'
 
-const NewChatInput = () => {
+const NewChatInput = ({ userId }: { userId: string }) => {
 	const router = useRouter()
+
+	const [, setChats] = useContext(ChatsContext)
 	const [, setInitialPrompt] = useContext(InitialPromptContext)
 
 	const onSubmit = useCallback(
@@ -20,13 +24,23 @@ const NewChatInput = () => {
 
 				const id = await response.text()
 
+				const chat: Chat = {
+					userId,
+					id,
+					name: null,
+					created: Date.now(),
+					updated: Date.now()
+				}
+
+				setChats(chats => chats && [...chats, chat])
 				setInitialPrompt(prompt)
+
 				router.push(`/chats/${encodeURIComponent(id)}`)
 			} catch (unknownError) {
 				alertError(unknownError)
 			}
 		},
-		[router, setInitialPrompt]
+		[userId, router, setChats, setInitialPrompt]
 	)
 
 	return <BaseChatInput onSubmit={onSubmit} />
