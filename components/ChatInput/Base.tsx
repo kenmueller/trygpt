@@ -39,8 +39,13 @@ const BaseChatInput = ({
 	}, [input])
 
 	return (
-		<form onSubmit={_onSubmit}>
-			<input value={prompt} placeholder="Prompt" onChange={onChange} />
+		<form className={styles.root} onSubmit={_onSubmit}>
+			<input
+				className={styles.input}
+				value={prompt}
+				placeholder="Prompt"
+				onChange={onChange}
+			/>
 			<button className={styles.submit} disabled={!prompt}>
 				Submit
 			</button>

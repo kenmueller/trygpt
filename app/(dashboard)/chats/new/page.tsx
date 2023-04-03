@@ -11,7 +11,9 @@ export const metadata = pageMetadata({
 
 const NewChatPage = () => (
 	<main className={styles.root}>
-		New Chat
+		<div className={styles.main}>
+			<h1 className={styles.title}>New Chat</h1>
+		</div>
 		<NewChatInput />
 	</main>
 )

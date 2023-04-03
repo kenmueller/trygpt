@@ -1,5 +1,16 @@
 @use 'theme';
 
+.root {
+	display: flex;
+	align-items: center;
+	padding: 1rem;
+}
+
+.input {
+	flex-grow: 1;
+}
+
 .submit {
+	flex-shrink: 0;
 	color: theme.$blue;
 }
