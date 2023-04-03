@@ -44,7 +44,7 @@ const ChatPage = async ({ params: { id } }: { params: { id: string } }) => {
 						<ChatMessages chatId={id} />
 					</Suspense>
 				</div>
-				<ChatInput />
+				<ChatInput chatId={id} />
 			</main>
 		</ChatMessagesProvider>
 	)
