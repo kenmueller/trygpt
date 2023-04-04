@@ -49,8 +49,6 @@ export const POST = async (
 				pull: async controller => {
 					const { value, done } = await iterator.next()
 
-					console.log(value)
-
 					if (!done) {
 						controller.enqueue(encoder.encode(value))
 						responseText += value
