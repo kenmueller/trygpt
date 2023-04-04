@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
 
 import pageMetadata from '@/lib/metadata/page'
@@ -6,9 +7,9 @@ import chatFromId from '@/lib/chat/fromId'
 import ChatInput from '@/components/ChatInput'
 import ChatMessagesProvider from '@/components/Provider/ChatMessages'
 import ChatMessages from '@/components/Chat/Messages'
+import ChatMessagesContainer from '@/components/Chat/MessagesContainer'
 
 import styles from './page.module.scss'
-import { Suspense } from 'react'
 
 export const generateMetadata = async ({
 	params: { id: encodedChatId }
@@ -49,12 +50,12 @@ const ChatPage = async ({
 	return (
 		<ChatMessagesProvider>
 			<main className={styles.root}>
-				<div className={styles.main}>
+				<ChatMessagesContainer className={styles.main}>
 					<Suspense fallback={<p className={styles.loading}>Loading...</p>}>
 						{/* @ts-expect-error */}
 						<ChatMessages chatId={chatId} />
 					</Suspense>
-				</div>
+				</ChatMessagesContainer>
 				<ChatInput chatId={chatId} />
 			</main>
 		</ChatMessagesProvider>
