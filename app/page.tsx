@@ -12,9 +12,15 @@ export const metadata = pageMetadata({
 	description: 'TryGPT'
 })
 
-const LandingPage = async () => {
+const LandingPage = async ({
+	searchParams: { to: toEncoded }
+}: {
+	searchParams: { to?: string }
+}) => {
+	const to = toEncoded && decodeURIComponent(toEncoded)
+
 	const user = await userFromRequest()
-	if (user) redirect('/chats/new')
+	if (user) redirect(to || '/chats/new')
 
 	return (
 		<main className={styles.root}>

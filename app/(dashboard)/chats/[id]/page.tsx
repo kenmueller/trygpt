@@ -38,7 +38,10 @@ const ChatPage = async ({
 	const chatId = decodeURIComponent(encodedChatId)
 
 	const user = await userFromRequest()
-	if (!user) redirect('/')
+	if (!user)
+		redirect(
+			`/?to=${encodeURIComponent(`/chats/${encodeURIComponent(chatId)}`)}`
+		)
 
 	const chat = await chatFromId(chatId)
 	if (!(chat && user.id === chat.userId)) redirect('/chats/new')

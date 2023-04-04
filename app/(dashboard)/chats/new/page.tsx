@@ -14,7 +14,7 @@ export const metadata = pageMetadata({
 
 const NewChatPage = async () => {
 	const user = await userFromRequest()
-	if (!user) redirect('/')
+	if (!user) redirect(`/?to=${encodeURIComponent('/chats/new')}`)
 
 	return (
 		<main className={styles.root}>

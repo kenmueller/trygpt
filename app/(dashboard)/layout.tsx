@@ -1,5 +1,4 @@
 import { ReactNode } from 'react'
-import { redirect } from 'next/navigation'
 
 import userFromRequest from '@/lib/user/fromRequest'
 import Sidebar from '@/components/Sidebar'
@@ -10,7 +9,7 @@ import styles from './layout.module.scss'
 
 const DashboardLayout = async ({ children }: { children: ReactNode }) => {
 	const user = await userFromRequest()
-	if (!user) redirect('/')
+	if (!user) return children // Does not actually render children as page is redirected
 
 	return (
 		<ChatsProvider>
