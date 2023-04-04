@@ -1,6 +1,3 @@
-if (!process.env.OPENAI_API_KEY) throw new Error('Missing OPENAI_API_KEY')
-if (!process.env.OPENAI_MODEL) throw new Error('Missing OPENAI_MODEL')
-
 import { NextRequest, NextResponse } from 'next/server'
 
 import errorFromUnknown from '@/lib/error/fromUnknown'
@@ -19,10 +16,10 @@ const encoder = new TextEncoder()
 
 export const POST = async (
 	request: NextRequest,
-	{ params: { id } }: { params: { id: string } }
+	{ params: { id: encodedChatId } }: { params: { id: string } }
 ) => {
 	try {
-		const chatId = decodeURIComponent(id)
+		const chatId = decodeURIComponent(encodedChatId)
 
 		const user = await userFromRequest()
 		if (!user) throw new HttpError(ErrorCode.Unauthorized, 'Unauthorized')

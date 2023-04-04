@@ -11,28 +11,36 @@ import styles from './page.module.scss'
 import { Suspense } from 'react'
 
 export const generateMetadata = async ({
-	params: { id }
+	params: { id: encodedChatId }
 }: {
 	params: { id: string }
 }) => {
+	const chatId = decodeURIComponent(encodedChatId)
+
 	const user = await userFromRequest()
 	if (!user) return {}
 
-	const chat = await chatFromId(decodeURIComponent(id))
+	const chat = await chatFromId(chatId)
 	if (!(chat && user.id === chat.userId)) return {}
 
 	return pageMetadata({
-		path: `/chats/${id}`,
+		path: `/chats/${encodeURIComponent(chatId)}`,
 		title: `${chat.name ?? 'Untitled'} | TryGPT`,
 		description: `${chat.name ?? 'Untitled'} | TryGPT`
 	})
 }
 
-const ChatPage = async ({ params: { id } }: { params: { id: string } }) => {
+const ChatPage = async ({
+	params: { id: encodedChatId }
+}: {
+	params: { id: string }
+}) => {
+	const chatId = decodeURIComponent(encodedChatId)
+
 	const user = await userFromRequest()
 	if (!user) redirect('/')
 
-	const chat = await chatFromId(decodeURIComponent(id))
+	const chat = await chatFromId(chatId)
 	if (!(chat && user.id === chat.userId)) redirect('/chats/new')
 
 	return (
@@ -41,10 +49,10 @@ const ChatPage = async ({ params: { id } }: { params: { id: string } }) => {
 				<div className={styles.main}>
 					<Suspense fallback={<p className={styles.loading}>Loading...</p>}>
 						{/* @ts-expect-error */}
-						<ChatMessages chatId={id} />
+						<ChatMessages chatId={chatId} />
 					</Suspense>
 				</div>
-				<ChatInput chatId={id} />
+				<ChatInput chatId={chatId} />
 			</main>
 		</ChatMessagesProvider>
 	)

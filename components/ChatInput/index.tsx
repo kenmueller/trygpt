@@ -22,6 +22,26 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
 	const [prompt, setPrompt] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
 
+	const addMessage = useCallback(
+		(message: ChatMessage) => {
+			setMessages(messages => messages && [...messages, message])
+		},
+		[setMessages]
+	)
+
+	const updateMessage = useCallback(
+		(id: string, transform: (message: ChatMessage) => ChatMessage) => {
+			setMessages(
+				messages =>
+					messages &&
+					messages.map(message =>
+						message.id === id ? transform(message) : message
+					)
+			)
+		},
+		[setMessages]
+	)
+
 	const onSubmit = useCallback(
 		async (prompt: string) => {
 			try {
@@ -36,7 +56,7 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
 					created: Date.now()
 				}
 
-				setMessages(messages => messages && [...messages, userMessage])
+				addMessage(userMessage)
 
 				try {
 					const response = await fetch(
@@ -57,52 +77,32 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
 						loading: true
 					}
 
-					setMessages(messages => messages && [...messages, responseMessage])
+					addMessage(responseMessage)
 
 					try {
 						for await (const chunk of streamResponse(response))
-							setMessages(
-								messages =>
-									messages &&
-									messages.map(message =>
-										message.id === responseMessage.id
-											? { ...message, text: message.text + chunk }
-											: message
-									)
-							)
+							updateMessage(responseMessage.id, message => ({
+								...message,
+								text: message.text + chunk
+							}))
 					} catch (unknownError) {
-						setMessages(
-							messages =>
-								messages &&
-								messages.map(message =>
-									message.id === responseMessage.id
-										? { ...message, error: true }
-										: message
-								)
-						)
+						updateMessage(responseMessage.id, message => ({
+							...message,
+							error: true
+						}))
 
 						throw unknownError
 					} finally {
-						setMessages(
-							messages =>
-								messages &&
-								messages.map(message =>
-									message.id === responseMessage.id
-										? { ...message, loading: undefined }
-										: message
-								)
-						)
+						updateMessage(responseMessage.id, message => ({
+							...message,
+							loading: undefined
+						}))
 					}
 				} catch (unknownError) {
-					setMessages(
-						messages =>
-							messages &&
-							messages.map(message =>
-								message.id === userMessage.id
-									? { ...message, error: true }
-									: message
-							)
-					)
+					updateMessage(userMessage.id, message => ({
+						...message,
+						error: true
+					}))
 
 					throw unknownError
 				}
@@ -112,7 +112,7 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
 				setIsLoading(false)
 			}
 		},
-		[chatId, setMessages]
+		[chatId, addMessage, updateMessage]
 	)
 
 	useEffect(() => {
