@@ -1,7 +1,6 @@
 import 'server-only'
 
 if (!process.env.OPENAI_API_KEY) throw new Error('Missing OPENAI_API_KEY')
-if (!process.env.OPENAI_MODEL) throw new Error('Missing OPENAI_MODEL')
 
 import ChatMessage from '@/lib/chat/message'
 import responseToGenerator from './responseToGenerator'
@@ -10,9 +9,13 @@ interface ParsedMessage {
 	choices: [{ delta: { content?: string } }]
 }
 
-const createChatCompletion = async function* (
+const createChatCompletion = async function* ({
+	model,
+	messages
+}: {
+	model: string
 	messages: Pick<ChatMessage, 'role' | 'text'>[]
-) {
+}) {
 	const response = await fetch('https://api.openai.com/v1/chat/completions', {
 		method: 'POST',
 		headers: {
@@ -20,7 +23,7 @@ const createChatCompletion = async function* (
 			authorization: `Bearer ${process.env.OPENAI_API_KEY!}`
 		},
 		body: JSON.stringify({
-			model: process.env.OPENAI_MODEL!,
+			model,
 			messages: messages.map(({ role, text }) => ({ role, content: text })),
 			stream: true
 		})

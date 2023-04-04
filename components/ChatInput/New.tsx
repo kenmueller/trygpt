@@ -38,7 +38,7 @@ const NewChatInput = ({ userId }: { userId: string }) => {
 					updated: Date.now()
 				}
 
-				setChats(chats => chats && [...chats, chat])
+				setChats(chats => chats && [chat, ...chats])
 				setInitialPrompt(prompt)
 
 				router.push(`/chats/${encodeURIComponent(id)}`)

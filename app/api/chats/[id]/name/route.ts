@@ -1,4 +1,5 @@
-if (!process.env.OPENAI_MODEL) throw new Error('Missing OPENAI_MODEL')
+if (!process.env.CHAT_NAME_OPENAI_MODEL)
+	throw new Error('Missing CHAT_NAME_OPENAI_MODEL')
 
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -10,13 +11,14 @@ import createChatMessage from '@/lib/chat/message/create'
 import isChatOwnedByUser from '@/lib/chat/isOwnedByUser'
 import createChatCompletion from '@/lib/createChatCompletion'
 import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
+import updateChatName from '@/lib/chat/updateName'
 
 export const revalidate = 0
 export const dynamic = 'force-dynamic'
 
 const encoder = new TextEncoder()
 
-export const POST = async (
+export const PATCH = async (
 	request: NextRequest,
 	{ params: { id: encodedChatId } }: { params: { id: string } }
 ) => {
@@ -29,16 +31,17 @@ export const POST = async (
 		if (!isChatOwnedByUser(chatId, user.id))
 			throw new HttpError(ErrorCode.Forbidden, 'You do not own this chat')
 
-		const text = (await request.text()).trim()
-		if (!text) throw new HttpError(ErrorCode.BadRequest, 'No text')
-
-		const previousMessages = await chatMessagesFromChatId(chatId)
-
-		await createChatMessage({ chatId, role: 'user', text })
+		const prompt = (await request.text()).trim()
+		if (!prompt) throw new HttpError(ErrorCode.BadRequest, 'No prompt')
 
 		const iterator = createChatCompletion({
-			model: process.env.OPENAI_MODEL!,
-			messages: [...previousMessages, { role: 'user', text }]
+			model: process.env.CHAT_NAME_OPENAI_MODEL!,
+			messages: [
+				{
+					role: 'user',
+					text: `Generate a short title for a conversation starting with this prompt: ${prompt}. Do not surround in double quotes.`
+				}
+			]
 		})
 
 		let responseText = ''
@@ -55,11 +58,7 @@ export const POST = async (
 						return
 					}
 
-					await createChatMessage({
-						chatId,
-						role: 'assistant',
-						text: responseText
-					})
+					await updateChatName(chatId, responseText)
 
 					controller.close()
 				}

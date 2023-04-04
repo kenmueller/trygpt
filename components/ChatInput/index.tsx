@@ -12,9 +12,12 @@ import streamResponse from '@/lib/responseToGenerator'
 import errorFromResponse from '@/lib/error/fromResponse'
 import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
+import ChatsContext from '@/lib/context/chats'
+import Chat from '@/lib/chat'
 
 const ChatInput = ({ chatId }: { chatId: string }) => {
 	const [initialPrompt, setInitialPrompt] = useContext(InitialPromptContext)
+	const [, setChats] = useContext(ChatsContext)
 	const [messages, setMessages] = useContext(ChatMessagesContext)
 
 	const isMessagesLoaded = Boolean(messages)
@@ -115,12 +118,50 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
 		[chatId, addMessage, updateMessage]
 	)
 
+	const updateChat = useCallback(
+		(id: string, transform: (chat: Chat) => Chat) => {
+			setChats(
+				chats =>
+					chats && chats.map(chat => (chat.id === id ? transform(chat) : chat))
+			)
+		},
+		[setChats]
+	)
+
+	const updateChatName = useCallback(
+		async (prompt: string) => {
+			try {
+				const response = await fetch(
+					`/api/chats/${encodeURIComponent(chatId)}/name`,
+					{ method: 'PATCH', body: prompt }
+				)
+
+				for await (const chunk of streamResponse(response))
+					updateChat(chatId, chat => ({
+						...chat,
+						name: (chat.name ?? '') + chunk
+					}))
+			} catch (unknownError) {
+				alertError(unknownError)
+			}
+		},
+		[chatId, updateChat]
+	)
+
 	useEffect(() => {
 		if (!(initialPrompt && isMessagesLoaded)) return
 
 		setInitialPrompt(null)
+
 		onSubmit(initialPrompt)
-	}, [initialPrompt, isMessagesLoaded, setInitialPrompt, onSubmit])
+		updateChatName(initialPrompt)
+	}, [
+		initialPrompt,
+		isMessagesLoaded,
+		setInitialPrompt,
+		onSubmit,
+		updateChatName
+	])
 
 	return (
 		<BaseChatInput
