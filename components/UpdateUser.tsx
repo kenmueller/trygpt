@@ -9,6 +9,8 @@ import User from '@/lib/user'
 import sendToken from '@/lib/user/sendToken'
 import alertError from '@/lib/error/alert'
 
+const REFRESH_INTERVAL = 10 * 60 * 1000
+
 const auth = getAuth(app)
 
 const UpdateUser = ({ user }: { user: User | null }) => {
@@ -39,7 +41,7 @@ const UpdateUser = ({ user }: { user: User | null }) => {
 		const interval = setInterval(() => {
 			const { currentUser } = auth
 			if (currentUser) sendToken(currentUser).catch(alertError)
-		})
+		}, REFRESH_INTERVAL)
 
 		return () => {
 			clearInterval(interval)
