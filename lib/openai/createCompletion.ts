@@ -10,10 +10,13 @@ import ErrorCode from '@/lib/error/code'
 import ChatMessage from '@/lib/chat/message'
 
 interface StreamResponse {
-	status: number
 	data: {
 		on(event: 'data', listener: (data: Buffer) => void): void
 	}
+}
+
+interface ParsedMessage {
+	choices: [{ delta: { content?: string } }]
 }
 
 const createCompletion = async (
@@ -49,8 +52,10 @@ const createCompletion = async (
 					}
 
 					try {
-						const parsed = JSON.parse(message)
+						const parsed: ParsedMessage = JSON.parse(message)
+
 						const chunk = parsed.choices[0].delta.content ?? ''
+						if (!chunk) continue
 
 						onChunk(chunk)
 						result += chunk
