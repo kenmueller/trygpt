@@ -9,11 +9,13 @@ import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
 import createChatMessage from '@/lib/chat/message/create'
 import isChatOwnedByUser from '@/lib/chat/isOwnedByUser'
-import createCompletion from '@/lib/openai/createCompletion'
+import createChatCompletion from '@/lib/createChatCompletion'
 import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
 
 export const revalidate = 0
 export const dynamic = 'force-dynamic'
+
+const encoder = new TextEncoder()
 
 export const POST = async (
 	request: NextRequest,
@@ -35,7 +37,7 @@ export const POST = async (
 
 		await createChatMessage({ chatId, role: 'user', text })
 
-		const iterator = await createCompletion([
+		const iterator = createChatCompletion([
 			...previousMessages,
 			{ role: 'user', text }
 		])
@@ -43,14 +45,14 @@ export const POST = async (
 		let responseText = ''
 
 		return new NextResponse(
-			new ReadableStream<string>({
+			new ReadableStream<Uint8Array>({
 				pull: async controller => {
 					const { value, done } = await iterator.next()
 
 					console.log(value)
 
 					if (!done) {
-						controller.enqueue(value)
+						controller.enqueue(encoder.encode(value))
 						responseText += value
 
 						return

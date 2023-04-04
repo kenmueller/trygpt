@@ -8,7 +8,7 @@ import BaseChatInput from './Base'
 import ChatMessagesContext from '@/lib/context/chatMessages'
 import ChatMessage from '@/lib/chat/message'
 import InitialPromptContext from '@/lib/context/initialPrompt'
-import streamResponse from '@/lib/streamResponse'
+import streamResponse from '@/lib/responseToGenerator'
 import errorFromResponse from '@/lib/error/fromResponse'
 import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
@@ -60,17 +60,16 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
 					setMessages(messages => messages && [...messages, responseMessage])
 
 					try {
-						await streamResponse(response.body, chunk => {
+						for await (const chunk of streamResponse(response))
 							setMessages(
 								messages =>
 									messages &&
 									messages.map(message =>
 										message.id === responseMessage.id
-											? { ...message, text: `${message.text}${chunk}` }
+											? { ...message, text: message.text + chunk }
 											: message
 									)
 							)
-						})
 					} catch (unknownError) {
 						setMessages(
 							messages =>
