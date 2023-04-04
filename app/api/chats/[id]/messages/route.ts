@@ -35,16 +35,37 @@ export const POST = async (
 
 		await createChatMessage({ chatId, role: 'user', text })
 
-		const responseText = await createCompletion(
-			[...previousMessages, { role: 'user', text }],
-			chunk => {
-				console.log(chunk)
-			}
+		const iterator = await createCompletion([
+			...previousMessages,
+			{ role: 'user', text }
+		])
+
+		let responseText = ''
+
+		return new NextResponse(
+			new ReadableStream<string>({
+				pull: async controller => {
+					const { value, done } = await iterator.next()
+
+					console.log(value)
+
+					if (!done) {
+						controller.enqueue(value)
+						responseText += value
+
+						return
+					}
+
+					await createChatMessage({
+						chatId,
+						role: 'assistant',
+						text: responseText
+					})
+
+					controller.close()
+				}
+			})
 		)
-
-		await createChatMessage({ chatId, role: 'assistant', text: responseText })
-
-		return new NextResponse('')
 	} catch (unknownError) {
 		const { code, message } = errorFromUnknown(unknownError)
 		return new NextResponse(message, { status: code })
