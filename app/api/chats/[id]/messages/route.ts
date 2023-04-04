@@ -10,6 +10,7 @@ import ErrorCode from '@/lib/error/code'
 import createChatMessage from '@/lib/chat/message/create'
 import isChatOwnedByUser from '@/lib/chat/isOwnedByUser'
 import createCompletion from '@/lib/openai/createCompletion'
+import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
 
 export const revalidate = 0
 export const dynamic = 'force-dynamic'
@@ -30,10 +31,12 @@ export const POST = async (
 		const text = (await request.text()).trim()
 		if (!text) throw new HttpError(ErrorCode.BadRequest, 'No text')
 
+		const previousMessages = await chatMessagesFromChatId(chatId)
+
 		await createChatMessage({ chatId, role: 'user', text })
 
 		const responseText = await createCompletion(
-			[{ role: 'user', text }],
+			[...previousMessages, { role: 'user', text }],
 			chunk => {
 				console.log(chunk)
 			}
