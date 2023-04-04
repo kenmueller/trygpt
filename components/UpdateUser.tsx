@@ -19,15 +19,14 @@ const UpdateUser = ({ user }: { user: User | null }) => {
 			auth,
 			async authUser => {
 				try {
-					// Server and client have the same auth state
-					if (
+					await sendToken(authUser)
+
+					const isAuthStateMismatched = !(
 						(authUser === null && user === null) ||
 						(authUser && user && authUser.uid === user.id)
 					)
-						return
 
-					await sendToken(authUser)
-					router.refresh()
+					if (isAuthStateMismatched) router.refresh()
 				} catch (unknownError) {
 					alertError(unknownError)
 				}
@@ -35,6 +34,17 @@ const UpdateUser = ({ user }: { user: User | null }) => {
 			alertError
 		)
 	}, [user, router])
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			const { currentUser } = auth
+			if (currentUser) sendToken(currentUser).catch(alertError)
+		})
+
+		return () => {
+			clearInterval(interval)
+		}
+	}, [])
 
 	return null
 }
