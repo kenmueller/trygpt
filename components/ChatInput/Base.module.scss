@@ -1,5 +1,7 @@
 @use 'theme';
 
+$default-height: 42px;
+
 .root {
 	display: flex;
 	align-items: flex-end;
@@ -9,7 +11,7 @@
 .children {
 	display: flex;
 	align-items: center;
-	height: 42px;
+	height: $default-height;
 	margin-right: 1rem;
 }
 
@@ -21,7 +23,7 @@
 
 .textArea {
 	width: 100%;
-	height: 100%;
+	height: $default-height;
 	overflow: hidden;
 	resize: none;
 	padding: 0.7rem 2.7rem 0.7rem 1rem;
