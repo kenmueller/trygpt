@@ -14,10 +14,11 @@ import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
 import ChatsContext from '@/lib/context/chats'
 import Chat from '@/lib/chat'
+import useNewEffect from '@/lib/useNewEffect'
 
 const ChatInput = ({ chatId }: { chatId: string }) => {
 	const [initialPrompt, setInitialPrompt] = useContext(InitialPromptContext)
-	const [, setChats] = useContext(ChatsContext)
+	const [chats, setChats] = useContext(ChatsContext)
 	const [messages, setMessages] = useContext(ChatMessagesContext)
 
 	const isMessagesLoaded = Boolean(messages)
@@ -162,6 +163,13 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
 		onSubmit,
 		updateChatName
 	])
+
+	const chat = chats?.find(chat => chat.id === chatId) ?? null
+	const chatName = chat?.name ?? 'Untitled'
+
+	useNewEffect(() => {
+		document.title = `${chatName} | TryGPT`
+	}, [chatName])
 
 	return (
 		<BaseChatInput
