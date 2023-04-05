@@ -1,0 +1,51 @@
+@use 'theme';
+
+.root :global {
+	:not(:last-child) {
+		margin-bottom: 1rem;
+	}
+
+	li,
+	ul ul,
+	ul ol,
+	ol ol,
+	ol ul {
+		margin-bottom: 0;
+	}
+
+	ul,
+	ol {
+		padding-left: 1.5rem;
+	}
+
+	li:not(:first-child) {
+		margin-top: 0.25rem;
+	}
+
+	a {
+		font-weight: 700;
+		color: theme.$blue;
+	}
+
+	pre {
+		white-space: pre-wrap;
+		padding: 0.5rem 1rem;
+		background: rgba(0, 0, 0, 0.5);
+		border: 1px solid theme.$gray;
+		border-radius: 1rem;
+
+		code {
+			background: none;
+			padding: 0;
+			border: none;
+			border-radius: 0;
+		}
+	}
+
+	code {
+		padding: 0.15rem 0.2rem;
+		background: rgba(0, 0, 0, 0.5);
+		border: 1px solid theme.$gray;
+		border-radius: 0.25rem;
+	}
+}

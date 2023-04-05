@@ -37,8 +37,12 @@ export const PATCH = async (
 			model: process.env.CHAT_NAME_OPENAI_MODEL!,
 			messages: [
 				{
+					role: 'system',
+					text: 'Do not surround your response in quotes'
+				},
+				{
 					role: 'user',
-					text: `Generate a short title for a conversation starting with this prompt: ${prompt}. Do not surround in quotes.`
+					text: `Generate a short title for a conversation starting with this prompt: ${prompt}`
 				}
 			]
 		})

@@ -38,7 +38,14 @@ export const POST = async (
 
 		const iterator = createChatCompletion({
 			model: process.env.OPENAI_MODEL!,
-			messages: [...previousMessages, { role: 'user', text }]
+			messages: [
+				{
+					role: 'system',
+					text: 'Surround your code in backticks and provide a language'
+				},
+				...previousMessages,
+				{ role: 'user', text }
+			]
 		})
 
 		let responseText = ''
