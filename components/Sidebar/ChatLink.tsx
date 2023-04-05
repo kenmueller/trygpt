@@ -2,6 +2,8 @@
 
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMessage } from '@fortawesome/free-solid-svg-icons'
 
 import Chat from '@/lib/chat'
 
@@ -19,6 +21,7 @@ const SidebarChatLink = ({ chat }: { chat: Chat }) => {
 			aria-current={chat.id === currentChatId ? 'page' : undefined}
 			href={`/chats/${encodeURIComponent(chat.id)}`}
 		>
+			<FontAwesomeIcon className={styles.icon} icon={faMessage} />
 			{chat.name ?? 'Untitled'}
 		</Link>
 	)

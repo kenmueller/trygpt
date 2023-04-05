@@ -1,3 +1,5 @@
+import 'client-only'
+
 import { useEffect, useRef } from 'react'
 
 /** Calls the effect only on change. */

@@ -7,11 +7,10 @@ import errorFromUnknown from '@/lib/error/fromUnknown'
 import userFromRequest from '@/lib/user/fromRequest'
 import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
-import createChatMessage from '@/lib/chat/message/create'
 import isChatOwnedByUser from '@/lib/chat/isOwnedByUser'
 import createChatCompletion from '@/lib/createChatCompletion'
-import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
 import updateChatName from '@/lib/chat/updateName'
+import trimQuotes from '@/lib/trimQuotes'
 
 export const revalidate = 0
 export const dynamic = 'force-dynamic'
@@ -39,7 +38,7 @@ export const PATCH = async (
 			messages: [
 				{
 					role: 'user',
-					text: `Generate a short title for a conversation starting with this prompt: ${prompt}. Do not surround in double quotes.`
+					text: `Generate a short title for a conversation starting with this prompt: ${prompt}. Do not surround in quotes.`
 				}
 			]
 		})
@@ -58,7 +57,7 @@ export const PATCH = async (
 						return
 					}
 
-					await updateChatName(chatId, responseText)
+					await updateChatName(chatId, trimQuotes(responseText))
 
 					controller.close()
 				}

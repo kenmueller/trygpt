@@ -2,9 +2,10 @@
 
 .root {
 	display: flex;
+	align-items: center;
 	width: 100%;
 	padding: 1rem;
-	font-weight: 700;
+	font-size: 1rem;
 	color: theme.$white;
 	background: rgba(theme.$white, 0.1);
 	transition: color 0.3s, background 0.3s, opacity 0.3s;
@@ -21,6 +22,7 @@
 }
 
 .icon {
-	height: 1.5rem;
+	flex-shrink: 0;
+	height: 1.2rem;
 	margin-right: 0.5rem;
 }

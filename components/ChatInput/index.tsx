@@ -16,6 +16,7 @@ import ChatsContext from '@/lib/context/chats'
 import Chat from '@/lib/chat'
 import useNewEffect from '@/lib/useNewEffect'
 import User from '@/lib/user'
+import trimQuotes from '@/lib/trimQuotes'
 
 const ChatInput = ({
 	user,
@@ -156,6 +157,11 @@ const ChatInput = ({
 						...chat,
 						name: (chat.name ?? '') + chunk
 					}))
+
+				updateChat(chatId, chat => ({
+					...chat,
+					name: chat.name && trimQuotes(chat.name)
+				}))
 			} catch (unknownError) {
 				alertError(unknownError)
 			}
