@@ -1,0 +1,21 @@
+@use 'theme';
+
+.root {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	padding: 1rem;
+	font-weight: 700;
+	color: theme.$white;
+	background: rgba(theme.$white, 0.1);
+	transition: opacity 0.3s;
+
+	&:hover {
+		opacity: 0.7;
+	}
+}
+
+.icon {
+	height: 1.5rem;
+	margin-right: 0.5rem;
+}

@@ -15,8 +15,15 @@ import ErrorCode from '@/lib/error/code'
 import ChatsContext from '@/lib/context/chats'
 import Chat from '@/lib/chat'
 import useNewEffect from '@/lib/useNewEffect'
+import User from '@/lib/user'
 
-const ChatInput = ({ chatId }: { chatId: string }) => {
+const ChatInput = ({
+	user,
+	chat
+}: {
+	user: User | null
+	chat: Chat | null
+}) => {
 	const [initialPrompt, setInitialPrompt] = useContext(InitialPromptContext)
 	const [chats, setChats] = useContext(ChatsContext)
 	const [messages, setMessages] = useContext(ChatMessagesContext)
@@ -25,6 +32,9 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
 
 	const [prompt, setPrompt] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
+
+	const chatId = chat?.id ?? null
+	const isOwner = user && chat ? user.id === chat.userId : false
 
 	const addMessage = useCallback(
 		(message: ChatMessage) => {
@@ -48,6 +58,8 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
 
 	const onSubmit = useCallback(
 		async (prompt: string) => {
+			if (!chatId) return
+
 			try {
 				setPrompt('')
 				setIsLoading(true)
@@ -131,6 +143,8 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
 
 	const updateChatName = useCallback(
 		async (prompt: string) => {
+			if (!chatId) return
+
 			try {
 				const response = await fetch(
 					`/api/chats/${encodeURIComponent(chatId)}/name`,
@@ -150,13 +164,14 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
 	)
 
 	useEffect(() => {
-		if (!(initialPrompt && isMessagesLoaded)) return
+		if (!(isOwner && initialPrompt && isMessagesLoaded)) return
 
 		setInitialPrompt(null)
 
 		onSubmit(initialPrompt)
 		updateChatName(initialPrompt)
 	}, [
+		isOwner,
 		initialPrompt,
 		isMessagesLoaded,
 		setInitialPrompt,
@@ -164,15 +179,24 @@ const ChatInput = ({ chatId }: { chatId: string }) => {
 		updateChatName
 	])
 
-	const chat = chats?.find(chat => chat.id === chatId) ?? null
-	const chatName = chat?.name ?? 'Untitled'
+	const chatName =
+		chat && (chats?.find(chat => chat.id === chat.id)?.name ?? 'Untitled')
 
 	useNewEffect(() => {
-		document.title = `${chatName} | TryGPT`
+		document.title = `${chatName ?? 'Chat not found'} | TryGPT`
 	}, [chatName])
 
 	return (
 		<BaseChatInput
+			disabledMessage={
+				!chat
+					? 'Chat not found'
+					: !user
+					? 'Not signed in'
+					: !isOwner
+					? 'You do not own this chat'
+					: undefined
+			}
 			prompt={prompt}
 			setPrompt={setPrompt}
 			isLoading={isLoading}

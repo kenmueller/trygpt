@@ -6,24 +6,29 @@ import NewChatLink from './NewChatLink'
 import Chats from './Chats'
 import ProfileLink from './ProfileLink'
 import SignOutButton from './SignOutButton'
+import SignInButton from './SignInButton'
 
 import styles from './index.module.scss'
 
-const Sidebar = ({ user }: { user: User }) => {
-	const chats = chatsFromUserId(user.id)
+const Sidebar = ({ user }: { user: User | null }) => {
+	const chats = user && chatsFromUserId(user.id)
 
 	return (
 		<aside className={styles.root}>
 			<div className={styles.scrollable}>
-				<NewChatLink />
-				<Suspense fallback={<p>Loading...</p>}>
-					{/* @ts-expect-error */}
-					<Chats chats={chats} />
-				</Suspense>
+				{chats && (
+					<>
+						<NewChatLink />
+						<Suspense fallback={<p>Loading...</p>}>
+							{/* @ts-expect-error */}
+							<Chats chats={chats} />
+						</Suspense>
+					</>
+				)}
 			</div>
 			<div className={styles.settings}>
-				<ProfileLink user={user} />
-				<SignOutButton />
+				{user && <ProfileLink user={user} />}
+				{user ? <SignOutButton /> : <SignInButton />}
 			</div>
 		</aside>
 	)

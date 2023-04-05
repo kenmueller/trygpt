@@ -5,11 +5,13 @@ import { ChangeEvent, FormEvent, useCallback, useEffect, useRef } from 'react'
 import styles from './Base.module.scss'
 
 const BaseChatInput = ({
+	disabledMessage,
 	prompt,
 	setPrompt,
 	isLoading,
 	onSubmit
 }: {
+	disabledMessage?: string
 	prompt: string
 	setPrompt: (prompt: string) => void
 	isLoading: boolean
@@ -17,6 +19,7 @@ const BaseChatInput = ({
 }) => {
 	const input = useRef<HTMLInputElement | null>(null)
 
+	const isDisabled = Boolean(disabledMessage)
 	const normalizedPrompt = prompt.trim()
 
 	const onChange = useCallback(
@@ -44,13 +47,13 @@ const BaseChatInput = ({
 				ref={input}
 				className={styles.input}
 				value={prompt}
-				placeholder="Prompt"
-				disabled={isLoading}
+				placeholder={disabledMessage ?? 'Type a message...'}
+				disabled={isDisabled || isLoading}
 				onChange={onChange}
 			/>
 			<button
 				className={styles.submit}
-				disabled={!normalizedPrompt || isLoading}
+				disabled={isDisabled || !normalizedPrompt || isLoading}
 			>
 				Submit
 			</button>

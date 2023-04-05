@@ -17,12 +17,14 @@ export const generateMetadata = async ({
 	params: { id: string }
 }) => {
 	const chatId = decodeURIComponent(encodedChatId)
-
-	const user = await userFromRequest()
-	if (!user) return {}
-
 	const chat = await chatFromId(chatId)
-	if (!(chat && user.id === chat.userId)) return {}
+
+	if (!chat)
+		return pageMetadata({
+			path: `/chats/${encodeURIComponent(chatId)}`,
+			title: 'Chat not found | TryGPT',
+			description: 'Chat not found | TryGPT'
+		})
 
 	return pageMetadata({
 		path: `/chats/${encodeURIComponent(chatId)}`,
@@ -39,24 +41,22 @@ const ChatPage = async ({
 	const chatId = decodeURIComponent(encodedChatId)
 
 	const user = await userFromRequest()
-	if (!user)
-		redirect(
-			`/?to=${encodeURIComponent(`/chats/${encodeURIComponent(chatId)}`)}`
-		)
-
 	const chat = await chatFromId(chatId)
-	if (!(chat && user.id === chat.userId)) redirect('/chats/new')
 
 	return (
 		<ChatMessagesProvider>
 			<main className={styles.root}>
 				<ChatMessagesContainer className={styles.main}>
-					<Suspense fallback={<p className={styles.loading}>Loading...</p>}>
-						{/* @ts-expect-error */}
-						<ChatMessages chatId={chatId} />
-					</Suspense>
+					{!chat ? (
+						<p className={styles.message}>Chat not found</p>
+					) : (
+						<Suspense fallback={<p className={styles.message}>Loading...</p>}>
+							{/* @ts-expect-error */}
+							<ChatMessages chatId={chatId} />
+						</Suspense>
+					)}
 				</ChatMessagesContainer>
-				<ChatInput chatId={chatId} />
+				<ChatInput user={user} chat={chat} />
 			</main>
 		</ChatMessagesProvider>
 	)

@@ -9,7 +9,6 @@ import styles from './layout.module.scss'
 
 const DashboardLayout = async ({ children }: { children: ReactNode }) => {
 	const user = await userFromRequest()
-	if (!user) return children // Does not actually render children as page is redirected
 
 	return (
 		<ChatsProvider>
