@@ -29,6 +29,7 @@ const BaseChatInput = ({
 	onSubmit: (prompt: string) => void | Promise<void>
 	children?: ReactNode
 }) => {
+	const form = useRef<HTMLFormElement | null>(null)
 	const textArea = useRef<HTMLTextAreaElement | null>(null)
 
 	const isDisabled = Boolean(disabledMessage)
@@ -49,6 +50,30 @@ const BaseChatInput = ({
 		[onSubmit, normalizedPrompt]
 	)
 
+	const submit = useCallback(
+		(event: KeyboardEvent) => {
+			if (!(form.current && event.key === 'Enter' && !event.shiftKey)) return
+
+			event.preventDefault()
+
+			form.current.dispatchEvent(
+				new Event('submit', { cancelable: true, bubbles: true })
+			)
+		},
+		[form]
+	)
+
+	useEffect(() => {
+		const { current } = textArea
+		if (!current) return
+
+		current.addEventListener('keydown', submit)
+
+		return () => {
+			current.removeEventListener('keydown', submit)
+		}
+	}, [submit])
+
 	useEffect(() => {
 		if (!isLoading) textArea.current?.focus()
 	}, [isLoading, textArea])
@@ -56,7 +81,7 @@ const BaseChatInput = ({
 	return (
 		<div className={styles.root}>
 			{children && <div className={styles.children}>{children}</div>}
-			<form className={styles.form} onSubmit={_onSubmit}>
+			<form ref={form} className={styles.form} onSubmit={_onSubmit}>
 				<TextAreaAutosize
 					ref={textArea}
 					className={styles.textArea}
