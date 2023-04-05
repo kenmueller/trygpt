@@ -4,7 +4,9 @@ import { Inter } from 'next/font/google'
 import userFromRequest from '@/lib/user/fromRequest'
 import UpdateUser from '@/components/UpdateUser'
 import BASE_METADATA from '@/lib/metadata/base'
+import FontAwesomeConfig from '@/components/FontAwesomeConfig'
 
+import '@fortawesome/fontawesome-svg-core/styles.css'
 import './layout.scss'
 
 const inter = Inter({ subsets: ['latin'], display: 'swap' })
@@ -19,6 +21,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
 			<body className={inter.className}>
 				{children}
 				<UpdateUser user={user} />
+				<FontAwesomeConfig />
 			</body>
 		</html>
 	)

@@ -7,7 +7,7 @@ import { faSignOut } from '@fortawesome/free-solid-svg-icons'
 import alertError from '@/lib/error/alert'
 import signOut from '@/lib/user/signOut'
 
-import styles from './SignOutButton.module.scss'
+import styles from './AuthButton.module.scss'
 
 const SidebarSignOutButton = () => {
 	const [isLoading, setIsLoading] = useState(false)
