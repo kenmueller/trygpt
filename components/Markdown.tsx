@@ -2,6 +2,7 @@ import cx from 'classnames'
 
 import mdToHtml from '@/lib/mdToHtml'
 
+import 'highlight.js/styles/github-dark.css'
 import styles from './Markdown.module.scss'
 
 const Markdown = ({

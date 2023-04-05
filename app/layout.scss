@@ -1,5 +1,11 @@
 @use 'theme';
 
+@font-face {
+	font-family: SFMono-Regular;
+	font-display: swap;
+	src: url('../assets/SFMono-Regular.otf') format('opentype');
+}
+
 *,
 ::before,
 ::after {
@@ -45,4 +51,9 @@ svg {
 button,
 input {
 	font-size: inherit;
+}
+
+code {
+	font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier,
+		monospace;
 }
