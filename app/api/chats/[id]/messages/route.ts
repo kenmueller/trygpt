@@ -1,5 +1,3 @@
-if (!process.env.OPENAI_MODEL) throw new Error('Missing OPENAI_MODEL')
-
 import { NextRequest, NextResponse } from 'next/server'
 
 import errorFromUnknown from '@/lib/error/fromUnknown'
@@ -36,17 +34,17 @@ export const POST = async (
 
 		await createChatMessage({ chatId, role: 'user', text })
 
-		const iterator = createChatCompletion({
-			model: process.env.OPENAI_MODEL!,
-			messages: [
-				{
-					role: 'system',
-					text: 'Surround your code in backticks and provide a language'
-				},
-				...previousMessages,
-				{ role: 'user', text }
-			]
-		})
+		const iterator = createChatCompletion([
+			{
+				role: 'system',
+				text: 'Surround your code in backticks and provide a language'
+			},
+			...previousMessages,
+			{
+				role: 'user',
+				text
+			}
+		])
 
 		let responseText = ''
 

@@ -1,6 +1,3 @@
-if (!process.env.CHAT_NAME_OPENAI_MODEL)
-	throw new Error('Missing CHAT_NAME_OPENAI_MODEL')
-
 import { NextRequest, NextResponse } from 'next/server'
 
 import errorFromUnknown from '@/lib/error/fromUnknown'
@@ -33,19 +30,16 @@ export const PATCH = async (
 		const prompt = (await request.text()).trim()
 		if (!prompt) throw new HttpError(ErrorCode.BadRequest, 'No prompt')
 
-		const iterator = createChatCompletion({
-			model: process.env.CHAT_NAME_OPENAI_MODEL!,
-			messages: [
-				{
-					role: 'system',
-					text: 'Do not surround your response in quotes'
-				},
-				{
-					role: 'user',
-					text: `Generate a short title for a conversation starting with this prompt: ${prompt}`
-				}
-			]
-		})
+		const iterator = createChatCompletion([
+			{
+				role: 'system',
+				text: 'Do not surround your response in quotes'
+			},
+			{
+				role: 'user',
+				text: `Generate a short title for a conversation starting with this prompt: ${prompt}`
+			}
+		])
 
 		let responseText = ''
 
