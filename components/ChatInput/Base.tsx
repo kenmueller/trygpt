@@ -1,6 +1,16 @@
 'use client'
 
-import { ChangeEvent, FormEvent, useCallback, useEffect, useRef } from 'react'
+import {
+	ChangeEvent,
+	FormEvent,
+	ReactNode,
+	useCallback,
+	useEffect,
+	useRef
+} from 'react'
+import TextAreaAutosize from 'react-textarea-autosize'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 
 import styles from './Base.module.scss'
 
@@ -9,21 +19,23 @@ const BaseChatInput = ({
 	prompt,
 	setPrompt,
 	isLoading,
-	onSubmit
+	onSubmit,
+	children
 }: {
 	disabledMessage?: string
 	prompt: string
 	setPrompt: (prompt: string) => void
 	isLoading: boolean
 	onSubmit: (prompt: string) => void | Promise<void>
+	children?: ReactNode
 }) => {
-	const input = useRef<HTMLInputElement | null>(null)
+	const textArea = useRef<HTMLTextAreaElement | null>(null)
 
 	const isDisabled = Boolean(disabledMessage)
 	const normalizedPrompt = prompt.trim()
 
 	const onChange = useCallback(
-		(event: ChangeEvent<HTMLInputElement>) => {
+		(event: ChangeEvent<HTMLTextAreaElement>) => {
 			setPrompt(event.target.value)
 		},
 		[setPrompt]
@@ -38,26 +50,29 @@ const BaseChatInput = ({
 	)
 
 	useEffect(() => {
-		if (!isLoading) input.current?.focus()
-	}, [isLoading, input])
+		if (!isLoading) textArea.current?.focus()
+	}, [isLoading, textArea])
 
 	return (
-		<form className={styles.root} onSubmit={_onSubmit}>
-			<input
-				ref={input}
-				className={styles.input}
-				value={prompt}
-				placeholder={disabledMessage ?? 'Type a message...'}
-				disabled={isDisabled || isLoading}
-				onChange={onChange}
-			/>
-			<button
-				className={styles.submit}
-				disabled={isDisabled || !normalizedPrompt || isLoading}
-			>
-				Submit
-			</button>
-		</form>
+		<div className={styles.root}>
+			{children && <div className={styles.children}>{children}</div>}
+			<form className={styles.form} onSubmit={_onSubmit}>
+				<TextAreaAutosize
+					ref={textArea}
+					className={styles.textArea}
+					value={prompt}
+					placeholder={disabledMessage ?? 'Type a message...'}
+					disabled={isDisabled || isLoading}
+					onChange={onChange}
+				/>
+				<button
+					className={styles.submit}
+					disabled={isDisabled || !normalizedPrompt || isLoading}
+				>
+					<FontAwesomeIcon icon={faPaperPlane} />
+				</button>
+			</form>
+		</div>
 	)
 }
 

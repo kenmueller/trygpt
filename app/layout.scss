@@ -44,12 +44,16 @@ button {
 }
 
 img,
-svg {
+svg,
+button,
+input,
+textarea {
 	display: block;
 }
 
 button,
-input {
+input,
+textarea {
 	font-size: inherit;
 }
 
