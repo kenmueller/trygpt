@@ -201,6 +201,8 @@ const ChatInput = ({
 					? 'Not signed in'
 					: !isOwner
 					? 'You do not own this chat'
+					: !user.purchasedTokens
+					? 'You have no tokens'
 					: undefined
 			}
 			prompt={prompt}
