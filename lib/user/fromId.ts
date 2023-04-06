@@ -17,7 +17,12 @@ const userFromIdWithConnection = async (
 	connection: DatabasePoolConnection
 ) => {
 	const users = (await connection.any(
-		sql.unsafe`SELECT id, photo, name, email, created, updated
+		sql.unsafe`SELECT
+				       id, photo, name, email,
+					   billing_start_time AS "billingStartTime",
+					   total_tokens AS "totalTokens",
+					   purchased_tokens AS "purchasedTokens",
+					   created, updated
 				   FROM users
 				   WHERE id = ${id}`
 	)) as User[]

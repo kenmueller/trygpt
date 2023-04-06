@@ -8,6 +8,12 @@ export default interface User {
 	email: string
 
 	/** Milliseconds since epoch. */
+	billingStartTime: number | null
+
+	totalTokens: number
+	purchasedTokens: number
+
+	/** Milliseconds since epoch. */
 	created: number
 
 	/** Milliseconds since epoch. */
