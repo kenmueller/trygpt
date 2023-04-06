@@ -45,7 +45,7 @@ const BaseChatInput = ({
 	const _onSubmit = useCallback(
 		(event: FormEvent<HTMLFormElement>) => {
 			event.preventDefault()
-			onSubmit(normalizedPrompt)
+			if (normalizedPrompt) onSubmit(normalizedPrompt)
 		},
 		[onSubmit, normalizedPrompt]
 	)
