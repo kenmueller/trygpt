@@ -14,6 +14,9 @@ export const POST = async () => {
 		const user = await userFromRequest()
 		if (!user) throw new HttpError(ErrorCode.Unauthorized, 'Unauthorized')
 
+		if (!user.purchasedTokens)
+			throw new HttpError(ErrorCode.Forbidden, 'You have no tokens')
+
 		const id = await createChat(user)
 
 		return new NextResponse(id)
