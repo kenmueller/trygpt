@@ -9,8 +9,9 @@ import ChatsContext from '@/lib/context/chats'
 import InitialPromptContext from '@/lib/context/initialPrompt'
 import BaseChatInput from './Base'
 import Chat from '@/lib/chat'
+import User from '@/lib/user'
 
-const NewChatInput = ({ userId }: { userId: string }) => {
+const NewChatInput = ({ user }: { user: User }) => {
 	const router = useRouter()
 
 	const [, setChats] = useContext(ChatsContext)
@@ -31,7 +32,7 @@ const NewChatInput = ({ userId }: { userId: string }) => {
 				const id = await response.text()
 
 				const chat: Chat = {
-					userId,
+					userId: user.id,
 					id,
 					name: null,
 					created: Date.now(),
@@ -49,12 +50,16 @@ const NewChatInput = ({ userId }: { userId: string }) => {
 				alertError(unknownError)
 			}
 		},
-
-		[userId, router, setChats, setInitialPrompt, setPrompt, setIsLoading]
+		[user.id, router, setChats, setInitialPrompt, setPrompt, setIsLoading]
 	)
 
 	return (
 		<BaseChatInput
+			disabledMessage={
+				!user.purchasedTokens
+					? 'You need to purchase tokens to create a new chat.'
+					: undefined
+			}
 			prompt={prompt}
 			setPrompt={setPrompt}
 			isLoading={isLoading}

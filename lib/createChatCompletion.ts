@@ -6,12 +6,14 @@ if (!process.env.OPENAI_MODEL) throw new Error('Missing OPENAI_MODEL')
 import ChatMessage from '@/lib/chat/message'
 import responseToGenerator from './responseToGenerator'
 
+export type ChatCompletionMessage = Pick<ChatMessage, 'role' | 'text'>
+
 interface ParsedMessage {
 	choices: [{ delta: { content?: string } }]
 }
 
 const createChatCompletion = async function* (
-	messages: Pick<ChatMessage, 'role' | 'text'>[]
+	messages: ChatCompletionMessage[]
 ) {
 	const response = await fetch('https://api.openai.com/v1/chat/completions', {
 		method: 'POST',

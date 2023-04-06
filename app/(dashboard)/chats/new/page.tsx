@@ -21,7 +21,7 @@ const NewChatPage = async () => {
 			<div className={styles.main}>
 				<h1 className={styles.title}>New Chat</h1>
 			</div>
-			<NewChatInput userId={user.id} />
+			<NewChatInput user={user} />
 		</main>
 	)
 }

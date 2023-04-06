@@ -21,6 +21,7 @@
 		"cookie-signature": "^1.2.1",
 		"firebase": "^9.19.1",
 		"firebase-admin": "^11.5.0",
+		"gpt3-tokenizer": "^1.1.5",
 		"nanoid": "^4.0.2",
 		"next": "13.2.4",
 		"openai": "^3.2.1",

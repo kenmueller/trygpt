@@ -4,15 +4,29 @@ import errorFromUnknown from '@/lib/error/fromUnknown'
 import userFromRequest from '@/lib/user/fromRequest'
 import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
-import createChatMessage from '@/lib/chat/message/create'
+import createChatMessage, {
+	CreateChatMessageData
+} from '@/lib/chat/message/create'
 import isChatOwnedByUser from '@/lib/chat/isOwnedByUser'
-import createChatCompletion from '@/lib/createChatCompletion'
+import createChatCompletion, {
+	ChatCompletionMessage
+} from '@/lib/createChatCompletion'
 import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
+import ChatMessage from '@/lib/chat/message'
+import updateUser from '@/lib/user/update'
+import getTokens from '@/lib/getTokens'
 
 export const revalidate = 0
 export const dynamic = 'force-dynamic'
 
 const encoder = new TextEncoder()
+
+const systemMessages: ChatCompletionMessage[] = [
+	{
+		role: 'system',
+		text: 'Surround your code in backticks and provide a language'
+	}
+]
 
 export const POST = async (
 	request: NextRequest,
@@ -24,34 +38,30 @@ export const POST = async (
 		const user = await userFromRequest()
 		if (!user) throw new HttpError(ErrorCode.Unauthorized, 'Unauthorized')
 
-		if (!isChatOwnedByUser(chatId, user.id))
+		if (!user.purchasedTokens)
+			throw new HttpError(ErrorCode.Forbidden, 'You have no tokens')
+
+		if (!(await isChatOwnedByUser(chatId, user.id)))
 			throw new HttpError(ErrorCode.Forbidden, 'You do not own this chat')
 
 		const text = (await request.text()).trim()
 		if (!text) throw new HttpError(ErrorCode.BadRequest, 'No text')
 
 		const previousMessages = await chatMessagesFromChatId(chatId)
+		const userMessage: CreateChatMessageData = { chatId, role: 'user', text }
 
-		await createChatMessage({ chatId, role: 'user', text })
+		const messages = [...systemMessages, ...previousMessages, userMessage]
 
-		const iterator = createChatCompletion([
-			{
-				role: 'system',
-				text: 'Surround your code in backticks and provide a language'
-			},
-			...previousMessages,
-			{
-				role: 'user',
-				text
-			}
-		])
+		await createChatMessage(userMessage)
+
+		const chatCompletion = createChatCompletion(messages)
 
 		let responseText = ''
 
 		return new NextResponse(
 			new ReadableStream<Uint8Array>({
 				pull: async controller => {
-					const { value, done } = await iterator.next()
+					const { value, done } = await chatCompletion.next()
 
 					if (!done) {
 						controller.enqueue(encoder.encode(value))
@@ -60,10 +70,18 @@ export const POST = async (
 						return
 					}
 
-					await createChatMessage({
+					const responseMessage: CreateChatMessageData = {
 						chatId,
 						role: 'assistant',
 						text: responseText
+					}
+
+					messages.push(responseMessage)
+
+					await createChatMessage(responseMessage)
+
+					await updateUser(user.id, {
+						incrementTotalTokens: getTokens(messages)
 					})
 
 					controller.close()
