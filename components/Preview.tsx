@@ -20,7 +20,7 @@ const Preview = ({ title }: { title: string }) => (
 				position: 'absolute',
 				top: 0,
 				left: 16,
-				fontSize: 24,
+				fontSize: 42,
 				opacity: 0.5
 			}}
 		>
