@@ -6,7 +6,6 @@ import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
 import createChat from '@/lib/chat/create'
 
-export const revalidate = 0
 export const dynamic = 'force-dynamic'
 
 export const POST = async () => {

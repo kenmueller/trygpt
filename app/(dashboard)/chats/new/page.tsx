@@ -13,7 +13,8 @@ import styles from './page.module.scss'
 export const metadata = pageMetadata({
 	path: '/chats/new',
 	title: 'New Chat | TryGPT',
-	description: 'New Chat | TryGPT'
+	description: 'New Chat | TryGPT',
+	image: `/api/preview/${encodeURIComponent('New Chat')}`
 })
 
 const NewChatPage = async () => {

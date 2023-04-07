@@ -9,6 +9,8 @@ import ErrorCode from '@/lib/error/code'
 import UserTokenData from '@/lib/user/tokenData'
 import createUserFromTokenData from '@/lib/user/createFromTokenData'
 
+export const dynamic = 'force-dynamic'
+
 const auth = getAuth(admin)
 
 export const POST = async (request: NextRequest) => {

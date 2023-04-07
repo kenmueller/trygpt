@@ -7,6 +7,8 @@ import ChatsProvider from '@/components/Provider/Chats'
 
 import styles from './layout.module.scss'
 
+export const dynamic = 'force-dynamic'
+
 const DashboardLayout = async ({ children }: { children: ReactNode }) => {
 	const user = await userFromRequest()
 

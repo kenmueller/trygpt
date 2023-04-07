@@ -5,10 +5,9 @@ import { NextResponse } from 'next/server'
 
 import errorFromUnknown from '@/lib/error/fromUnknown'
 
-const getPaths = async () => ['']
-
-export const revalidate = 0
 export const dynamic = 'force-dynamic'
+
+const getPaths = async () => ['']
 
 export const GET = async () => {
 	try {

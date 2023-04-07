@@ -13,7 +13,6 @@ import trimQuotes from '@/lib/trimQuotes'
 import updateUser from '@/lib/user/update'
 import getTokens from '@/lib/getTokens'
 
-export const revalidate = 0
 export const dynamic = 'force-dynamic'
 
 const encoder = new TextEncoder()

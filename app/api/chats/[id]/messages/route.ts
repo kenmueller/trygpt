@@ -12,11 +12,9 @@ import createChatCompletion, {
 	ChatCompletionMessage
 } from '@/lib/createChatCompletion'
 import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
-import ChatMessage from '@/lib/chat/message'
 import updateUser from '@/lib/user/update'
 import getTokens from '@/lib/getTokens'
 
-export const revalidate = 0
 export const dynamic = 'force-dynamic'
 
 const encoder = new TextEncoder()

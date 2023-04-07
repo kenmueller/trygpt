@@ -6,10 +6,13 @@ import pageMetadata from '@/lib/metadata/page'
 
 import styles from './page.module.scss'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata = pageMetadata({
 	path: '',
 	title: 'TryGPT',
-	description: 'TryGPT'
+	description: 'TryGPT',
+	image: `/api/preview/${encodeURIComponent('ChatGPT 4 for $1')}`
 })
 
 const LandingPage = async ({

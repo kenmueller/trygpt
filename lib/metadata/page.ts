@@ -5,22 +5,16 @@ if (!process.env.NEXT_PUBLIC_ORIGIN)
 
 import { Metadata } from 'next'
 
-import preview from '@/assets/preview.jpg'
-
-const image = {
-	url: preview.src,
-	width: preview.width,
-	height: preview.height
-}
-
 const pageMetadata = ({
 	path,
 	title,
-	description
+	description,
+	image
 }: {
 	path: string
 	title: string
 	description: string
+	image: string
 }): Metadata => {
 	const url = `${process.env.NEXT_PUBLIC_ORIGIN!}${path}`
 

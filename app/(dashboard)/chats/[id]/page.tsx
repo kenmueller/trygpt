@@ -1,5 +1,4 @@
 import { Suspense } from 'react'
-import { redirect } from 'next/navigation'
 
 import pageMetadata from '@/lib/metadata/page'
 import userFromRequest from '@/lib/user/fromRequest'
@@ -19,17 +18,13 @@ export const generateMetadata = async ({
 	const chatId = decodeURIComponent(encodedChatId)
 	const chat = await chatFromId(chatId)
 
-	if (!chat)
-		return pageMetadata({
-			path: `/chats/${encodeURIComponent(chatId)}`,
-			title: 'Chat not found | TryGPT',
-			description: 'Chat not found | TryGPT'
-		})
+	const title = chat ? chat.name ?? 'Untitled' : 'Chat not found'
 
 	return pageMetadata({
 		path: `/chats/${encodeURIComponent(chatId)}`,
-		title: `${chat.name ?? 'Untitled'} | TryGPT`,
-		description: `${chat.name ?? 'Untitled'} | TryGPT`
+		title: `${title} | TryGPT`,
+		description: `${title} | TryGPT`,
+		image: `/api/preview/${encodeURIComponent(title)}`
 	})
 }
 
