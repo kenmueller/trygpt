@@ -25,7 +25,7 @@ const NewChatPage = async () => {
 			<div className={styles.main}>
 				<div className={styles.mainInner}>
 					<h1>New Chat</h1>
-					<p className={styles.model}>ChatGPT 4</p>
+					<p className={styles.model}>GPT 4</p>
 					<BuyButton
 						className={styles.buyButton}
 						id={process.env.NEXT_PUBLIC_STRIPE_INITIAL_TOKENS_BUY_BUTTON_ID!}
