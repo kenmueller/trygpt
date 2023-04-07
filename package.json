@@ -33,7 +33,8 @@
 		"showdown": "^2.1.0",
 		"showdown-highlight": "^3.1.0",
 		"showdown-htmlescape": "^0.1.9",
-		"slonik": "^33.1.4"
+		"slonik": "^33.1.4",
+		"stripe": "^12.0.0"
 	},
 	"devDependencies": {
 		"@types/cookie": "^0.5.1",
