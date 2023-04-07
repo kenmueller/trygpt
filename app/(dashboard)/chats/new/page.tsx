@@ -1,7 +1,11 @@
+if (!process.env.NEXT_PUBLIC_STRIPE_INITIAL_TOKENS_BUY_BUTTON_ID)
+	throw new Error('Missing NEXT_PUBLIC_STRIPE_INITIAL_TOKENS_BUY_BUTTON_ID')
+
 import { redirect } from 'next/navigation'
 
 import pageMetadata from '@/lib/metadata/page'
 import userFromRequest from '@/lib/user/fromRequest'
+import BuyButton from '@/components/BuyButton'
 import NewChatInput from '@/components/ChatInput/New'
 
 import styles from './page.module.scss'
@@ -19,7 +23,14 @@ const NewChatPage = async () => {
 	return (
 		<main className={styles.root}>
 			<div className={styles.main}>
-				<h1 className={styles.title}>New Chat</h1>
+				<div className={styles.mainInner}>
+					<h1>New Chat</h1>
+					<p className={styles.model}>ChatGPT 4</p>
+					<BuyButton
+						className={styles.buyButton}
+						id={process.env.NEXT_PUBLIC_STRIPE_INITIAL_TOKENS_BUY_BUTTON_ID!}
+					/>
+				</div>
 			</div>
 			<NewChatInput user={user} />
 		</main>

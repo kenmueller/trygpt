@@ -11,10 +11,22 @@
 
 .main {
 	display: flex;
-	flex-direction: column;
 	padding: 1rem 1rem 0;
 }
 
-.title {
+.mainInner {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 	margin: auto;
+}
+
+.model {
+	margin-top: 0.25rem;
+	font-weight: 700;
+	opacity: 0.5;
+}
+
+.buyButton {
+	margin-top: 1rem;
 }
