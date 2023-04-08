@@ -18,7 +18,9 @@ const userFromIdWithConnection = async (
 ) => {
 	const users = (await connection.any(
 		sql.unsafe`SELECT
-				       id, photo, name, email,
+				       id,
+					   customer_id AS "customerId",
+					   photo, name, email,
 					   billing_start_time AS "billingStartTime",
 					   total_tokens AS "totalTokens",
 					   purchased_tokens AS "purchasedTokens",

@@ -28,7 +28,7 @@ export const POST = async (_request: NextRequest) => {
 				}
 			],
 			client_reference_id: user.id,
-			customer_email: user.email,
+			customer: user.customerId,
 			mode: 'payment',
 			success_url: `${process.env.NEXT_PUBLIC_ORIGIN!}/chats/new`,
 			cancel_url: `${process.env.NEXT_PUBLIC_ORIGIN!}/chats/new`

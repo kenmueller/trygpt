@@ -1,6 +1,9 @@
 export default interface User {
 	id: string
 
+	/** Stripe customer ID. */
+	customerId: string
+
 	/** Photo URL. */
 	photo: string | null
 
