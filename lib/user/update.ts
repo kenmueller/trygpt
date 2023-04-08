@@ -8,7 +8,7 @@ import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
 
 export interface UpdateUserData {
-	billingStartTime?: 'now'
+	lastBilled?: 'now'
 	incrementRequestTokens?: number
 	incrementResponseTokens?: number
 	purchasedAmount?: number
@@ -30,7 +30,7 @@ const updateUser = async (
 const updateUserWithConnection = async (
 	id: string,
 	{
-		billingStartTime,
+		lastBilled,
 		incrementRequestTokens,
 		incrementResponseTokens,
 		purchasedAmount
@@ -41,8 +41,7 @@ const updateUserWithConnection = async (
 		sql.unsafe`UPDATE users
 				   SET ${sql.join(
 							[
-								billingStartTime !== undefined &&
-									sql.unsafe`billing_start_time = NOW()`,
+								lastBilled !== undefined && sql.unsafe`last_billed = NOW()`,
 								incrementRequestTokens !== undefined &&
 									sql.unsafe`request_tokens = request_tokens + ${incrementRequestTokens}`,
 								incrementResponseTokens !== undefined &&

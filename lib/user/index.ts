@@ -11,7 +11,7 @@ export default interface User {
 	email: string
 
 	/** Milliseconds since epoch. */
-	billingStartTime: number | null
+	lastBilled: number | null
 
 	requestTokens: number
 	responseTokens: number
