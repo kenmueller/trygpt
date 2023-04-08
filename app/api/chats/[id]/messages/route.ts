@@ -48,11 +48,15 @@ export const POST = async (
 		const previousMessages = await chatMessagesFromChatId(chatId)
 		const userMessage: CreateChatMessageData = { chatId, role: 'user', text }
 
-		const messages = [...systemMessages, ...previousMessages, userMessage]
+		const requestMessages = [
+			...systemMessages,
+			...previousMessages,
+			userMessage
+		]
 
 		await createChatMessage(userMessage)
 
-		const chatCompletion = createChatCompletion(messages)
+		const chatCompletion = createChatCompletion(requestMessages)
 
 		let responseText = ''
 
@@ -74,12 +78,11 @@ export const POST = async (
 						text: responseText
 					}
 
-					messages.push(responseMessage)
-
 					await createChatMessage(responseMessage)
 
 					await updateUser(user.id, {
-						incrementTotalTokens: getTokens(messages)
+						incrementRequestTokens: getTokens(requestMessages),
+						incrementResponseTokens: getTokens([responseMessage])
 					})
 
 					controller.close()

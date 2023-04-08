@@ -6,9 +6,11 @@ import {
 	COST_PER_1000_REQUEST_TOKENS,
 	COST_PER_1000_RESPONSE_TOKENS
 } from '@/lib/costPerToken'
+import costThisPeriod from '@/lib/user/costThisPeriod'
 
 import styles from './page.module.scss'
-import costThisPeriod from '@/lib/user/costThisPeriod'
+
+export const dynamic = 'force-dynamic'
 
 export const metadata = pageMetadata({
 	path: '/profile',

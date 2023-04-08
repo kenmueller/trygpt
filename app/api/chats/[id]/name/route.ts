@@ -43,7 +43,7 @@ export const PATCH = async (
 		const prompt = (await request.text()).trim()
 		if (!prompt) throw new HttpError(ErrorCode.BadRequest, 'No prompt')
 
-		const messages: ChatCompletionMessage[] = [
+		const requestMessages: ChatCompletionMessage[] = [
 			...systemMessages,
 			{
 				role: 'user',
@@ -51,7 +51,7 @@ export const PATCH = async (
 			}
 		]
 
-		const chatCompletion = createChatCompletion(messages)
+		const chatCompletion = createChatCompletion(requestMessages)
 
 		let responseText = ''
 
@@ -72,12 +72,11 @@ export const PATCH = async (
 						text: responseText
 					}
 
-					messages.push(responseMessage)
-
 					await updateChatName(chatId, trimQuotes(responseText))
 
 					await updateUser(user.id, {
-						incrementTotalTokens: getTokens(messages)
+						incrementRequestTokens: getTokens(requestMessages),
+						incrementResponseTokens: getTokens([responseMessage])
 					})
 
 					controller.close()

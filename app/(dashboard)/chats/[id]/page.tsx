@@ -10,6 +10,8 @@ import ChatMessagesContainer from '@/components/Chat/MessagesContainer'
 
 import styles from './page.module.scss'
 
+export const dynamic = 'force-dynamic'
+
 export const generateMetadata = async ({
 	params: { id: encodedChatId }
 }: {

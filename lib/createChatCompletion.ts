@@ -38,6 +38,8 @@ const createChatCompletion = async function* (
 			try {
 				const parsed: ParsedMessage = JSON.parse(message)
 
+				console.log(JSON.stringify(parsed))
+
 				const chunk = parsed.choices[0].delta.content
 				if (!chunk) continue
 
