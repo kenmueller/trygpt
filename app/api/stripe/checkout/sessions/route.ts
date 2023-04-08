@@ -27,7 +27,6 @@ export const POST = async (_request: NextRequest) => {
 					adjustable_quantity: { enabled: false }
 				}
 			],
-			client_reference_id: user.id,
 			customer: user.customerId,
 			mode: 'payment',
 			success_url: `${process.env.NEXT_PUBLIC_ORIGIN!}/chats/new`,
