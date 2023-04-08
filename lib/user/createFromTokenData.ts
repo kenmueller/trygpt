@@ -4,41 +4,28 @@ import { DatabasePoolConnection, sql } from 'slonik'
 
 import UserTokenData from './tokenData'
 import { connect } from '@/lib/pool'
+import stripe from '@/lib/stripe'
 
-/** If the user already exists, nothing happens. */
 const createUserFromTokenData = (
 	tokenData: UserTokenData,
-	doNothingIfExists = true,
 	connection?: DatabasePoolConnection
 ) =>
 	connection
-		? createUserFromTokenDataWithConnection(
-				tokenData,
-				doNothingIfExists,
-				connection
-		  )
+		? createUserFromTokenDataWithConnection(tokenData, connection)
 		: connect(connection =>
-				createUserFromTokenDataWithConnection(
-					tokenData,
-					doNothingIfExists,
-					connection
-				)
+				createUserFromTokenDataWithConnection(tokenData, connection)
 		  )
 
 const createUserFromTokenDataWithConnection = async (
 	{ id, photo, name, email }: UserTokenData,
-	doNothingIfExists: boolean,
 	connection: DatabasePoolConnection
 ) => {
+	const { id: customerId } = await stripe.customers.create({ name, email })
+
 	await connection.query(
 		sql.unsafe`INSERT INTO
-				   users (id, photo, name, email)
-				   VALUES (${id}, ${photo}, ${name}, ${email})
-				   ${
-							doNothingIfExists
-								? sql.fragment`ON CONFLICT (id) DO NOTHING`
-								: sql.fragment``
-						}`
+				   users (id, customer_id, photo, name, email)
+				   VALUES (${id}, ${customerId}, ${photo}, ${name}, ${email})`
 	)
 }
 

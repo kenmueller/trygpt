@@ -8,6 +8,7 @@ import setCookie from '@/lib/cookie/set'
 import ErrorCode from '@/lib/error/code'
 import UserTokenData from '@/lib/user/tokenData'
 import createUserFromTokenData from '@/lib/user/createFromTokenData'
+import userExistsWithId from '@/lib/user/existsWithId'
 
 export const dynamic = 'force-dynamic'
 
@@ -40,7 +41,8 @@ export const POST = async (request: NextRequest) => {
 				throw new HttpError(ErrorCode.Forbidden, 'Invalid token')
 			}
 
-			await createUserFromTokenData(data.user)
+			if (!(await userExistsWithId(data.user.id)))
+				await createUserFromTokenData(data.user)
 		}
 
 		return new NextResponse('', {
