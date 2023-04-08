@@ -34,7 +34,7 @@ export const PATCH = async (
 		const user = await userFromRequest()
 		if (!user) throw new HttpError(ErrorCode.Unauthorized, 'Unauthorized')
 
-		if (!user.purchasedTokens)
+		if (!user.purchasedAmount)
 			throw new HttpError(ErrorCode.Forbidden, 'You have no tokens')
 
 		if (!(await isChatOwnedByUser(chatId, user.id)))

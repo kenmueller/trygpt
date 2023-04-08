@@ -22,8 +22,9 @@ const userFromIdWithConnection = async (
 					   customer_id AS "customerId",
 					   photo, name, email,
 					   billing_start_time AS "billingStartTime",
-					   total_tokens AS "totalTokens",
-					   purchased_tokens AS "purchasedTokens",
+					   request_tokens AS "requestTokens",
+					   response_tokens AS "responseTokens",
+					   purchased_amount AS "purchasedAmount",
 					   created, updated
 				   FROM users
 				   WHERE id = ${id}`

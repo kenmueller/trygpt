@@ -56,7 +56,7 @@ const NewChatInput = ({ user }: { user: User }) => {
 	return (
 		<BaseChatInput
 			disabledMessage={
-				!user.purchasedTokens
+				!user.purchasedAmount
 					? 'You need to purchase tokens to create a new chat'
 					: undefined
 			}

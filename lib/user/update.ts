@@ -9,8 +9,9 @@ import ErrorCode from '@/lib/error/code'
 
 export interface UpdateUserData {
 	billingStartTime?: number
-	incrementTotalTokens?: number
-	purchasedTokens?: number
+	incrementRequestTokens?: number
+	incrementResponseTokens?: number
+	purchasedAmount?: number
 }
 
 const updateUser = async (
@@ -28,7 +29,12 @@ const updateUser = async (
 
 const updateUserWithConnection = async (
 	id: string,
-	{ billingStartTime, incrementTotalTokens, purchasedTokens }: UpdateUserData,
+	{
+		billingStartTime,
+		incrementRequestTokens,
+		incrementResponseTokens,
+		purchasedAmount
+	}: UpdateUserData,
 	connection: DatabasePoolConnection
 ) => {
 	await connection.query(
@@ -37,10 +43,12 @@ const updateUserWithConnection = async (
 							[
 								billingStartTime !== undefined &&
 									sql.unsafe`billing_start_time = ${billingStartTime}`,
-								incrementTotalTokens !== undefined &&
-									sql.unsafe`total_tokens = total_tokens + ${incrementTotalTokens}`,
-								purchasedTokens !== undefined &&
-									sql.unsafe`purchased_tokens = ${purchasedTokens}`
+								incrementRequestTokens !== undefined &&
+									sql.unsafe`request_tokens = request_tokens + ${incrementRequestTokens}`,
+								incrementResponseTokens !== undefined &&
+									sql.unsafe`response_tokens = response_tokens + ${incrementResponseTokens}`,
+								purchasedAmount !== undefined &&
+									sql.unsafe`purchased_amount = ${purchasedAmount}`
 							].filter(Boolean) as ReturnType<typeof sql.unsafe>[],
 							sql.fragment`, `
 						)}

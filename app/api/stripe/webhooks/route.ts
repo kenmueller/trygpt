@@ -31,8 +31,14 @@ export const POST = async (request: NextRequest) => {
 			case 'payment_intent.succeeded':
 				const user = await userFromStripeEvent(event)
 
+				const amountCharged = (event.data.object as { amount_received: number })
+					.amount_received
+
+				const amountReceived =
+					amountCharged - Math.floor(amountCharged * (2.9 / 100) + 30)
+
 				await updateUser(user.id, {
-					purchasedTokens: 10_000
+					purchasedAmount: amountReceived
 				})
 
 				break

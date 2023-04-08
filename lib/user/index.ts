@@ -13,8 +13,11 @@ export default interface User {
 	/** Milliseconds since epoch. */
 	billingStartTime: number | null
 
-	totalTokens: number
-	purchasedTokens: number
+	requestTokens: number
+	responseTokens: number
+
+	/** In cents. */
+	purchasedAmount: number
 
 	/** Milliseconds since epoch. */
 	created: number
