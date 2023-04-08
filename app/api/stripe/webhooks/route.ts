@@ -7,6 +7,8 @@ import errorFromUnknown from '@/lib/error/fromUnknown'
 import stripe from '@/lib/stripe'
 import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
+import userFromStripeEvent from '@/lib/user/fromStripeEvent'
+import updateUser from '@/lib/user/update'
 
 export const dynamic = 'force-dynamic'
 
@@ -25,7 +27,16 @@ export const POST = async (request: NextRequest) => {
 			process.env.STRIPE_WEBHOOK_SECRET!
 		)
 
-		console.log(JSON.stringify(event, null, 2))
+		switch (event.type) {
+			case 'payment_intent.succeeded':
+				const user = await userFromStripeEvent(event)
+
+				await updateUser(user.id, {
+					purchasedTokens: 10_000
+				})
+
+				break
+		}
 
 		return new NextResponse('')
 	} catch (unknownError) {

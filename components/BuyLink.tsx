@@ -1,8 +1,9 @@
 'use client'
 
+import { useCallback, useState } from 'react'
+
 import alertError from '@/lib/error/alert'
 import errorFromResponse from '@/lib/error/fromResponse'
-import { useCallback, useState } from 'react'
 
 const BuyLink = ({ className }: { className?: string }) => {
 	const [isLoading, setIsLoading] = useState(false)
