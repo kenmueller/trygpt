@@ -39,6 +39,7 @@ export const POST = async (request: NextRequest) => {
 				)
 
 				await updateUser(user.id, {
+					billingStartTime: 'now',
 					purchasedAmount: amountReceived
 				})
 
