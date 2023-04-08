@@ -24,7 +24,7 @@ const userFromCustomerIdWithConnection = async (
 				       id,
 					   customer_id AS "customerId",
 					   photo, name, email,
-					   last_billed AS "lastBilled",
+					   last_charged AS "lastCharged",
 					   request_tokens AS "requestTokens",
 					   response_tokens AS "responseTokens",
 					   purchased_amount AS "purchasedAmount",

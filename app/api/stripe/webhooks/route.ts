@@ -39,7 +39,7 @@ export const POST = async (request: NextRequest) => {
 				)
 
 				await updateUser(user.id, {
-					lastBilled: 'now',
+					lastCharged: 'now',
 					purchasedAmount: amountReceived
 				})
 

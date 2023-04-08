@@ -32,8 +32,8 @@ const ProfilePage = async () => {
 			<p>Email: {user.email}</p>
 			<h2>Usage this period</h2>
 			<p>Cost: ${costThisPeriod(user) / 100}</p>
-			{user.lastBilled && (
-				<p>Charged on {formatDate(nextMonth(user.lastBilled))}</p>
+			{user.lastCharged && (
+				<p>Charged on {formatDate(nextMonth(user.lastCharged))}</p>
 			)}
 			<h3>How we calculate price</h3>
 			<p>
