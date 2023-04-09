@@ -18,13 +18,7 @@ import useNewEffect from '@/lib/useNewEffect'
 import User from '@/lib/user'
 import trimQuotes from '@/lib/trimQuotes'
 
-const ChatInput = ({
-	user,
-	chat
-}: {
-	user: User | null
-	chat: Chat | null
-}) => {
+const ChatInput = ({ user, chat }: { user: User | null; chat: Chat }) => {
 	const [initialPrompt, setInitialPrompt] = useContext(InitialPromptContext)
 	const [chats, setChats] = useContext(ChatsContext)
 	const [messages, setMessages] = useContext(ChatMessagesContext)
@@ -185,8 +179,7 @@ const ChatInput = ({
 		updateChatName
 	])
 
-	const chatName =
-		chat && (chats?.find(chat => chat.id === chat.id)?.name ?? 'Untitled')
+	const chatName = chats?.find(chat => chat.id === chat.id)?.name ?? 'Untitled'
 
 	useNewEffect(() => {
 		document.title = `${chatName ?? 'Chat not found'} | TryGPT`
@@ -195,9 +188,7 @@ const ChatInput = ({
 	return (
 		<BaseChatInput
 			disabledMessage={
-				!chat
-					? 'Chat not found'
-					: !user
+				!user
 					? 'Not signed in'
 					: !isOwner
 					? 'You do not own this chat'
