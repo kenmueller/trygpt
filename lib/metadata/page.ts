@@ -9,14 +9,16 @@ const pageMetadata = ({
 	path,
 	title,
 	description,
-	image
+	previewTitle
 }: {
 	path: string
 	title: string
 	description: string
-	image: string
+	previewTitle: string
 }): Metadata => {
 	const url = `${process.env.NEXT_PUBLIC_ORIGIN!}${path}`
+	const image = `${process.env
+		.NEXT_PUBLIC_ORIGIN!}/api/preview?title=${encodeURIComponent(previewTitle)}`
 
 	return {
 		alternates: { canonical: url },

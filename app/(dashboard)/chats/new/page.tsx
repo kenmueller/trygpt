@@ -13,7 +13,7 @@ export const metadata = pageMetadata({
 	path: '/chats/new',
 	title: 'New Chat | TryGPT',
 	description: 'New Chat | TryGPT',
-	image: `/api/preview/${encodeURIComponent('New Chat')}`
+	previewTitle: 'New Chat'
 })
 
 const NewChatPage = async () => {

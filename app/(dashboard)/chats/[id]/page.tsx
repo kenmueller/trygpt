@@ -29,7 +29,7 @@ export const generateMetadata = async ({
 		path: `/chats/${encodeURIComponent(chatId)}`,
 		title: `${title} | TryGPT`,
 		description: `${title} | TryGPT`,
-		image: `/api/preview/${encodeURIComponent(title)}`
+		previewTitle: title
 	})
 }
 

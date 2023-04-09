@@ -12,7 +12,7 @@ export const metadata = pageMetadata({
 	path: '',
 	title: 'TryGPT',
 	description: 'TryGPT',
-	image: `/api/preview/${encodeURIComponent('ChatGPT 4 for $1')}`
+	previewTitle: 'ChatGPT 4 for $1'
 })
 
 const LandingPage = async ({

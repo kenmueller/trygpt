@@ -18,7 +18,7 @@ export const metadata = pageMetadata({
 	path: '/profile',
 	title: 'Profile | TryGPT',
 	description: 'Profile | TryGPT',
-	image: `/api/preview/${encodeURIComponent('Profile')}`
+	previewTitle: 'Profile'
 })
 
 const ProfilePage = async () => {
