@@ -2,6 +2,7 @@ if (!process.env.STRIPE_WEBHOOK_SECRET)
 	throw new Error('Missing STRIPE_WEBHOOK_SECRET')
 
 import { NextRequest, NextResponse } from 'next/server'
+import Stripe from 'stripe'
 
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import stripe from '@/lib/stripe'
@@ -31,7 +32,7 @@ export const POST = async (request: NextRequest) => {
 			case 'payment_intent.succeeded':
 				const user = await userFromStripeEvent(event)
 
-				const amountCharged = (event.data.object as { amount_received: number })
+				const amountCharged = (event.data.object as Stripe.PaymentIntent)
 					.amount_received
 
 				const amountReceived = Math.floor(

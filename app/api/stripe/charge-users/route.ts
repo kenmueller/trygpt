@@ -1,7 +1,7 @@
 if (!process.env.CHARGE_USERS_SECRET)
 	throw new Error('Missing CHARGE_USERS_SECRET')
 
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import stripe from '@/lib/stripe'
@@ -13,7 +13,7 @@ import costThisPeriod from '@/lib/user/costThisPeriod'
 
 export const dynamic = 'force-dynamic'
 
-export const POST = async (request: NextRequest) => {
+export const POST = async () => {
 	try {
 		verifyAuthorization(process.env.CHARGE_USERS_SECRET!)
 
