@@ -9,8 +9,8 @@ import {
 import costThisPeriod from '@/lib/user/costThisPeriod'
 
 import styles from './page.module.scss'
-import formatDate from '@/lib/format/date'
-import nextMonth from '@/lib/nextMonth'
+import formatDate from '@/lib/date/format'
+import nextMonth from '@/lib/date/nextMonth'
 
 export const dynamic = 'force-dynamic'
 

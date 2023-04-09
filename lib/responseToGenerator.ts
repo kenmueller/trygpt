@@ -1,7 +1,7 @@
 import ErrorCode from '@/lib/error/code'
 import HttpError from '@/lib/error/http'
 
-async function* responseToGenerator({ body }: Response) {
+const responseToGenerator = async function* ({ body }: Response) {
 	if (!body) throw new HttpError(ErrorCode.Internal, 'No body')
 
 	const reader = body.getReader()
