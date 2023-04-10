@@ -8,10 +8,8 @@ import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
 
 export interface UpdateUserData {
-	lastCharged?: 'now'
-	incrementRequestTokens?: number
-	incrementResponseTokens?: number
-	purchasedAmount?: number
+	incrementTokens?: number
+	purchasedTokens?: number
 }
 
 const updateUser = async (
@@ -29,25 +27,17 @@ const updateUser = async (
 
 const updateUserWithConnection = async (
 	id: string,
-	{
-		lastCharged,
-		incrementRequestTokens,
-		incrementResponseTokens,
-		purchasedAmount
-	}: UpdateUserData,
+	{ incrementTokens, purchasedTokens }: UpdateUserData,
 	connection: DatabasePoolConnection
 ) => {
 	await connection.query(
 		sql.unsafe`UPDATE users
 				   SET ${sql.join(
 							[
-								lastCharged !== undefined && sql.unsafe`last_charged = NOW()`,
-								incrementRequestTokens !== undefined &&
-									sql.unsafe`request_tokens = request_tokens + ${incrementRequestTokens}`,
-								incrementResponseTokens !== undefined &&
-									sql.unsafe`response_tokens = response_tokens + ${incrementResponseTokens}`,
-								purchasedAmount !== undefined &&
-									sql.unsafe`purchased_amount = ${purchasedAmount}`
+								incrementTokens !== undefined &&
+									sql.unsafe`tokens = tokens + ${incrementTokens}`,
+								purchasedTokens !== undefined &&
+									sql.unsafe`purchased_tokens = ${purchasedTokens}`
 							].filter(Boolean) as ReturnType<typeof sql.unsafe>[],
 							sql.fragment`, `
 						)}

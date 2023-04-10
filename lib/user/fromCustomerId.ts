@@ -21,13 +21,10 @@ const userFromCustomerIdWithConnection = async (
 ) => {
 	const users = (await connection.any(
 		sql.unsafe`SELECT
-				       id,
+					   id,
 					   customer_id AS "customerId",
-					   photo, name, email,
-					   last_charged AS "lastCharged",
-					   request_tokens AS "requestTokens",
-					   response_tokens AS "responseTokens",
-					   purchased_amount AS "purchasedAmount",
+					   photo, name, email, tokens,
+					   purchased_tokens AS "purchasedTokens",
 					   created, updated
 				   FROM users
 				   WHERE customer_id = ${customerId}`

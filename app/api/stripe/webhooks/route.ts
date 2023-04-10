@@ -39,10 +39,10 @@ export const POST = async (request: NextRequest) => {
 					amountCharged - (amountCharged * (2.9 / 100) + 30)
 				)
 
-				await updateUser(user.id, {
-					lastCharged: 'now',
-					purchasedAmount: amountReceived
-				})
+				// await updateUser(user.id, {
+				// 	lastCharged: 'now',
+				// 	purchasedAmount: amountReceived
+				// })
 
 				break
 		}

@@ -10,14 +10,8 @@ export default interface User {
 	name: string
 	email: string
 
-	/** Milliseconds since epoch. */
-	lastCharged: number | null
-
-	requestTokens: number
-	responseTokens: number
-
-	/** In cents. */
-	purchasedAmount: number
+	tokens: number
+	purchasedTokens: number
 
 	/** Milliseconds since epoch. */
 	created: number
