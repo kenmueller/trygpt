@@ -17,6 +17,7 @@ const updateUser = async (
 	data: UpdateUserData,
 	connection?: DatabasePoolConnection
 ) => {
+
 	if (isObjectEmpty(data))
 		throw new HttpError(ErrorCode.Internal, 'No data passed to updateUser')
 

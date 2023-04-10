@@ -24,7 +24,7 @@ const allPayingUsersWithConnection = async (
 					   last_charged AS "lastCharged",
 					   request_tokens AS "requestTokens",
 					   response_tokens AS "responseTokens",
-					   purchased_amount AS "purchasedAmount",
+					   purchased_amount AS "purchasedTokens",
 					   created, updated
 				   FROM users
 				   WHERE purchased_amount > 0`

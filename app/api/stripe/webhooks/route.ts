@@ -39,10 +39,16 @@ export const POST = async (request: NextRequest) => {
 					amountCharged - (amountCharged * (2.9 / 100) + 30)
 				)
 
-				// await updateUser(user.id, {
-				// 	lastCharged: 'now',
-				// 	purchasedAmount: amountReceived
-				// })
+				await updateUser(user.id, {
+					purchasedTokens: 15000
+				})
+
+				await stripe.subscriptions.create({ 
+						customer: user.customerId,
+						items: [{
+							price: process.env.STRIPE_TOKENS_PRICE_ID!
+						}]
+				});
 
 				break
 		}

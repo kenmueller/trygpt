@@ -13,7 +13,7 @@ provider.addScope('https://www.googleapis.com/auth/userinfo.email')
 /** `true` if signed in, `false` if sign in was canceled. */
 const signIn = async () => {
 	try {
-		await signInWithPopup(auth, provider)
+		const user = (await signInWithPopup(auth, provider)).user;
 		return true
 	} catch (unknownError) {
 		switch ((unknownError as FirebaseError)?.code) {

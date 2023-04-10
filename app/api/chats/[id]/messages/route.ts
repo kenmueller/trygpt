@@ -14,6 +14,7 @@ import createChatCompletion, {
 import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
 import updateUser from '@/lib/user/update'
 import getTokens from '@/lib/getTokens'
+import updateUsage from '@/lib/user/updateUsage'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,7 +37,7 @@ export const POST = async (
 		const user = await userFromRequest()
 		if (!user) throw new HttpError(ErrorCode.Unauthorized, 'Unauthorized')
 
-		if (!user.purchasedAmount)
+		if (!user.purchasedTokens)
 			throw new HttpError(ErrorCode.Forbidden, 'You have no tokens')
 
 		if (!(await isChatOwnedByUser(chatId, user.id)))
@@ -80,10 +81,7 @@ export const POST = async (
 
 					await createChatMessage(responseMessage)
 
-					await updateUser(user.id, {
-						incrementRequestTokens: getTokens(requestMessages),
-						incrementResponseTokens: getTokens([responseMessage])
-					})
+					await updateUsage(user, getTokens(requestMessages) + getTokens([responseMessage] ));
 
 					controller.close()
 				}

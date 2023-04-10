@@ -26,7 +26,7 @@ const NewChatPage = async () => {
 				<div className={styles.mainInner}>
 					<h1>New Chat</h1>
 					<p className={styles.model}>GPT 4</p>
-					{!user.purchasedAmount && <BuyLink className={styles.buy} />}
+					{!user.purchasedTokens && <BuyLink className={styles.buy} />}
 				</div>
 			</div>
 			<NewChatInput user={user} />

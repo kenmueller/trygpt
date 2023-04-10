@@ -192,7 +192,7 @@ const ChatInput = ({ user, chat }: { user: User | null; chat: Chat }) => {
 					? 'Not signed in'
 					: !isOwner
 					? 'You do not own this chat'
-					: !user.purchasedAmount
+					: !user.purchasedTokens
 					? 'You have no tokens'
 					: undefined
 			}
