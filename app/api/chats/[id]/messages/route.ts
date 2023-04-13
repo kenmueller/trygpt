@@ -22,7 +22,7 @@ const encoder = new TextEncoder()
 const systemMessages: ChatCompletionMessage[] = [
 	{
 		role: 'system',
-		text: 'Surround your code in backticks and provide a language'
+		text: 'Surround code in backticks and provide a language. Format everything else as text'
 	}
 ]
 
