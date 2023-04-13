@@ -4,6 +4,9 @@ export default interface User {
 	/** Stripe customer ID. */
 	customerId: string
 
+	/** Stripe customer payment method ID. */
+	paymentMethod: string | null
+
 	/** Photo URL. */
 	photo: string | null
 

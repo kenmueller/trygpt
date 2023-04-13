@@ -24,23 +24,18 @@ export const POST = async () => {
 		const results = await Promise.allSettled(
 			users.map(async user => {
 				if (!user.lastCharged) return
+				if (!user.paymentMethod) throw new Error('Missing payment method')
 
 				const scheduledCharge = nextMonth(user.lastCharged)
 				if (!isSameDay(scheduledCharge, now)) return
 
-				const invoice = await stripe.invoices.create({
+				await stripe.paymentIntents.create({
 					customer: user.customerId,
-					collection_method: 'send_invoice',
-					days_until_due: 7
+					payment_method: user.paymentMethod,
+					currency: 'usd',
+					amount: costThisPeriod(user),
+					confirm: true
 				})
-
-				await stripe.invoiceItems.create({
-					customer: user.customerId,
-					invoice: invoice.id,
-					amount: costThisPeriod(user)
-				})
-
-				await stripe.invoices.sendInvoice(invoice.id)
 
 				return user.id
 			})

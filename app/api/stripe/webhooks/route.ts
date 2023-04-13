@@ -28,20 +28,28 @@ export const POST = async (request: NextRequest) => {
 			process.env.STRIPE_WEBHOOK_SECRET!
 		)
 
+		console.log(JSON.stringify(event, null, 2))
+
 		switch (event.type) {
 			case 'payment_intent.succeeded':
 				const user = await userFromStripeEvent(event)
 
-				const amountCharged = (event.data.object as Stripe.PaymentIntent)
-					.amount_received
+				const {
+					amount_received: amountCharged,
+					payment_method: paymentMethod
+				} = event.data.object as Stripe.PaymentIntent
+
+				if (typeof paymentMethod !== 'string')
+					throw new HttpError(ErrorCode.BadRequest, 'Missing payment method')
 
 				const amountReceived = Math.floor(
 					amountCharged - (amountCharged * (2.9 / 100) + 30)
 				)
 
 				await updateUser(user.id, {
+					paymentMethod,
 					lastCharged: 'now',
-					purchasedAmount: amountReceived
+					incrementPurchasedAmount: amountReceived
 				})
 
 				break

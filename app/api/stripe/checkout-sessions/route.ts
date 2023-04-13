@@ -29,6 +29,7 @@ export const POST = async (_request: NextRequest) => {
 			],
 			customer: user.customerId,
 			mode: 'payment',
+			payment_intent_data: { setup_future_usage: 'off_session' },
 			success_url: `${process.env.NEXT_PUBLIC_ORIGIN!}/chats/new`,
 			cancel_url: `${process.env.NEXT_PUBLIC_ORIGIN!}/chats/new`
 		})

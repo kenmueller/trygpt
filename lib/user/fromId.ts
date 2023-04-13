@@ -20,6 +20,7 @@ const userFromIdWithConnection = async (
 		sql.unsafe`SELECT
 				       id,
 					   customer_id AS "customerId",
+					   payment_method AS "paymentMethod",
 					   photo, name, email,
 					   last_charged AS "lastCharged",
 					   request_tokens AS "requestTokens",
