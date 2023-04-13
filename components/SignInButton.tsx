@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSignIn } from '@fortawesome/free-solid-svg-icons'
+import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 
 import signIn from '@/lib/user/signIn'
 import alertError from '@/lib/error/alert'
@@ -30,8 +30,8 @@ const SignInButton = ({
 
 	return (
 		<button className={className} disabled={isLoading} onClick={onClick}>
-			<FontAwesomeIcon className={iconClassName} icon={faSignIn} />
-			{isLoading ? 'Loading...' : 'Sign in with Google'}
+			<FontAwesomeIcon className={iconClassName} icon={faGoogle} />
+			{isLoading ? 'Loading...' : 'Sign in'}
 		</button>
 	)
 }

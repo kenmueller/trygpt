@@ -1,0 +1,42 @@
+@use 'theme';
+@use 'landing';
+
+.root {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	max-width: landing.$max-width;
+	width: landing.$width;
+	margin: 0 auto;
+	padding: 1rem 0;
+}
+
+.home {
+	font-size: 1.5rem;
+	font-weight: 700;
+}
+
+.links {
+	display: flex;
+	align-items: center;
+	gap: 2rem;
+}
+
+.signIn {
+	display: flex;
+	align-items: center;
+	padding: 0.5rem 1rem;
+	font-weight: 700;
+	background: rgba(theme.$white, 0.1);
+	border-radius: 100px;
+	transition: opacity 0.3s;
+
+	&:hover {
+		opacity: 0.7;
+	}
+}
+
+.signInIcon {
+	flex-shrink: 0;
+	margin-right: 0.5rem;
+}

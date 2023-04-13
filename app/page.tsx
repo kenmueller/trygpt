@@ -1,8 +1,9 @@
 import { redirect } from 'next/navigation'
 
 import userFromRequest from '@/lib/user/fromRequest'
-import SignInButton from '@/components/SignInButton'
 import pageMetadata from '@/lib/metadata/page'
+import Nav from '@/components/Landing/Nav'
+import Header from '@/components/Landing/Header'
 
 import styles from './page.module.scss'
 
@@ -10,7 +11,7 @@ export const dynamic = 'force-dynamic'
 
 export const metadata = pageMetadata({
 	path: '',
-	title: 'TryGPT',
+	title: 'ChatGPT 4 for $1 | TryGPT',
 	description: 'TryGPT',
 	previewTitle: 'ChatGPT 4 for $1'
 })
@@ -26,11 +27,12 @@ const LandingPage = async ({
 	if (user) redirect(to || '/chats/new')
 
 	return (
-		<main className={styles.root}>
-			<h1>TryGPT</h1>
-			<p>Pay-as-you-go ChatGPT</p>
-			<SignInButton />
-		</main>
+		<>
+			<div className={styles.top}>
+				<Nav />
+				<Header />
+			</div>
+		</>
 	)
 }
 
