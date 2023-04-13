@@ -18,7 +18,7 @@ const pageMetadata = ({
 }): Metadata => {
 	const url = `${process.env.NEXT_PUBLIC_ORIGIN!}${path}`
 	const image = `${process.env
-		.NEXT_PUBLIC_ORIGIN!}/api/preview?title=${encodeURIComponent(previewTitle)}`
+		.NEXT_PUBLIC_ORIGIN!}/api/preview/${encodeURIComponent(previewTitle)}`
 
 	return {
 		alternates: { canonical: url },
