@@ -47,9 +47,9 @@ const updateUserWithConnection = async (
 									sql.unsafe`payment_method = ${paymentMethod}`,
 								lastCharged !== undefined && sql.unsafe`last_charged = NOW()`,
 								incrementRequestTokens !== undefined &&
-									sql.unsafe`request_tokens = request_tokens + ${incrementRequestTokens}`,
+									sql.unsafe`prompt_tokens = prompt_tokens + ${incrementRequestTokens}`,
 								incrementResponseTokens !== undefined &&
-									sql.unsafe`response_tokens = response_tokens + ${incrementResponseTokens}`,
+									sql.unsafe`completion_tokens = completion_tokens + ${incrementResponseTokens}`,
 								incrementPurchasedAmount !== undefined &&
 									sql.unsafe`purchased_amount = purchased_amount + ${incrementPurchasedAmount}`
 							].filter(Boolean) as ReturnType<typeof sql.unsafe>[],

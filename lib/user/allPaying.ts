@@ -23,8 +23,8 @@ const allPayingUsersWithConnection = async (
 					   payment_method AS "paymentMethod",
 					   photo, name, email,
 					   last_charged AS "lastCharged",
-					   request_tokens AS "requestTokens",
-					   response_tokens AS "responseTokens",
+					   prompt_tokens AS "requestTokens",
+					   completion_tokens AS "responseTokens",
 					   purchased_amount AS "purchasedAmount",
 					   created, updated
 				   FROM users

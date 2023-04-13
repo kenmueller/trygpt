@@ -3,8 +3,8 @@ import { redirect } from 'next/navigation'
 import pageMetadata from '@/lib/metadata/page'
 import userFromRequest from '@/lib/user/fromRequest'
 import {
-	COST_PER_1000_REQUEST_TOKENS,
-	COST_PER_1000_RESPONSE_TOKENS
+	COST_PER_1000_PROMPT_TOKENS,
+	COST_PER_1000_COMPLETION_TOKENS
 } from '@/lib/costPerToken'
 import costThisPeriod from '@/lib/user/costThisPeriod'
 
@@ -38,8 +38,8 @@ const ProfilePage = async () => {
 			<h3>How we calculate price</h3>
 			<p>
 				1,000 tokens is about 750 words. We charge $
-				{COST_PER_1000_REQUEST_TOKENS / 100} for 1,000 prompt tokens and $
-				{COST_PER_1000_RESPONSE_TOKENS / 100} for 1,000 response tokens.
+				{COST_PER_1000_PROMPT_TOKENS / 100} for 1,000 prompt tokens and $
+				{COST_PER_1000_COMPLETION_TOKENS / 100} for 1,000 response tokens.
 			</p>
 			<p>
 				We also charge an extra $0.30 per month with a minimum of $0.50 per
