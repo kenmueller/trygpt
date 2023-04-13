@@ -28,8 +28,6 @@ export const POST = async (request: NextRequest) => {
 			process.env.STRIPE_WEBHOOK_SECRET!
 		)
 
-		console.log(JSON.stringify(event, null, 2))
-
 		switch (event.type) {
 			case 'payment_intent.succeeded':
 				const user = await userFromStripeEvent(event)
