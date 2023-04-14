@@ -10,8 +10,12 @@ const LandingPageNav = () => (
 			TryGPT
 		</Link>
 		<div className={styles.links}>
-			<a href="#features">Features</a>
-			<a href="#pricing">Pricing</a>
+			<a className={styles.link} href="#features">
+				Features
+			</a>
+			<a className={styles.link} href="#pricing">
+				Pricing
+			</a>
 		</div>
 		<SignInButton className={styles.signIn} iconClassName={styles.signInIcon} />
 	</nav>

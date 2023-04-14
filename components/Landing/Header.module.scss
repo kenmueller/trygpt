@@ -31,6 +31,7 @@
 	width: 100%;
 	height: auto;
 	margin-top: 2rem;
+	background: theme.$dark;
 	border-radius: 1rem;
 	box-shadow: 0 0 10px 5px rgba(theme.$black, 0.1);
 }
@@ -44,10 +45,10 @@
 	font-weight: 700;
 	background: rgba(theme.$white, 0.1);
 	border-radius: 100px;
-	transition: opacity 0.3s;
+	transition: background 0.3s;
 
 	&:hover {
-		opacity: 0.7;
+		background: rgba(theme.$white, 0.15);
 	}
 }
 

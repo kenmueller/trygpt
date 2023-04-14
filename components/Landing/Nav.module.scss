@@ -11,6 +11,15 @@
 	padding: 1rem 0;
 }
 
+.home,
+.link {
+	transition: opacity 0.3s;
+
+	&:hover {
+		opacity: 0.7;
+	}
+}
+
 .home {
 	font-size: 1.5rem;
 	font-weight: 700;
@@ -29,10 +38,10 @@
 	font-weight: 700;
 	background: rgba(theme.$white, 0.1);
 	border-radius: 100px;
-	transition: opacity 0.3s;
+	transition: background 0.3s;
 
 	&:hover {
-		opacity: 0.7;
+		background: rgba(theme.$white, 0.15);
 	}
 }
 
