@@ -1,0 +1,57 @@
+@use 'theme';
+@use 'landing';
+
+.root {
+	display: grid;
+	grid:
+		'info image' auto /
+		1fr 1fr;
+	align-items: center;
+	gap: 2rem;
+	max-width: landing.$max-width * 1.8;
+	width: landing.$width;
+	margin: 0 auto;
+
+	&:nth-of-type(even) {
+		grid:
+			'image info' auto /
+			1fr 1fr;
+	}
+
+	& + & {
+		margin-top: 2rem;
+	}
+}
+
+.info {
+	grid-area: info;
+}
+
+.title {
+	font-size: 2rem;
+	line-height: 1.4;
+
+	strong {
+		font-weight: inherit;
+		color: #24e098;
+	}
+
+	br {
+		content: '';
+		display: block;
+		margin-top: 1rem;
+	}
+}
+
+.description {
+	margin-top: 2rem;
+	font-size: 1.3rem;
+}
+
+.image {
+	grid-area: image;
+	width: 100%;
+	height: auto;
+	border-radius: 1rem;
+	box-shadow: 0 0 10px 5px rgba(theme.$black, 0.1);
+}
