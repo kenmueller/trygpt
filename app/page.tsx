@@ -5,6 +5,7 @@ import pageMetadata from '@/lib/metadata/page'
 import Nav from '@/components/Landing/Nav'
 import Header from '@/components/Landing/Header'
 import Sections from '@/components/Landing/Sections'
+import Footer from '@/components/Landing/Footer'
 
 import styles from './page.module.scss'
 
@@ -34,6 +35,7 @@ const LandingPage = async ({
 				<Header />
 			</div>
 			<Sections />
+			<Footer />
 		</>
 	)
 }
