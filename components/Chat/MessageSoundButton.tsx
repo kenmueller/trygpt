@@ -1,12 +1,12 @@
 'use client'
 
 import { useCallback, useState } from 'react'
-
-import ChatMessage from '@/lib/chat/message'
-import alertError from '@/lib/error/alert'
 import cx from 'classnames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faVolumeHigh } from '@fortawesome/free-solid-svg-icons'
+
+import ChatMessage from '@/lib/chat/message'
+import alertError from '@/lib/error/alert'
 
 import styles from './MessageSoundButton.module.scss'
 
