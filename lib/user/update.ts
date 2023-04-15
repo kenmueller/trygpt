@@ -12,6 +12,26 @@ export interface UpdateUserData {
 	purchasedTokens?: number
 }
 
+export const updateUserSubscription = async (
+	id: string, 
+	subscriptionId: string,
+	subscriptionStatus: string,
+	connection?: DatabasePoolConnection
+) => {
+
+	const updateSubscription = async (connection: DatabasePoolConnection) => {
+		await connection.query(
+		sql.unsafe`UPDATE users
+				   SET subscription_id = ${subscriptionId}, subscription_status = ${subscriptionStatus} where id = ${id}`
+		)
+	}
+
+	await (connection
+		? updateSubscription(connection)
+		: connect(connection => updateSubscription(connection)))
+	
+}
+
 const updateUser = async (
 	id: string,
 	data: UpdateUserData,

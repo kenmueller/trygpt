@@ -25,6 +25,8 @@ const userFromCustomerIdWithConnection = async (
 					   customer_id AS "customerId",
 					   photo, name, email, tokens,
 					   purchased_tokens AS "purchasedTokens",
+					   subscription_id AS "subscriptionId",
+					   subscription_status AS "subscriptionStatus",
 					   created, updated
 				   FROM users
 				   WHERE customer_id = ${customerId}`

@@ -13,10 +13,11 @@ interface SubscriptionItemUsageRecord {
 }
 
 async function updateTokenUsageRecord(
+	subscriptionId: string,
 	usageRecord: SubscriptionItemUsageRecord
 ) {
 	await stripe.subscriptionItems.createUsageRecord(
-		"si_NgZkqvUyOYzXID",
+		subscriptionId,
 		usageRecord
 	)
 }
@@ -24,7 +25,7 @@ async function updateTokenUsageRecord(
 const updateUsage = async (user: User, incrementTokens: number) => {
 
 		if(user.purchasedTokens == 0){
-			await updateTokenUsageRecord({
+			await updateTokenUsageRecord(user.subscriptionId,{
 				quantity: incrementTokens,
 				timestamp: Math.floor(Date.now() / 1000),
 				action: 'increment',
@@ -37,7 +38,7 @@ const updateUsage = async (user: User, incrementTokens: number) => {
 				await updateUser(user.id, { purchasedTokens: dif })
 			}else{
 				const overUse = -dif;
-				await updateTokenUsageRecord({
+				await updateTokenUsageRecord(user.subscriptionId,{
 					quantity: overUse,
 					timestamp: Math.floor(Date.now() / 1000),
 					action: 'increment'

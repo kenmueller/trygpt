@@ -20,6 +20,7 @@ export const POST = async (_request: NextRequest) => {
 		if (!user) throw new HttpError(ErrorCode.Unauthorized, 'Unauthorized')
 
 		const { url } = await stripe.checkout.sessions.create({
+			payment_method_types: ['card'],
 			line_items: [
 				{
 					price: process.env.STRIPE_INITIAL_TOKENS_PRICE_ID!,
@@ -27,6 +28,9 @@ export const POST = async (_request: NextRequest) => {
 					adjustable_quantity: { enabled: false }
 				}
 			],
+			payment_intent_data: {
+				setup_future_usage: 'off_session'
+			},
 			customer: user.customerId,
 			mode: 'payment',
 			success_url: `${process.env.NEXT_PUBLIC_ORIGIN!}/chats/new`,

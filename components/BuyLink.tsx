@@ -12,7 +12,7 @@ const BuyLink = ({ className }: { className?: string }) => {
 		try {
 			setIsLoading(true)
 
-			const response = await fetch('/api/stripe/checkout/sessions', {
+			const response = await fetch('/api/stripe/subscriptions', {
 				method: 'POST'
 			})
 			if (!response.ok) throw await errorFromResponse(response)

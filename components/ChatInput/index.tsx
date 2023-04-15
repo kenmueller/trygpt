@@ -15,7 +15,7 @@ import ErrorCode from '@/lib/error/code'
 import ChatsContext from '@/lib/context/chats'
 import Chat from '@/lib/chat'
 import useNewEffect from '@/lib/useNewEffect'
-import User from '@/lib/user'
+import User, { SubscriptionStatus } from '@/lib/user'
 import trimQuotes from '@/lib/trimQuotes'
 
 const ChatInput = ({ user, chat }: { user: User | null; chat: Chat }) => {
@@ -192,8 +192,8 @@ const ChatInput = ({ user, chat }: { user: User | null; chat: Chat }) => {
 					? 'Not signed in'
 					: !isOwner
 					? 'You do not own this chat'
-					: !user.purchasedTokens
-					? 'You have no tokens'
+					: user.subscriptionStatus != SubscriptionStatus.VALID 
+					? 'There is an issue with your subscription'
 					: undefined
 			}
 			prompt={prompt}

@@ -6,6 +6,7 @@ import BuyLink from '@/components/BuyLink'
 import NewChatInput from '@/components/ChatInput/New'
 
 import styles from './page.module.scss'
+import { SubscriptionStatus } from '@/lib/user'
 
 export const dynamic = 'force-dynamic'
 
@@ -26,7 +27,8 @@ const NewChatPage = async () => {
 				<div className={styles.mainInner}>
 					<h1>New Chat</h1>
 					<p className={styles.model}>GPT 4</p>
-					{!user.purchasedTokens && <BuyLink className={styles.buy} />}
+					{user.subscriptionId == null && <BuyLink className={styles.buy} />}
+					{user.subscriptionStatus == SubscriptionStatus.INVALID && <p>There was some error with your subscription</p>}
 				</div>
 			</div>
 			<NewChatInput user={user} />

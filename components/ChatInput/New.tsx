@@ -9,7 +9,7 @@ import ChatsContext from '@/lib/context/chats'
 import InitialPromptContext from '@/lib/context/initialPrompt'
 import BaseChatInput from './Base'
 import Chat from '@/lib/chat'
-import User from '@/lib/user'
+import User, { SubscriptionStatus } from '@/lib/user'
 
 const NewChatInput = ({ user }: { user: User }) => {
 	const router = useRouter()
@@ -56,8 +56,8 @@ const NewChatInput = ({ user }: { user: User }) => {
 	return (
 		<BaseChatInput
 			disabledMessage={
-				!user.purchasedTokens
-					? 'You need to purchase tokens to create a new chat'
+				user.subscriptionStatus != SubscriptionStatus.VALID
+					? 'There was an issue with you subscription'
 					: undefined
 			}
 			prompt={prompt}

@@ -15,6 +15,7 @@ import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
 import updateUser from '@/lib/user/update'
 import getTokens from '@/lib/getTokens'
 import updateUsage from '@/lib/user/updateUsage'
+import { SubscriptionStatus } from '@/lib/user'
 
 export const dynamic = 'force-dynamic'
 
@@ -37,8 +38,8 @@ export const POST = async (
 		const user = await userFromRequest()
 		if (!user) throw new HttpError(ErrorCode.Unauthorized, 'Unauthorized')
 
-		if (!user.purchasedTokens)
-			throw new HttpError(ErrorCode.Forbidden, 'You have no tokens')
+		if (user.subscriptionStatus != SubscriptionStatus.VALID)
+			throw new HttpError(ErrorCode.Forbidden, 'There is an issue with your subscription')
 
 		if (!(await isChatOwnedByUser(chatId, user.id)))
 			throw new HttpError(ErrorCode.Forbidden, 'You do not own this chat')

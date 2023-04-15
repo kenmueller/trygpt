@@ -4,6 +4,9 @@ export default interface User {
 	/** Stripe customer ID. */
 	customerId: string
 
+	subscriptionId: string
+	subscriptionStatus: string
+
 	/** Photo URL. */
 	photo: string | null
 
@@ -18,4 +21,10 @@ export default interface User {
 
 	/** Milliseconds since epoch. */
 	updated: number
+}
+
+
+export const SubscriptionStatus = {
+	VALID: "VALID",
+	INVALID: "INVALID"
 }

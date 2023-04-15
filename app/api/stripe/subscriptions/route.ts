@@ -14,18 +14,17 @@ export const POST = async () => {
 		const user = await userFromRequest()
 		if (!user) throw new HttpError(ErrorCode.Unauthorized, 'Unauthorized')
 
-		// TODO handle success_url and cancel_url
-		const { url } = await stripe.checkout.sessions.create({
-			customer: user.customerId,
-			mode: 'subscription',
-			success_url: '',
-			cancel_url: '',
+	
+		const {url} = await stripe.checkout.sessions.create({
+			payment_method_types: ['card'],
 			line_items: [
 				{
-					price: process.env.STRIPE_TOKENS_PRICE_ID!
+					price: user.subscriptionId
 				}
-			]
-		})
+			],
+			success_url: `${process.env.NEXT_PUBLIC_ORIGIN!}/chats/new`, // Replace with your success URL
+			cancel_url: `${process.env.NEXT_PUBLIC_ORIGIN!}/chats/new`, // Replace with your cancel URL
+		  });
 
 		return new NextResponse(url)
 	} catch (unknownError) {
