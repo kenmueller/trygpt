@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 
 import userFromRequest from '@/lib/user/fromRequest'
 import Sidebar from '@/components/Sidebar'
-import InitialPromptProvider from '@/components/Provider/InitialPrompt'
+import InitialMessagesProvider from '@/components/Provider/InitialMessages'
 import ChatsProvider from '@/components/Provider/Chats'
 
 import styles from './layout.module.scss'
@@ -12,12 +12,12 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
 
 	return (
 		<ChatsProvider>
-			<InitialPromptProvider>
+			<InitialMessagesProvider>
 				<div className={styles.root}>
 					<Sidebar user={user} />
 					{children}
 				</div>
-			</InitialPromptProvider>
+			</InitialMessagesProvider>
 		</ChatsProvider>
 	)
 }

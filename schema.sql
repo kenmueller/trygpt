@@ -63,6 +63,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS chats (
 	user_id USER_ID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
 	id CHAT_ID NOT NULL PRIMARY KEY,
+	original_id CHAT_ID REFERENCES chats(id),
 	name CHAT_NAME, -- NULL initially. Immediately generate chat name from initial prompt.
 	created TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 	updated TIMESTAMPTZ NOT NULL DEFAULT NOW()

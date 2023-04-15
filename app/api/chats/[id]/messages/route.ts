@@ -4,7 +4,7 @@ import errorFromUnknown from '@/lib/error/fromUnknown'
 import userFromRequest from '@/lib/user/fromRequest'
 import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
-import createChatMessage, {
+import createChatMessages, {
 	CreateChatMessageData
 } from '@/lib/chat/message/create'
 import isChatOwnedByUser from '@/lib/chat/isOwnedByUser'
@@ -33,6 +33,9 @@ export const POST = async (
 	try {
 		const chatId = decodeURIComponent(encodedChatId)
 
+		if (request.headers.get('content-type') !== 'application/json')
+			throw new HttpError(ErrorCode.BadRequest, 'Invalid content type')
+
 		const user = await userFromRequest()
 		if (!user) throw new HttpError(ErrorCode.Unauthorized, 'Unauthorized')
 
@@ -42,19 +45,34 @@ export const POST = async (
 		if (!(await isChatOwnedByUser(chatId, user.id)))
 			throw new HttpError(ErrorCode.Forbidden, 'You do not own this chat')
 
-		const text = (await request.text()).trim()
-		if (!text) throw new HttpError(ErrorCode.BadRequest, 'No text')
+		const inputMessages: ChatCompletionMessage[] = await request.json()
+		if (
+			!(
+				Array.isArray(inputMessages) &&
+				inputMessages.every(
+					message =>
+						typeof message === 'object' &&
+						message &&
+						['user', 'assistant'].includes(message.role) &&
+						typeof message.text === 'string' &&
+						message.text
+				)
+			)
+		)
+			throw new HttpError(ErrorCode.BadRequest, 'Invalid messages')
 
 		const previousMessages = await chatMessagesFromChatId(chatId)
-		const userMessage: CreateChatMessageData = { chatId, role: 'user', text }
+		const newMessages: CreateChatMessageData[] = inputMessages.map(
+			({ role, text }) => ({ chatId, role, text })
+		)
 
 		const requestMessages = [
 			...systemMessages,
 			...previousMessages,
-			userMessage
+			...newMessages
 		]
 
-		await createChatMessage(userMessage)
+		await createChatMessages(newMessages)
 
 		const chatCompletion = createChatCompletion(requestMessages)
 
@@ -78,7 +96,7 @@ export const POST = async (
 						text: responseText
 					}
 
-					await createChatMessage(responseMessage)
+					await createChatMessages([responseMessage])
 
 					await updateUser(user.id, {
 						incrementRequestTokens: getTokens(requestMessages),

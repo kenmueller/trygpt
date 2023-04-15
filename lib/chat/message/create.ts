@@ -11,29 +11,31 @@ export type CreateChatMessageData = Pick<
 	'chatId' | 'role' | 'text'
 >
 
-const createChatMessage = (
-	message: CreateChatMessageData,
+const createChatMessages = (
+	messages: CreateChatMessageData[],
 	connection?: DatabasePoolConnection
 ) =>
 	connection
-		? createChatMessageWithConnection(message, connection)
+		? createChatMessagesWithConnection(messages, connection)
 		: connect(connection =>
-				createChatMessageWithConnection(message, connection)
+				createChatMessagesWithConnection(messages, connection)
 		  )
 
-const createChatMessageWithConnection = async (
-	{ chatId, role, text }: CreateChatMessageData,
+const createChatMessagesWithConnection = async (
+	messages: CreateChatMessageData[],
 	connection: DatabasePoolConnection
 ) => {
-	const id = nanoid()
-
 	await connection.query(
 		sql.unsafe`INSERT INTO
 				   chat_messages (chat_id, id, role, text)
-				   VALUES (${chatId}, ${id}, ${role}, ${text})`
+				   VALUES ${sql.join(
+							messages.map(
+								({ chatId, role, text }) =>
+									sql.unsafe`(${chatId}, ${nanoid()}, ${role}, ${text})`
+							),
+							sql.fragment`, `
+						)}`
 	)
-
-	return id
 }
 
-export default createChatMessage
+export default createChatMessages

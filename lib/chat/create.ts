@@ -6,21 +6,31 @@ import { nanoid } from 'nanoid'
 import User from '@/lib/user'
 import { connect } from '@/lib/pool'
 
-const createChat = (user: User, connection?: DatabasePoolConnection) =>
+export interface CreateChatData {
+	original: string | null
+	name: string | null
+}
+
+const createChat = (
+	user: User,
+	data: CreateChatData,
+	connection?: DatabasePoolConnection
+) =>
 	connection
-		? createChatWithConnection(user, connection)
-		: connect(connection => createChatWithConnection(user, connection))
+		? createChatWithConnection(user, data, connection)
+		: connect(connection => createChatWithConnection(user, data, connection))
 
 const createChatWithConnection = async (
 	user: User,
+	data: CreateChatData,
 	connection: DatabasePoolConnection
 ) => {
 	const id = nanoid()
 
 	await connection.query(
 		sql.unsafe`INSERT INTO
-				   chats (user_id, id)
-				   VALUES (${user.id}, ${id})`
+				   chats (user_id, id, original_id, name)
+				   VALUES (${user.id}, ${id}, ${data.original}, ${data.name})`
 	)
 
 	return id
