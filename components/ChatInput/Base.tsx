@@ -86,7 +86,9 @@ const BaseChatInput = ({
 					ref={textArea}
 					className={styles.textArea}
 					value={prompt}
-					placeholder={disabledMessage ?? 'Type a message...'}
+					placeholder={
+						disabledMessage ?? (isLoading ? 'Typing...' : 'Type a message...')
+					}
 					disabled={isDisabled || isLoading}
 					onChange={onChange}
 				/>
