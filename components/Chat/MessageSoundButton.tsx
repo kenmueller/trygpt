@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
 import ChatMessage from '@/lib/chat/message'
 import alertError from '@/lib/error/alert'
@@ -17,18 +17,31 @@ const ChatMessageSoundButton = ({
 	className?: string
 	message: ChatMessage
 }) => {
+	const [isPlaying, setIsPlaying] = useState(false)
+
 	const playSound = useCallback(() => {
 		if (!('speechSynthesis' in window))
 			return alertError(
 				new Error('Text-to-speech is not supported in your browser')
 			)
 
+		setIsPlaying(true)
+
 		const utterance = new SpeechSynthesisUtterance(message.text)
+
+		utterance.addEventListener('end', () => {
+			setIsPlaying(false)
+		})
+
 		speechSynthesis.speak(utterance)
-	}, [message])
+	}, [message, setIsPlaying])
 
 	return (
-		<button className={cx(styles.root, className)} onClick={playSound}>
+		<button
+			className={cx(styles.root, className)}
+			disabled={isPlaying}
+			onClick={playSound}
+		>
 			<FontAwesomeIcon icon={faVolumeHigh} />
 		</button>
 	)
