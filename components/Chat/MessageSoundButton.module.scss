@@ -1,0 +1,8 @@
+.root {
+	font-size: 1.2rem;
+	transition: opacity 0.3s;
+
+	&:hover {
+		opacity: 0.7;
+	}
+}

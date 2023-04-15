@@ -1,5 +1,6 @@
 export default interface Chat {
 	userId: string
+
 	id: string
 	name: string | null
 
@@ -8,4 +9,9 @@ export default interface Chat {
 
 	/** Milliseconds since epoch. */
 	updated: number
+}
+
+export interface ChatWithUserData extends Chat {
+	userPhoto: string | null
+	userName: string
 }

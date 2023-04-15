@@ -3,12 +3,15 @@
 import { useContext, useEffect } from 'react'
 
 import ChatMessage from '@/lib/chat/message'
-import MessageText from './MessageText'
+import Message from './Message'
 import ChatMessagesContext from '@/lib/context/chatMessages'
+import { ChatWithUserData } from '@/lib/chat'
 
 const ChatMessagesResolved = ({
+	chat,
 	initialValue
 }: {
+	chat: ChatWithUserData
 	initialValue: ChatMessage[]
 }) => {
 	const [_messages, setMessages] = useContext(ChatMessagesContext)
@@ -21,7 +24,7 @@ const ChatMessagesResolved = ({
 	return (
 		<>
 			{messages.map(message => (
-				<MessageText key={message.id} message={message} />
+				<Message key={message.id} chat={chat} message={message} />
 			))}
 		</>
 	)

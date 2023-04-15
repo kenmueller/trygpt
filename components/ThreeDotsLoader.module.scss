@@ -1,0 +1,63 @@
+@use 'sass:math';
+@use 'theme';
+
+$color: theme.$white;
+$size: 10px;
+$gap: 5px;
+
+.root {
+	width: $size * 3 + $gap * 2;
+}
+
+.dot {
+	position: relative;
+	width: $size;
+	height: $size;
+	border-radius: math.div($size, 2);
+	margin-left: $size + $gap;
+	background-color: $color;
+	color: $color;
+	animation: dot-flashing 1s infinite linear alternate;
+	animation-delay: 0.5s;
+
+	&::before,
+	&::after {
+		content: '';
+		display: inline-block;
+		position: absolute;
+		top: 0;
+	}
+
+	&::before {
+		left: -($size + $gap);
+		width: $size;
+		height: $size;
+		border-radius: math.div($size, 2);
+		background-color: $color;
+		color: $color;
+		animation: dot-flashing 1s infinite alternate;
+		animation-delay: 0s;
+	}
+
+	&::after {
+		left: $size + $gap;
+		width: $size;
+		height: $size;
+		border-radius: math.div($size, 2);
+		background-color: $color;
+		color: $color;
+		animation: dot-flashing 1s infinite alternate;
+		animation-delay: 1s;
+	}
+}
+
+@keyframes dot-flashing {
+	0% {
+		background-color: $color;
+	}
+
+	50%,
+	100% {
+		background-color: rgba($color, 0.2);
+	}
+}

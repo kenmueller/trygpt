@@ -1,10 +1,10 @@
 import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
 import MessagesResolved from './MessagesResolved'
-import Chat from '@/lib/chat'
+import { ChatWithUserData } from '@/lib/chat'
 
-const ChatMessages = async ({ chat }: { chat: Chat }) => {
+const ChatMessages = async ({ chat }: { chat: ChatWithUserData }) => {
 	const messages = await chatMessagesFromChatId(chat.id)
-	return <MessagesResolved initialValue={messages} />
+	return <MessagesResolved chat={chat} initialValue={messages} />
 }
 
 export default ChatMessages

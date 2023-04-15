@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 import User from '@/lib/user'
-import defaultUser from '@/assets/user.png'
+import defaultUserImage from '@/assets/user.png'
 
 import styles from './ProfileLink.module.scss'
 
@@ -20,7 +20,7 @@ const SidebarProfileLink = ({ user }: { user: User }) => {
 		>
 			<Image
 				className={styles.image}
-				src={user.photo ?? defaultUser}
+				src={user.photo ?? defaultUserImage}
 				alt={user.name}
 				referrerPolicy={user.photo ? 'no-referrer' : undefined}
 				width={50}

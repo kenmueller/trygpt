@@ -55,7 +55,7 @@ const NewChatInput = ({ user }: { user: User }) => {
 				alertError(unknownError)
 			}
 		},
-		[user.id, router, setChats, setInitialMessages, setPrompt, setIsLoading]
+		[user, router, setChats, setInitialMessages, setPrompt, setIsLoading]
 	)
 
 	return (

@@ -10,6 +10,7 @@ import ChatMessagesContainer from '@/components/Chat/MessagesContainer'
 
 import styles from './page.module.scss'
 import { notFound } from 'next/navigation'
+import userFromId from '@/lib/user/fromId'
 
 export const dynamic = 'force-dynamic'
 
