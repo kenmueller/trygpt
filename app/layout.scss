@@ -1,11 +1,5 @@
 @use 'theme';
 
-@font-face {
-	font-family: SFMono-Regular;
-	font-display: swap;
-	src: url('../assets/SFMono-Regular.otf') format('opentype');
-}
-
 *,
 ::before,
 ::after {
@@ -62,6 +56,5 @@ pre {
 }
 
 code {
-	font-family: SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier,
-		monospace;
+	font-family: var(--font-sf-mono);
 }
