@@ -38,11 +38,14 @@ button {
 }
 
 img,
-svg,
 button,
 input,
 textarea {
 	display: block;
+}
+
+svg {
+	display: block !important;
 }
 
 button,

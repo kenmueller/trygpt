@@ -11,6 +11,7 @@ $default-height: 42px;
 .children {
 	display: flex;
 	align-items: center;
+	gap: 1rem;
 	height: $default-height;
 	margin-right: 1rem;
 }
@@ -37,7 +38,7 @@ $default-height: 42px;
 
 .submit {
 	position: absolute;
-	bottom: 11px;
+	bottom: 13px;
 	right: 16px;
 	color: theme.$blue;
 	transition: color 0.3s, opacity 0.3s;

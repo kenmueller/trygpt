@@ -8,6 +8,7 @@ import UpdateUser from '@/components/UpdateUser'
 import BASE_METADATA from '@/lib/metadata/base'
 import FontAwesomeConfig from '@/components/FontAwesomeConfig'
 
+import 'balloon-css/src/balloon.scss'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import './layout.scss'
 

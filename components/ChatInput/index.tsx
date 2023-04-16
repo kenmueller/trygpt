@@ -18,6 +18,8 @@ import Chat from '@/lib/chat'
 import useNewEffect from '@/lib/useNewEffect'
 import User from '@/lib/user'
 import trimQuotes from '@/lib/trimQuotes'
+import SpeechButton from './SpeechButton'
+import ScreenshotButton from './ScreenshotButton'
 
 const ChatInput = ({ user, chat }: { user: User | null; chat: Chat }) => {
 	const router = useRouter()
@@ -259,7 +261,10 @@ const ChatInput = ({ user, chat }: { user: User | null; chat: Chat }) => {
 			setPrompt={setPrompt}
 			isLoading={isLoading}
 			onSubmit={onSubmitPrompt}
-		/>
+		>
+			<SpeechButton disabled={isLoading} submit={onSubmitPrompt} />
+			<ScreenshotButton />
+		</BaseChatInput>
 	)
 }
 

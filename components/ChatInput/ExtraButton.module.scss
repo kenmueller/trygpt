@@ -1,0 +1,11 @@
+@use 'theme';
+
+.root {
+	font-size: 1.5rem;
+	color: theme.$blue;
+	transition: opacity 0.3s;
+
+	&:hover {
+		opacity: 0.7;
+	}
+}
