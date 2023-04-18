@@ -37,9 +37,9 @@ const ChatMessage = ({
 			height={50}
 		/>
 		<Markdown text={message.text} />
-		{message.role === 'assistant' && (
+		{/* {message.role === 'assistant' && (
 			<SoundButton className={styles.sound} message={message} />
-		)}
+		)} */}
 		{message.loading && <ThreeDotsLoader className={styles.loader} />}
 	</article>
 )

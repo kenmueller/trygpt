@@ -262,8 +262,8 @@ const ChatInput = ({ user, chat }: { user: User | null; chat: Chat }) => {
 			isLoading={isLoading}
 			onSubmit={onSubmitPrompt}
 		>
-			<SpeechButton disabled={isLoading} submit={onSubmitPrompt} />
-			<ScreenshotButton chatName={chatName} />
+			{/* <SpeechButton disabled={isLoading} submit={onSubmitPrompt} />
+			<ScreenshotButton chatName={chatName} /> */}
 		</BaseChatInput>
 	)
 }
