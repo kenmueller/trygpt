@@ -1,7 +1,8 @@
 'use client'
 
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import cx from 'classnames'
+import Artyom from 'artyom.js'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faVolumeHigh } from '@fortawesome/free-solid-svg-icons'
 
@@ -17,6 +18,8 @@ const ChatMessageSoundButton = ({
 	className?: string
 	message: ChatMessage
 }) => {
+	const artyom = useRef(null)
+
 	const [isPlaying, setIsPlaying] = useState(false)
 
 	const playSound = useCallback(() => {
@@ -27,14 +30,26 @@ const ChatMessageSoundButton = ({
 
 		setIsPlaying(true)
 
-		const utterance = new SpeechSynthesisUtterance(message.text)
+		// const utterance = new SpeechSynthesisUtterance(message.text)
 
-		utterance.addEventListener('end', () => {
-			setIsPlaying(false)
-		})
+		// utterance.addEventListener('end', () => {
+		// 	setIsPlaying(false)
+		// })
 
-		speechSynthesis.speak(utterance)
+		// speechSynthesis.speak(utterance)
 	}, [message, setIsPlaying])
+
+	const previousText = useRef<string | null>(null)
+
+	useEffect(() => {
+		// artyom.current ??= new Artyom()
+		// const newText = previousText.current
+		// 	? message.text.replace(previousText.current, '')
+		// 	: message.text
+		// console.log(newText)
+		// previousText.current = message.text
+		// artyom.current.say(newText)
+	}, [message.text, previousText])
 
 	return (
 		<button
