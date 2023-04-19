@@ -11,6 +11,8 @@ import costThisPeriod from '@/lib/user/costThisPeriod'
 import styles from './page.module.scss'
 import formatDate from '@/lib/date/format'
 import nextMonth from '@/lib/date/nextMonth'
+import formatCents from '@/lib/cents/format'
+import Refresh from '@/components/Refresh'
 
 export const dynamic = 'force-dynamic'
 
@@ -31,15 +33,16 @@ const ProfilePage = async () => {
 			<p>Name: {user.name}</p>
 			<p>Email: {user.email}</p>
 			<h2>Usage this period</h2>
-			<p>Cost: ${costThisPeriod(user) / 100}</p>
+			<p>Cost: {formatCents(costThisPeriod(user))}</p>
 			{user.lastCharged && (
 				<p>Charged on {formatDate(nextMonth(user.lastCharged))}</p>
 			)}
 			<h3>How we calculate price</h3>
 			<p>
-				1,000 tokens is about 750 words. We charge $
-				{COST_PER_1000_PROMPT_TOKENS / 100} for 1,000 prompt tokens and $
-				{COST_PER_1000_COMPLETION_TOKENS / 100} for 1,000 response tokens.
+				1,000 tokens is about 750 words. We charge{' '}
+				{formatCents(COST_PER_1000_PROMPT_TOKENS)} for 1,000 prompt tokens and{' '}
+				{formatCents(COST_PER_1000_COMPLETION_TOKENS)} for 1,000 response
+				tokens.
 			</p>
 			<p>
 				We also charge an extra $0.30 per month with a minimum of $0.50 per
@@ -50,6 +53,7 @@ const ProfilePage = async () => {
 				Start a new chat whenever possible. Every message in the chat is passed
 				back to ChatGPT as part of the prompt.
 			</p>
+			<Refresh />
 		</main>
 	)
 }

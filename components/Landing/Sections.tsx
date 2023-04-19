@@ -3,6 +3,7 @@ import {
 	COST_PER_1000_COMPLETION_TOKENS,
 	COST_PER_1000_PROMPT_TOKENS
 } from '@/lib/costPerToken'
+import formatCents from '@/lib/cents/format'
 import startImage from '@/assets/chat.png'
 import pricingImage from '@/assets/chat.png'
 import shareImage from '@/assets/chat.png'
@@ -43,9 +44,9 @@ const LandingPageSections = () => (
 			description={
 				<>
 					TryGPT is <strong>much</strong> cheaper than normal ChatGPT 4. We
-					charge ${COST_PER_1000_PROMPT_TOKENS / 100} for 1,000 prompt tokens
-					(~750 words) and ${COST_PER_1000_COMPLETION_TOKENS / 100} for 1,000
-					response tokens (~750 words).
+					charge {formatCents(COST_PER_1000_PROMPT_TOKENS)} for 1,000 prompt
+					tokens (~750 words) and {formatCents(COST_PER_1000_COMPLETION_TOKENS)}{' '}
+					for 1,000 response tokens (~750 words).
 				</>
 			}
 			image={pricingImage}
