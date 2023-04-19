@@ -4,18 +4,39 @@
 .root {
 	display: grid;
 	grid:
-		'info image' auto /
-		1fr 1fr;
+		'info' auto
+		'image' auto /
+		1fr;
 	align-items: center;
 	gap: 2rem;
 	max-width: landing.$max-width * 1.8;
 	width: landing.$width;
 	margin: 0 auto;
 
-	&:nth-of-type(even) {
+	@media (min-width: 1000px) {
 		grid:
-			'image info' auto /
+			'info image' auto /
+			1fr 1.5fr;
+	}
+
+	@media (min-width: 1750px) {
+		grid:
+			'info image' auto /
 			1fr 1fr;
+	}
+
+	&:nth-of-type(even) {
+		@media (min-width: 1000px) {
+			grid:
+				'image info' auto /
+				1.5fr 1fr;
+		}
+
+		@media (min-width: 1750px) {
+			grid:
+				'image info' auto /
+				1fr 1fr;
+		}
 	}
 
 	& + & {
@@ -28,8 +49,12 @@
 }
 
 .title {
-	font-size: 2rem;
+	font-size: 1.5rem;
 	line-height: 1.4;
+
+	@media (min-width: 1500px) {
+		font-size: 2rem;
+	}
 
 	strong {
 		font-weight: inherit;
@@ -45,7 +70,11 @@
 
 .description {
 	margin-top: 2rem;
-	font-size: 1.3rem;
+	font-size: 1rem;
+
+	@media (min-width: 1500px) {
+		font-size: 1.3rem;
+	}
 }
 
 .image {

@@ -28,7 +28,15 @@
 .links {
 	display: flex;
 	align-items: center;
-	gap: 2rem;
+	gap: 0.5rem;
+
+	@media (min-width: 380px) {
+		gap: 1rem;
+	}
+
+	@media (min-width: 430px) {
+		gap: 2rem;
+	}
 }
 
 .signIn {
