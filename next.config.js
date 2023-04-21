@@ -3,6 +3,7 @@ const { IgnorePlugin } = require('webpack')
 
 /** @type {import('next').NextConfig} */
 const config = {
+	reactStrictMode: true,
 	experimental: {
 		appDir: true
 	},
