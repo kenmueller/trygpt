@@ -1,17 +1,20 @@
 'use client'
 
+import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { useRecoilValue } from 'recoil'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMessage } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import Chat from '@/lib/chat'
-import chatState from '@/lib/atoms/chat'
+
+const PATHNAME_MATCH = /^\/chats\/(.+)$/
 
 const SidebarChatLink = ({ chat }: { chat: Chat }) => {
-	const currentChat = useRecoilValue(chatState)
-	const active = chat.id === currentChat?.id
+	const pathname = usePathname()
+	const currentChatId = pathname.match(PATHNAME_MATCH)?.[1] ?? null
+
+	const active = chat.id === currentChatId
 
 	return (
 		<Link
