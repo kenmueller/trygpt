@@ -2,7 +2,7 @@
 
 import { useSetRecoilState } from 'recoil'
 
-import useOnMount from '@/lib/useOnMount'
+import useImmediateEffect from '@/lib/useImmediateEffect'
 import { ChatWithUserData } from '@/lib/chat'
 import ChatMessage from '@/lib/chat/message'
 import chatState from '@/lib/atoms/chat'
@@ -18,10 +18,10 @@ const SetChatPageState = ({
 	const setChat = useSetRecoilState(chatState)
 	const setChatMessages = useSetRecoilState(chatMessagesState)
 
-	useOnMount(() => {
+	useImmediateEffect(() => {
 		setChat(chat)
 		messages.then(setChatMessages)
-	})
+	}, [chat, messages, setChat, setChatMessages])
 
 	return null
 }

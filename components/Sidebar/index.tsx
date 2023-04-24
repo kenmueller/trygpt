@@ -11,8 +11,8 @@ const Sidebar = ({
 }: {
 	chats: Promise<Chat[]> | null
 }) => (
-	<aside>
-		<div>
+	<aside className="grid grid-rows-[1fr_auto] w-72 bg-white bg-opacity-5">
+		<div className="py-4">
 			{chatsPromise && (
 				<>
 					<NewChatLink />

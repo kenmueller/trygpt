@@ -10,7 +10,7 @@ import User from '@/lib/user'
 import sendToken from '@/lib/user/sendToken'
 import alertError from '@/lib/error/alert'
 import errorFromUnknown from '@/lib/error/fromUnknown'
-import useOnMount from '@/lib/useOnMount'
+import useImmediateEffect from '@/lib/useImmediateEffect'
 import userState from '@/lib/atoms/user'
 
 const REFRESH_INTERVAL = 10 * 60 * 1000
@@ -21,9 +21,9 @@ const SetRootLayoutState = ({ user }: { user: User | null }) => {
 	const router = useRouter()
 	const setUser = useSetRecoilState(userState)
 
-	useOnMount(() => {
+	useImmediateEffect(() => {
 		setUser(user)
-	})
+	}, [user, setUser])
 
 	useEffect(() => {
 		onAuthStateChanged(

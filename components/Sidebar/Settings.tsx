@@ -11,7 +11,7 @@ const SidebarSettings = () => {
 	const user = useRecoilValue(userState)
 
 	return (
-		<div>
+		<div className="flex flex-col items-stretch">
 			{user && <ProfileLink />}
 			{user ? <SignOutButton /> : <SignInButton />}
 		</div>

@@ -20,11 +20,15 @@ const SidebarSignOutButton = () => {
 			setIsLoading(false)
 			alertError(errorFromUnknown(unknownError))
 		}
-	}, [])
+	}, [setIsLoading])
 
 	return (
-		<button className="" disabled={isLoading} onClick={onClick}>
-			<FontAwesomeIcon className="" icon={faSignOut} />
+		<button
+			className="flex items-center gap-4 px-4 py-2 font-bold transition-colors ease-linear hover:bg-white hover:bg-opacity-10"
+			disabled={isLoading}
+			onClick={onClick}
+		>
+			<FontAwesomeIcon className="w-[30px] text-xl" icon={faSignOut} />
 			{isLoading ? 'Loading...' : 'Sign out'}
 		</button>
 	)

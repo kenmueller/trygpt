@@ -2,16 +2,16 @@
 
 import { useSetRecoilState } from 'recoil'
 
-import useOnMount from '@/lib/useOnMount'
+import useImmediateEffect from '@/lib/useImmediateEffect'
 import chatsState from '@/lib/atoms/chats'
 import Chat from '@/lib/chat'
 
 const SetRootLayoutState = ({ chats }: { chats: Promise<Chat[]> | null }) => {
 	const setChats = useSetRecoilState(chatsState)
 
-	useOnMount(() => {
+	useImmediateEffect(() => {
 		chats?.then(setChats)
-	})
+	}, [chats, setChats])
 
 	return null
 }
