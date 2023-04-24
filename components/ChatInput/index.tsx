@@ -30,6 +30,8 @@ const ChatInput = () => {
 	const user = useRecoilValue(userState)
 	const [chat, setChat] = useRecoilState(chatState)
 
+	if (!chat) throw new Error('Chat not found')
+
 	const [initialMessages, setInitialMessages] =
 		useRecoilState(initialMessagesState)
 	const [chats, setChats] = useRecoilState(chatsState)
@@ -191,7 +193,7 @@ const ChatInput = () => {
 
 	const updateChat = useCallback(
 		(id: string, transform: (chat: Chat) => Chat) => {
-			setChat(chat => transform(chat) as ChatWithUserData)
+			setChat(chat => chat && (transform(chat) as ChatWithUserData))
 
 			setChats(
 				chats =>

@@ -7,6 +7,7 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import signIn from '@/lib/user/signIn'
 import alertError from '@/lib/error/alert'
 import errorFromUnknown from '@/lib/error/fromUnknown'
+import ThreeDotsLoader from './ThreeDotsLoader'
 
 const SignInButton = ({
 	className,
@@ -32,7 +33,7 @@ const SignInButton = ({
 	return (
 		<button className={className} disabled={isLoading} onClick={onClick}>
 			<FontAwesomeIcon className={iconClassName} icon={faGoogle} />
-			{isLoading ? 'Loading...' : 'Sign in'}
+			{isLoading ? <ThreeDotsLoader className="ml-1" /> : 'Sign in'}
 		</button>
 	)
 }

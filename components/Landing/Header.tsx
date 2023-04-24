@@ -19,7 +19,7 @@ const LandingPageHeader = () => (
 			priority
 		/>
 		<SignInButton
-			className="flex items-center mt-8 mx-auto px-5 py-3 text-2xl font-bold bg-white bg-opacity-10 rounded-full transition-colors duration-300 ease-linear hover:bg-opacity-20"
+			className="flex justify-center items-center w-40 h-14 mt-8 mx-auto text-2xl font-bold bg-white bg-opacity-10 rounded-full transition-colors ease-linear hover:bg-opacity-20"
 			iconClassName="shrink-0 mr-3"
 		/>
 	</header>

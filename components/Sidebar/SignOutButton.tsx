@@ -7,6 +7,7 @@ import { faSignOut } from '@fortawesome/free-solid-svg-icons'
 import alertError from '@/lib/error/alert'
 import signOut from '@/lib/user/signOut'
 import errorFromUnknown from '@/lib/error/fromUnknown'
+import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 
 const SidebarSignOutButton = () => {
 	const [isLoading, setIsLoading] = useState(false)
@@ -24,12 +25,12 @@ const SidebarSignOutButton = () => {
 
 	return (
 		<button
-			className="flex items-center gap-4 px-4 py-2 font-bold transition-colors ease-linear hover:bg-white hover:bg-opacity-10"
+			className="flex items-center gap-4 h-10 px-4 font-bold transition-colors ease-linear hover:bg-white hover:bg-opacity-10"
 			disabled={isLoading}
 			onClick={onClick}
 		>
 			<FontAwesomeIcon className="w-[30px] text-xl" icon={faSignOut} />
-			{isLoading ? 'Loading...' : 'Sign out'}
+			{isLoading ? <ThreeDotsLoader /> : 'Sign out'}
 		</button>
 	)
 }

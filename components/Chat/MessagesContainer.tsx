@@ -1,11 +1,17 @@
 'use client'
 
-import { HTMLProps, useEffect, useRef } from 'react'
+import { ReactNode, useEffect, useRef } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import chatMessagesState from '@/lib/atoms/chatMessages'
 
-const ChatMessagesContainer = (props: HTMLProps<HTMLDivElement>) => {
+const ChatMessagesContainer = ({
+	className,
+	children
+}: {
+	className?: string
+	children?: ReactNode
+}) => {
 	const messages = useRecoilValue(chatMessagesState)
 
 	const root = useRef<HTMLDivElement | null>(null)
@@ -15,7 +21,11 @@ const ChatMessagesContainer = (props: HTMLProps<HTMLDivElement>) => {
 		root.current.scrollTop = root.current.scrollHeight
 	}, [messages, root])
 
-	return <div {...props} ref={root} />
+	return (
+		<div ref={root} className={className}>
+			{children}
+		</div>
+	)
 }
 
 export default ChatMessagesContainer

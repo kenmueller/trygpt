@@ -3,8 +3,6 @@ import userFromRequest from '@/lib/user/fromRequest'
 import BuyLink from '@/components/BuyLink'
 import NewChatInput from '@/components/ChatInput/New'
 
-import styles from './page.module.scss'
-
 export const generateMetadata = () =>
 	pageMetadata({
 		title: 'New Chat | TryGPT',
@@ -17,12 +15,14 @@ const NewChatPage = async () => {
 	if (!user) return null
 
 	return (
-		<main className={styles.root}>
-			<div className={styles.main}>
-				<div className={styles.mainInner}>
-					<h1>New Chat</h1>
-					<p className={styles.model}>GPT 4</p>
-					{!user.purchasedAmount && <BuyLink className={styles.buy} />}
+		<main className="grid grid-rows-[1fr_auto] overflow-y-auto">
+			<div className="flex flex-col overflow-y-auto">
+				<div className="flex flex-col items-center m-auto">
+					<h1 className="text-4xl font-black">New Chat</h1>
+					<p className="mt-1 font-bold opacity-50">GPT 4</p>
+					{!user.purchasedAmount && (
+						<BuyLink className="flex flex-col justify-center items-center w-52 h-10 mt-6 font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70" />
+					)}
 				</div>
 			</div>
 			<NewChatInput user={user} />

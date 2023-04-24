@@ -11,6 +11,7 @@ import chatState from '@/lib/atoms/chat'
 
 const ChatMessage = ({ message }: { message: ChatMessage }) => {
 	const chat = useRecoilValue(chatState)
+	if (!chat) throw new Error('Chat not found')
 
 	return (
 		<article className="" data-role={message.role} data-error={message.error}>

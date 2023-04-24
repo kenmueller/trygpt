@@ -9,6 +9,7 @@ import ChatMessagesContainer from '@/components/Chat/MessagesContainer'
 import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
 import Await from '@/components/Await'
 import SetChatPageState from '@/components/ChatPage/SetState'
+import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 
 export const generateMetadata = async ({
 	params: { id: encodedChatId }
@@ -42,10 +43,10 @@ const ChatPage = async ({
 	const messages = chatMessagesFromChatId(chat.id)
 
 	return (
-		<main>
+		<main className="grid grid-rows-[1fr_auto] overflow-y-auto">
 			<SetChatPageState chat={chat} messages={messages} />
-			<ChatMessagesContainer>
-				<Suspense fallback={<p>Loading...</p>}>
+			<ChatMessagesContainer className="flex flex-col overflow-y-auto">
+				<Suspense fallback={<ThreeDotsLoader className="m-auto" />}>
 					{/* @ts-expect-error */}
 					<Await promise={messages}>
 						<ChatMessages />
