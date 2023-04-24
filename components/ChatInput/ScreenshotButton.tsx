@@ -6,6 +6,7 @@ import { faImage } from '@fortawesome/free-solid-svg-icons'
 
 import styles from './ExtraButton.module.scss'
 import alertError from '@/lib/error/alert'
+import errorFromUnknown from '@/lib/error/fromUnknown'
 
 const ChatInputSpeechButton = ({ chatName }: { chatName: string }) => {
 	const captureImage = useCallback(async () => {
@@ -33,8 +34,8 @@ const ChatInputSpeechButton = ({ chatName }: { chatName: string }) => {
 			// if (!blob) throw new Error('Failed to capture image')
 
 			// saveAs(blob, `${chatName}.jpg`)
-		} catch (error) {
-			alertError(error)
+		} catch (unknownError) {
+			alertError(errorFromUnknown(unknownError))
 		}
 	}, [chatName])
 

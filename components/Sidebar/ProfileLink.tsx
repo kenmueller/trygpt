@@ -3,23 +3,23 @@
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useRecoilValue } from 'recoil'
 
-import User from '@/lib/user'
+import userState from '@/lib/atoms/user'
 import defaultUserImage from '@/assets/user.png'
 
-import styles from './ProfileLink.module.scss'
-
-const SidebarProfileLink = ({ user }: { user: User }) => {
+const SidebarProfileLink = () => {
+	const user = useRecoilValue(userState)
 	const pathname = usePathname()
+
+	if (!user) throw new Error('User is not signed in')
 
 	return (
 		<Link
-			className={styles.root}
 			aria-current={pathname === '/profile' ? 'page' : undefined}
 			href="/profile"
 		>
 			<Image
-				className={styles.image}
 				src={user.photo ?? defaultUserImage}
 				alt={user.name}
 				referrerPolicy={user.photo ? 'no-referrer' : undefined}

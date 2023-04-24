@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation'
-
 import pageMetadata from '@/lib/metadata/page'
 import userFromRequest from '@/lib/user/fromRequest'
 import {
@@ -16,16 +14,16 @@ import Refresh from '@/components/Refresh'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata = pageMetadata({
-	path: '/profile',
-	title: 'Profile | TryGPT',
-	description: 'Profile | TryGPT',
-	previewTitle: 'Profile'
-})
+export const generateMetadata = () =>
+	pageMetadata({
+		title: 'Profile | TryGPT',
+		description: 'Profile | TryGPT',
+		previewTitle: 'Profile'
+	})
 
 const ProfilePage = async () => {
 	const user = await userFromRequest()
-	if (!user) redirect(`/?to=${encodeURIComponent('/profile')}`)
+	if (!user) return null
 
 	return (
 		<main className={styles.root}>

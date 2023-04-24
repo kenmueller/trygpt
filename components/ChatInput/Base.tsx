@@ -12,8 +12,6 @@ import TextAreaAutosize from 'react-textarea-autosize'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 
-import styles from './Base.module.scss'
-
 const BaseChatInput = ({
 	disabledMessage,
 	prompt,
@@ -79,12 +77,12 @@ const BaseChatInput = ({
 	}, [isLoading, textArea])
 
 	return (
-		<div className={styles.root}>
-			{children && <div className={styles.children}>{children}</div>}
-			<form ref={form} className={styles.form} onSubmit={_onSubmit}>
+		<div className="">
+			{children && <div className="">{children}</div>}
+			<form ref={form} className="" onSubmit={_onSubmit}>
 				<TextAreaAutosize
 					ref={textArea}
-					className={styles.textArea}
+					className=""
 					value={prompt}
 					placeholder={
 						disabledMessage ?? (isLoading ? 'Typing...' : 'Type a message...')
@@ -93,7 +91,7 @@ const BaseChatInput = ({
 					onChange={onChange}
 				/>
 				<button
-					className={styles.submit}
+					className=""
 					disabled={isDisabled || !normalizedPrompt || isLoading}
 				>
 					<FontAwesomeIcon icon={faPaperPlane} />

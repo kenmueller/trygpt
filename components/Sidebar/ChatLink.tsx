@@ -7,8 +7,6 @@ import { faMessage } from '@fortawesome/free-solid-svg-icons'
 
 import Chat from '@/lib/chat'
 
-import styles from './ChatLink.module.scss'
-
 const PATHNAME_MATCH = /^\/chats\/(.+)$/
 
 const SidebarChatLink = ({ chat }: { chat: Chat }) => {
@@ -17,11 +15,10 @@ const SidebarChatLink = ({ chat }: { chat: Chat }) => {
 
 	return (
 		<Link
-			className={styles.root}
 			aria-current={chat.id === currentChatId ? 'page' : undefined}
 			href={`/chats/${encodeURIComponent(chat.id)}`}
 		>
-			<FontAwesomeIcon className={styles.icon} icon={faMessage} />
+			<FontAwesomeIcon icon={faMessage} />
 			{chat.name ?? 'Untitled'}
 		</Link>
 	)

@@ -6,8 +6,7 @@ import { faSignOut } from '@fortawesome/free-solid-svg-icons'
 
 import alertError from '@/lib/error/alert'
 import signOut from '@/lib/user/signOut'
-
-import styles from './AuthButton.module.scss'
+import errorFromUnknown from '@/lib/error/fromUnknown'
 
 const SidebarSignOutButton = () => {
 	const [isLoading, setIsLoading] = useState(false)
@@ -19,13 +18,13 @@ const SidebarSignOutButton = () => {
 			// No need to set isLoading to false because the page will be refreshed
 		} catch (unknownError) {
 			setIsLoading(false)
-			alertError(unknownError)
+			alertError(errorFromUnknown(unknownError))
 		}
 	}, [])
 
 	return (
-		<button className={styles.root} disabled={isLoading} onClick={onClick}>
-			<FontAwesomeIcon className={styles.icon} icon={faSignOut} />
+		<button className="" disabled={isLoading} onClick={onClick}>
+			<FontAwesomeIcon className="" icon={faSignOut} />
 			{isLoading ? 'Loading...' : 'Sign out'}
 		</button>
 	)

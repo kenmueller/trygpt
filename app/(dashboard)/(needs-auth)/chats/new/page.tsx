@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation'
-
 import pageMetadata from '@/lib/metadata/page'
 import userFromRequest from '@/lib/user/fromRequest'
 import BuyLink from '@/components/BuyLink'
@@ -9,16 +7,16 @@ import styles from './page.module.scss'
 
 export const dynamic = 'force-dynamic'
 
-export const metadata = pageMetadata({
-	path: '/chats/new',
-	title: 'New Chat | TryGPT',
-	description: 'New Chat | TryGPT',
-	previewTitle: 'New Chat'
-})
+export const generateMetadata = () =>
+	pageMetadata({
+		title: 'New Chat | TryGPT',
+		description: 'New Chat | TryGPT',
+		previewTitle: 'New Chat'
+	})
 
 const NewChatPage = async () => {
 	const user = await userFromRequest()
-	if (!user) redirect(`/?to=${encodeURIComponent('/chats/new')}`)
+	if (!user) return null
 
 	return (
 		<main className={styles.root}>

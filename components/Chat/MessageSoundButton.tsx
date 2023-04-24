@@ -7,6 +7,8 @@ import { faVolumeHigh } from '@fortawesome/free-solid-svg-icons'
 
 import ChatMessage from '@/lib/chat/message'
 import alertError from '@/lib/error/alert'
+import HttpError from '@/lib/error/http'
+import ErrorCode from '@/lib/error/code'
 
 import styles from './MessageSoundButton.module.scss'
 
@@ -24,7 +26,10 @@ const ChatMessageSoundButton = ({
 	const playSound = useCallback(() => {
 		if (!('speechSynthesis' in window))
 			return alertError(
-				new Error('Text-to-speech is not supported in your browser')
+				new HttpError(
+					ErrorCode.BadRequest,
+					'Text-to-speech is not supported in your browser'
+				)
 			)
 
 		setIsPlaying(true)

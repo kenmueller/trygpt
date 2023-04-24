@@ -1,10 +1,20 @@
-import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
-import MessagesResolved from './MessagesResolved'
-import { ChatWithUserData } from '@/lib/chat'
+'use client'
 
-const ChatMessages = async ({ chat }: { chat: ChatWithUserData }) => {
-	const messages = await chatMessagesFromChatId(chat.id)
-	return <MessagesResolved chat={chat} initialValue={messages} />
+import { useRecoilValue } from 'recoil'
+
+import Message from './Message'
+import chatMessagesState from '@/lib/atoms/chatMessages'
+
+const ChatMessages = () => {
+	const messages = useRecoilValue(chatMessagesState)
+
+	return (
+		<>
+			{messages.map(message => (
+				<Message key={message.id} message={message} />
+			))}
+		</>
+	)
 }
 
 export default ChatMessages

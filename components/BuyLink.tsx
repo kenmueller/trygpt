@@ -4,6 +4,7 @@ import { useCallback, useState } from 'react'
 
 import alertError from '@/lib/error/alert'
 import errorFromResponse from '@/lib/error/fromResponse'
+import errorFromUnknown from '@/lib/error/fromUnknown'
 
 const BuyLink = ({ className }: { className?: string }) => {
 	const [isLoading, setIsLoading] = useState(false)
@@ -20,7 +21,7 @@ const BuyLink = ({ className }: { className?: string }) => {
 			window.location.href = await response.text()
 		} catch (unknownError) {
 			setIsLoading(false)
-			alertError(unknownError)
+			alertError(errorFromUnknown(unknownError))
 		}
 	}, [setIsLoading])
 

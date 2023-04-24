@@ -1,21 +1,23 @@
 'use client'
 
-import { useCallback, useContext, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSetRecoilState } from 'recoil'
 
 import alertError from '@/lib/error/alert'
 import errorFromResponse from '@/lib/error/fromResponse'
-import ChatsContext from '@/lib/context/chats'
-import InitialMessagesContext from '@/lib/context/initialMessages'
 import BaseChatInput from './Base'
 import Chat from '@/lib/chat'
 import User from '@/lib/user'
+import chatsState from '@/lib/atoms/chats'
+import initialMessagesState from '@/lib/atoms/initialMessages'
+import errorFromUnknown from '@/lib/error/fromUnknown'
 
 const NewChatInput = ({ user }: { user: User }) => {
 	const router = useRouter()
 
-	const [, setChats] = useContext(ChatsContext)
-	const [, setInitialMessages] = useContext(InitialMessagesContext)
+	const setChats = useSetRecoilState(chatsState)
+	const setInitialMessages = useSetRecoilState(initialMessagesState)
 
 	const [prompt, setPrompt] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
@@ -52,7 +54,7 @@ const NewChatInput = ({ user }: { user: User }) => {
 				// No need to set isLoading to false because the page will be redirected
 			} catch (unknownError) {
 				setIsLoading(false)
-				alertError(unknownError)
+				alertError(errorFromUnknown(unknownError))
 			}
 		},
 		[user, router, setChats, setInitialMessages, setPrompt, setIsLoading]

@@ -1,37 +1,32 @@
 import { Suspense } from 'react'
 
-import User from '@/lib/user'
-import chatsFromUserId from '@/lib/chat/fromUserId'
+import Await from '@/components/Await'
+import Chat from '@/lib/chat'
 import NewChatLink from './NewChatLink'
 import Chats from './Chats'
-import ProfileLink from './ProfileLink'
-import SignOutButton from './SignOutButton'
-import SignInButton from './SignInButton'
+import Settings from './Settings'
 
-import styles from './index.module.scss'
-
-const Sidebar = ({ user }: { user: User | null }) => {
-	const chats = user && chatsFromUserId(user.id)
-
-	return (
-		<aside className={styles.root}>
-			<div className={styles.scrollable}>
-				{chats && (
-					<>
-						<NewChatLink />
-						<Suspense fallback={<p>Loading...</p>}>
-							{/* @ts-expect-error */}
-							<Chats chats={chats} />
-						</Suspense>
-					</>
-				)}
-			</div>
-			<div className={styles.settings}>
-				{user && <ProfileLink user={user} />}
-				{user ? <SignOutButton /> : <SignInButton />}
-			</div>
-		</aside>
-	)
-}
+const Sidebar = ({
+	chats: chatsPromise
+}: {
+	chats: Promise<Chat[]> | null
+}) => (
+	<aside>
+		<div>
+			{chatsPromise && (
+				<>
+					<NewChatLink />
+					<Suspense fallback={<p>Loading...</p>}>
+						{/* @ts-expect-error */}
+						<Await promise={chatsPromise}>
+							<Chats />
+						</Await>
+					</Suspense>
+				</>
+			)}
+		</div>
+		<Settings />
+	</aside>
+)
 
 export default Sidebar

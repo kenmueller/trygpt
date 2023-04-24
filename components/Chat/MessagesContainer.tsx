@@ -1,11 +1,12 @@
 'use client'
 
-import { HTMLProps, useContext, useEffect, useRef } from 'react'
+import { HTMLProps, useEffect, useRef } from 'react'
+import { useRecoilValue } from 'recoil'
 
-import ChatMessagesContext from '@/lib/context/chatMessages'
+import chatMessagesState from '@/lib/atoms/chatMessages'
 
 const ChatMessagesContainer = (props: HTMLProps<HTMLDivElement>) => {
-	const [messages] = useContext(ChatMessagesContext)
+	const messages = useRecoilValue(chatMessagesState)
 
 	const root = useRef<HTMLDivElement | null>(null)
 

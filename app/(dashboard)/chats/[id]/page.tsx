@@ -1,16 +1,14 @@
 import { Suspense } from 'react'
+import { notFound } from 'next/navigation'
 
 import pageMetadata from '@/lib/metadata/page'
-import userFromRequest from '@/lib/user/fromRequest'
 import chatFromId from '@/lib/chat/fromId'
 import ChatInput from '@/components/ChatInput'
-import ChatMessagesProvider from '@/components/Provider/ChatMessages'
 import ChatMessages from '@/components/Chat/Messages'
 import ChatMessagesContainer from '@/components/Chat/MessagesContainer'
-
-import styles from './page.module.scss'
-import { notFound } from 'next/navigation'
-import userFromId from '@/lib/user/fromId'
+import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
+import Await from '@/components/Await'
+import SetChatPageState from '@/components/ChatPage/SetState'
 
 export const dynamic = 'force-dynamic'
 
@@ -27,7 +25,6 @@ export const generateMetadata = async ({
 	const title = chat.name ?? 'Untitled'
 
 	return pageMetadata({
-		path: `/chats/${encodeURIComponent(chatId)}`,
 		title: `${title} | TryGPT`,
 		description: `${title} | TryGPT`,
 		previewTitle: title
@@ -41,25 +38,24 @@ const ChatPage = async ({
 }) => {
 	const chatId = decodeURIComponent(encodedChatId)
 
-	const [user, chat] = await Promise.all([
-		userFromRequest(),
-		chatFromId(chatId)
-	])
-
+	const chat = await chatFromId(chatId)
 	if (!chat) notFound()
 
+	const messages = chatMessagesFromChatId(chat.id)
+
 	return (
-		<ChatMessagesProvider>
-			<main className={styles.root}>
-				<ChatMessagesContainer className={styles.main}>
-					<Suspense fallback={<p className={styles.message}>Loading...</p>}>
-						{/* @ts-expect-error */}
-						<ChatMessages chat={chat} />
-					</Suspense>
-				</ChatMessagesContainer>
-				<ChatInput user={user} chat={chat} />
-			</main>
-		</ChatMessagesProvider>
+		<main>
+			<SetChatPageState chat={chat} messages={messages} />
+			<ChatMessagesContainer>
+				<Suspense fallback={<p>Loading...</p>}>
+					{/* @ts-expect-error */}
+					<Await promise={messages}>
+						<ChatMessages />
+					</Await>
+				</Suspense>
+			</ChatMessagesContainer>
+			<ChatInput />
+		</main>
 	)
 }
 

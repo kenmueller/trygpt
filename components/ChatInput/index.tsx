@@ -1,34 +1,39 @@
 'use client'
 
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { nanoid } from 'nanoid'
 
 import alertError from '@/lib/error/alert'
 import BaseChatInput from './Base'
-import ChatMessagesContext from '@/lib/context/chatMessages'
 import ChatMessage from '@/lib/chat/message'
-import InitialMessagesContext, {
-	InitialMessage
-} from '@/lib/context/initialMessages'
 import streamResponse from '@/lib/responseToGenerator'
 import errorFromResponse from '@/lib/error/fromResponse'
-import ChatsContext from '@/lib/context/chats'
-import Chat from '@/lib/chat'
+import Chat, { ChatWithUserData } from '@/lib/chat'
 import useNewEffect from '@/lib/useNewEffect'
-import User from '@/lib/user'
 import trimQuotes from '@/lib/trimQuotes'
 import SpeechButton from './SpeechButton'
 import ScreenshotButton from './ScreenshotButton'
+import initialMessagesState, {
+	InitialMessage
+} from '@/lib/atoms/initialMessages'
+import chatsState from '@/lib/atoms/chats'
+import errorFromUnknown from '@/lib/error/fromUnknown'
+import chatMessagesState from '@/lib/atoms/chatMessages'
+import userState from '@/lib/atoms/user'
+import chatState from '@/lib/atoms/chat'
 
-const ChatInput = ({ user, chat }: { user: User | null; chat: Chat }) => {
+const ChatInput = () => {
 	const router = useRouter()
 
-	const [initialMessages, setInitialMessages] = useContext(
-		InitialMessagesContext
-	)
-	const [chats, setChats] = useContext(ChatsContext)
-	const [messages, setMessages] = useContext(ChatMessagesContext)
+	const user = useRecoilValue(userState)
+	const [chat, setChat] = useRecoilState(chatState)
+
+	const [initialMessages, setInitialMessages] =
+		useRecoilState(initialMessagesState)
+	const [chats, setChats] = useRecoilState(chatsState)
+	const [messages, setMessages] = useRecoilState(chatMessagesState)
 
 	const isMessagesLoaded = Boolean(messages)
 
@@ -160,7 +165,7 @@ const ChatInput = ({ user, chat }: { user: User | null; chat: Chat }) => {
 					router.push(`/chats/${encodeURIComponent(id)}`)
 				}
 			} catch (unknownError) {
-				alertError(unknownError)
+				alertError(errorFromUnknown(unknownError))
 			} finally {
 				setIsLoading(false)
 			}
@@ -186,12 +191,14 @@ const ChatInput = ({ user, chat }: { user: User | null; chat: Chat }) => {
 
 	const updateChat = useCallback(
 		(id: string, transform: (chat: Chat) => Chat) => {
+			setChat(chat => transform(chat) as ChatWithUserData)
+
 			setChats(
 				chats =>
 					chats && chats.map(chat => (chat.id === id ? transform(chat) : chat))
 			)
 		},
-		[setChats]
+		[setChat, setChats]
 	)
 
 	const updateChatName = useCallback(
@@ -215,7 +222,7 @@ const ChatInput = ({ user, chat }: { user: User | null; chat: Chat }) => {
 					name: chat.name && trimQuotes(chat.name)
 				}))
 			} catch (unknownError) {
-				alertError(unknownError)
+				alertError(errorFromUnknown(unknownError))
 			}
 		},
 		[chat, updateChat]
@@ -241,12 +248,9 @@ const ChatInput = ({ user, chat }: { user: User | null; chat: Chat }) => {
 		updateChatName
 	])
 
-	const chatName =
-		chats?.find(otherChat => otherChat.id === chat.id)?.name ?? 'Untitled'
-
 	useNewEffect(() => {
-		document.title = `${chatName ?? 'Chat not found'} | TryGPT`
-	}, [chatName])
+		document.title = `${chat.name ?? 'Untitled'} | TryGPT`
+	}, [chat.name])
 
 	return (
 		<BaseChatInput
