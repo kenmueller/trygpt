@@ -12,8 +12,6 @@ import nextMonth from '@/lib/date/nextMonth'
 import formatCents from '@/lib/cents/format'
 import Refresh from '@/components/Refresh'
 
-export const dynamic = 'force-dynamic'
-
 export const generateMetadata = () =>
 	pageMetadata({
 		title: 'Profile | TryGPT',

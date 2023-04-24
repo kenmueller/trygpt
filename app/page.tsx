@@ -7,8 +7,6 @@ import Header from '@/components/Landing/Header'
 import Sections from '@/components/Landing/Sections'
 import Footer from '@/components/Landing/Footer'
 
-export const dynamic = 'force-dynamic'
-
 export const generateMetadata = () =>
 	pageMetadata({
 		title: 'ChatGPT 4 for $1 | TryGPT',

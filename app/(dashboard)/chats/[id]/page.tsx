@@ -10,8 +10,6 @@ import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
 import Await from '@/components/Await'
 import SetChatPageState from '@/components/ChatPage/SetState'
 
-export const dynamic = 'force-dynamic'
-
 export const generateMetadata = async ({
 	params: { id: encodedChatId }
 }: {

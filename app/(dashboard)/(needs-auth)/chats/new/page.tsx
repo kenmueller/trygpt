@@ -5,8 +5,6 @@ import NewChatInput from '@/components/ChatInput/New'
 
 import styles from './page.module.scss'
 
-export const dynamic = 'force-dynamic'
-
 export const generateMetadata = () =>
 	pageMetadata({
 		title: 'New Chat | TryGPT',
