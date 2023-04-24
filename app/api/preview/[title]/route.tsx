@@ -1,5 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { ImageResponse } from '@vercel/og'
+import { NextRequest, NextResponse, ImageResponse } from 'next/server'
 
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import Preview from '@/components/Preview'

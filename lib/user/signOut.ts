@@ -1,5 +1,3 @@
-import 'client-only'
-
 import { getAuth, signOut as _signOut } from 'firebase/auth'
 
 import app from '@/lib/firebase'

@@ -1,24 +1,20 @@
-import 'server-only'
-
-if (!process.env.NEXT_PUBLIC_ORIGIN)
-	throw new Error('Missing NEXT_PUBLIC_ORIGIN')
-
 import { Metadata } from 'next'
 
+import getUrl from '@/lib/getUrl'
+
 const pageMetadata = ({
-	path,
 	title,
 	description,
 	previewTitle
 }: {
-	path: string
 	title: string
 	description: string
 	previewTitle: string
 }): Metadata => {
-	const url = `${process.env.NEXT_PUBLIC_ORIGIN!}${path}`
-	const image = `${process.env
-		.NEXT_PUBLIC_ORIGIN!}/api/preview/${encodeURIComponent(previewTitle)}`
+	const fullUrl = getUrl()
+	const url = new URL(fullUrl.pathname, fullUrl.origin).href
+
+	const image = `/api/preview/${encodeURIComponent(previewTitle)}`
 
 	return {
 		alternates: { canonical: url },

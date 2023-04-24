@@ -1,5 +1,3 @@
-import 'client-only'
-
 import type { FirebaseError } from 'firebase/app'
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 

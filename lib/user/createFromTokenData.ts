@@ -1,5 +1,3 @@
-import 'server-only'
-
 import { DatabasePoolConnection, sql } from 'slonik'
 
 import UserTokenData from './tokenData'

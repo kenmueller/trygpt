@@ -1,5 +1,3 @@
-import 'server-only'
-
 import { sql, DatabasePoolConnection } from 'slonik'
 import { nanoid } from 'nanoid'
 

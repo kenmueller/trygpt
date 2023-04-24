@@ -5,8 +5,9 @@ import cx from 'classnames'
 
 import userFromRequest from '@/lib/user/fromRequest'
 import UpdateUser from '@/components/UpdateUser'
-import BASE_METADATA from '@/lib/metadata/base'
+import baseMetadata from '@/lib/metadata/base'
 import FontAwesomeConfig from '@/components/FontAwesomeConfig'
+import RecoilRoot from '@/components/Recoil/Root'
 
 import 'balloon-css/src/balloon.scss'
 import '@fortawesome/fontawesome-svg-core/styles.css'
@@ -37,17 +38,21 @@ const sfMono = localFont({
 	fallback: ['Consolas', 'Liberation Mono', 'Menlo', 'Courier', 'monospace']
 })
 
-export const metadata = BASE_METADATA
+export const dynamic = 'force-dynamic'
+
+export const generateMetadata = () => baseMetadata()
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
 	const user = await userFromRequest()
 
 	return (
-		<html lang="en" dir="ltr">
-			<body className={cx(inter.className, sfMono.variable)}>
-				{children}
-				<UpdateUser user={user} />
-				<FontAwesomeConfig />
+		<html lang="en" dir="ltr" className="h-full">
+			<body className={cx(inter.className, sfMono.variable, 'h-full')}>
+				<RecoilRoot>
+					{children}
+					<UpdateUser user={user} />
+					<FontAwesomeConfig />
+				</RecoilRoot>
 			</body>
 		</html>
 	)

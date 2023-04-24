@@ -1,5 +1,3 @@
-import 'client-only'
-
 import { User as AuthUser } from 'firebase/auth'
 
 import errorFromResponse from '@/lib/error/fromResponse'

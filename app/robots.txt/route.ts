@@ -1,17 +1,17 @@
-if (!process.env.NEXT_PUBLIC_ORIGIN)
-	throw new Error('Missing NEXT_PUBLIC_ORIGIN')
-
 import { NextResponse } from 'next/server'
 
 import errorFromUnknown from '@/lib/error/fromUnknown'
+import getUrl from '@/lib/getUrl'
 
 export const dynamic = 'force-dynamic'
 
 export const GET = async () => {
 	try {
+		const url = getUrl()
+
 		return new NextResponse(
 			`User-agent: *
-Sitemap: ${process.env.NEXT_PUBLIC_ORIGIN!}/sitemap.xml`,
+Sitemap: ${url.origin}/sitemap.xml`,
 			{
 				headers: {
 					'cache-control': 'no-store',

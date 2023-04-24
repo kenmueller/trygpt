@@ -1,61 +1,16 @@
-@use 'theme';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 *,
 ::before,
 ::after {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-	font-family: inherit;
-	word-wrap: break-word;
+	@apply break-words;
 	word-break: break-word;
-	color: inherit;
-	border: none;
-	outline: none;
-}
-
-html,
-body {
-	height: 100%;
-}
-
-body {
-	color: theme.$white;
-	background: theme.$dark;
-}
-
-a {
-	text-decoration: none;
-}
-
-button {
-	cursor: pointer;
-	background: none;
-
-	&:disabled {
-		pointer-events: none;
-	}
-}
-
-img,
-button,
-input,
-textarea {
-	display: block;
-}
-
-svg {
-	display: block !important;
-}
-
-button,
-input,
-textarea {
-	font-size: inherit;
 }
 
 pre {
-	white-space: pre-wrap;
+	@apply whitespace-pre-wrap;
 }
 
 code {

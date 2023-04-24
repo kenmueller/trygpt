@@ -1,5 +1,3 @@
-import 'server-only'
-
 import { cache } from 'react'
 import { FirebaseError } from 'firebase-admin'
 import { getAuth } from 'firebase-admin/auth'

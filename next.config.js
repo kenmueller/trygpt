@@ -19,9 +19,6 @@ const config = {
 			'lh6.googleusercontent.com'
 		]
 	},
-	sassOptions: {
-		includePaths: [join(__dirname, 'styles')]
-	},
 	webpack: config => {
 		config.plugins.push(new IgnorePlugin({ resourceRegExp: /^pg-native$/ }))
 		return config

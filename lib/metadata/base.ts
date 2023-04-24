@@ -1,22 +1,21 @@
-import 'server-only'
-
-if (!process.env.NEXT_PUBLIC_ORIGIN)
-	throw new Error('Missing NEXT_PUBLIC_ORIGIN')
-
 import { Metadata } from 'next'
 
 import favicon from '@/assets/favicon.png'
+import getUrl from '@/lib/getUrl'
 
-import theme from '@/styles/theme.module.scss'
+const baseMetadata = (): Metadata => {
+	const url = getUrl()
 
-const BASE_METADATA: Metadata = {
-	applicationName: 'TryGPT',
-	authors: [{ name: 'Ken Mueller', url: process.env.NEXT_PUBLIC_ORIGIN }],
-	publisher: 'TryGPT',
-	creator: 'Ken Mueller',
-	themeColor: theme.dark,
-	manifest: '/manifest.webmanifest',
-	icons: favicon.src
+	return {
+		metadataBase: new URL(url.origin),
+		applicationName: 'TryGPT',
+		authors: [{ name: 'Ken Mueller', url: url.origin }],
+		publisher: 'TryGPT',
+		creator: 'Ken Mueller',
+		themeColor: 'black',
+		manifest: '/manifest.webmanifest',
+		icons: favicon.src
+	}
 }
 
-export default BASE_METADATA
+export default baseMetadata

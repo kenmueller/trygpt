@@ -1,10 +1,8 @@
-import 'client-only'
+import HttpError from './http'
 
-import errorFromUnknown from './fromUnknown'
-
-const alertError = (unknownError: unknown) => {
-	alert(errorFromUnknown(unknownError).message)
-	console.error(unknownError)
+const alertError = (error: HttpError) => {
+	alert(error.message)
+	console.error(error)
 }
 
 export default alertError
