@@ -10,8 +10,6 @@ import alertError from '@/lib/error/alert'
 import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
 
-import styles from './MessageSoundButton.module.scss'
-
 const ChatMessageSoundButton = ({
 	className,
 	message
@@ -19,29 +17,32 @@ const ChatMessageSoundButton = ({
 	className?: string
 	message: ChatMessage
 }) => {
-	const artyom = useRef(null)
-
 	const [isPlaying, setIsPlaying] = useState(false)
 
-	const playSound = useCallback(() => {
-		if (!('speechSynthesis' in window))
-			return alertError(
-				new HttpError(
-					ErrorCode.BadRequest,
-					'Text-to-speech is not supported in your browser'
+	const playSound = useCallback(
+		() => {
+			if (!('speechSynthesis' in window))
+				return alertError(
+					new HttpError(
+						ErrorCode.BadRequest,
+						'Text-to-speech is not supported in your browser'
+					)
 				)
-			)
 
-		setIsPlaying(true)
+			setIsPlaying(true)
 
-		// const utterance = new SpeechSynthesisUtterance(message.text)
+			// const utterance = new SpeechSynthesisUtterance(message.text)
 
-		// utterance.addEventListener('end', () => {
-		// 	setIsPlaying(false)
-		// })
+			// utterance.addEventListener('end', () => {
+			// 	setIsPlaying(false)
+			// })
 
-		// speechSynthesis.speak(utterance)
-	}, [message, setIsPlaying])
+			// speechSynthesis.speak(utterance)
+		},
+		[
+			/* message, setIsPlaying */
+		]
+	)
 
 	const previousText = useRef<string | null>(null)
 
@@ -57,7 +58,7 @@ const ChatMessageSoundButton = ({
 
 	return (
 		<button
-			className={cx(styles.root, className)}
+			className={cx('', className)}
 			disabled={isPlaying}
 			onClick={playSound}
 		>

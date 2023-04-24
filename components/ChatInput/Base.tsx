@@ -77,12 +77,14 @@ const BaseChatInput = ({
 	}, [isLoading, textArea])
 
 	return (
-		<div className="">
-			{children && <div className="">{children}</div>}
-			<form ref={form} className="" onSubmit={_onSubmit}>
+		<div className="flex items-end gap-4 p-4">
+			{children && (
+				<div className="flex items-center gap-4 h-[46px]">{children}</div>
+			)}
+			<form ref={form} className="grow-[1] relative" onSubmit={_onSubmit}>
 				<TextAreaAutosize
 					ref={textArea}
-					className=""
+					className="w-full h-[46px] overflow-hidden resize-none pl-4 pr-[2.7rem] py-[0.7rem] bg-white bg-opacity-10 rounded-lg outline-none placeholder:text-white placeholder:opacity-50"
 					value={prompt}
 					placeholder={
 						disabledMessage ?? (isLoading ? 'Typing...' : 'Type a message...')
@@ -91,7 +93,7 @@ const BaseChatInput = ({
 					onChange={onChange}
 				/>
 				<button
-					className=""
+					className="absolute right-[16px] bottom-[11px] text-sky-500 transition-colors ease-linear hover:text-opacity-70 disabled:text-white disabled:text-opacity-50"
 					disabled={isDisabled || !normalizedPrompt || isLoading}
 				>
 					<FontAwesomeIcon icon={faPaperPlane} />

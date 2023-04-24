@@ -9,6 +9,11 @@
 	word-break: break-word;
 }
 
+input,
+textarea {
+	@apply block;
+}
+
 pre {
 	@apply whitespace-pre-wrap;
 }
