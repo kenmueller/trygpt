@@ -9,10 +9,8 @@ import pricingImage from '@/assets/chat.png'
 import shareImage from '@/assets/chat.png'
 import textToSpeechImage from '@/assets/chat.png'
 
-import styles from './Sections.module.scss'
-
 const LandingPageSections = () => (
-	<main className={styles.root}>
+	<main className="flex flex-col items-center gap-8 py-16">
 		<Section
 			id="pricing"
 			title={

@@ -6,6 +6,7 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 
 import signIn from '@/lib/user/signIn'
 import alertError from '@/lib/error/alert'
+import errorFromUnknown from '@/lib/error/fromUnknown'
 
 const SignInButton = ({
 	className,
@@ -24,7 +25,7 @@ const SignInButton = ({
 			if (!(await signIn())) setIsLoading(false)
 		} catch (unknownError) {
 			setIsLoading(false)
-			alertError(unknownError)
+			alertError(errorFromUnknown(unknownError))
 		}
 	}, [setIsLoading])
 

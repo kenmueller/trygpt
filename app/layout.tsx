@@ -4,7 +4,7 @@ import localFont from 'next/font/local'
 import cx from 'classnames'
 
 import userFromRequest from '@/lib/user/fromRequest'
-import UpdateUser from '@/components/UpdateUser'
+import SetRootLayoutState from '@/components/RootLayout/SetState'
 import baseMetadata from '@/lib/metadata/base'
 import FontAwesomeConfig from '@/components/FontAwesomeConfig'
 import RecoilRoot from '@/components/Recoil/Root'
@@ -47,10 +47,16 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
 
 	return (
 		<html lang="en" dir="ltr" className="h-full">
-			<body className={cx(inter.className, sfMono.variable, 'h-full')}>
+			<body
+				className={cx(
+					inter.className,
+					sfMono.variable,
+					'h-full text-white bg-zinc-800'
+				)}
+			>
 				<RecoilRoot>
+					<SetRootLayoutState user={user} />
 					{children}
-					<UpdateUser user={user} />
 					<FontAwesomeConfig />
 				</RecoilRoot>
 			</body>

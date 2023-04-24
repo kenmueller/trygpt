@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { useSetRecoilState } from 'recoil'
 import { useRouter } from 'next/navigation'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
@@ -8,13 +9,21 @@ import app from '@/lib/firebase'
 import User from '@/lib/user'
 import sendToken from '@/lib/user/sendToken'
 import alertError from '@/lib/error/alert'
+import errorFromUnknown from '@/lib/error/fromUnknown'
+import useOnMount from '@/lib/useOnMount'
+import userState from '@/lib/atoms/user'
 
 const REFRESH_INTERVAL = 10 * 60 * 1000
 
 const auth = getAuth(app)
 
-const UpdateUser = ({ user }: { user: User | null }) => {
+const SetRootLayoutState = ({ user }: { user: User | null }) => {
 	const router = useRouter()
+	const setUser = useSetRecoilState(userState)
+
+	useOnMount(() => {
+		setUser(user)
+	})
 
 	useEffect(() => {
 		onAuthStateChanged(
@@ -30,17 +39,23 @@ const UpdateUser = ({ user }: { user: User | null }) => {
 
 					if (isAuthStateMismatched) router.refresh()
 				} catch (unknownError) {
-					alertError(unknownError)
+					alertError(errorFromUnknown(unknownError))
 				}
 			},
-			alertError
+			unknownError => {
+				alertError(errorFromUnknown(unknownError))
+			}
 		)
 	}, [user, router])
 
 	useEffect(() => {
 		const interval = setInterval(() => {
 			const { currentUser } = auth
-			if (currentUser) sendToken(currentUser).catch(alertError)
+
+			if (currentUser)
+				sendToken(currentUser).catch(unknownError => {
+					alertError(errorFromUnknown(unknownError))
+				})
 		}, REFRESH_INTERVAL)
 
 		return () => {
@@ -51,4 +66,4 @@ const UpdateUser = ({ user }: { user: User | null }) => {
 	return null
 }
 
-export default UpdateUser
+export default SetRootLayoutState
