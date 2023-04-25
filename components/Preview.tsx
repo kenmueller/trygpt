@@ -1,5 +1,3 @@
-import theme from '@/styles/theme.module.scss'
-
 const Preview = ({ title }: { title: string }) => (
 	<div
 		style={{
@@ -11,8 +9,8 @@ const Preview = ({ title }: { title: string }) => (
 			padding: '16px 32px',
 			wordWrap: 'break-word',
 			wordBreak: 'break-word',
-			color: theme.white,
-			background: theme.dark
+			color: 'white',
+			background: 'rgb(39, 39, 42)'
 		}}
 	>
 		<h3

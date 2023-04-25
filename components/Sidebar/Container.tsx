@@ -8,6 +8,7 @@ import {
 	useState
 } from 'react'
 import { createPortal } from 'react-dom'
+import cx from 'classnames'
 
 import CollapsedContainer from './CollapsedContainer'
 
@@ -44,7 +45,7 @@ const SidebarContainer = ({
 	}, [mediaQuery, onMediaQueryChange])
 
 	return isExpanded ? (
-		<aside className={className}>{children}</aside>
+		<aside className={cx('hidden w-1000:grid', className)}>{children}</aside>
 	) : (
 		createPortal(
 			<CollapsedContainer className={className}>{children}</CollapsedContainer>,

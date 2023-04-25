@@ -13,7 +13,7 @@ const Sidebar = ({
 }: {
 	chats: Promise<Chat[]> | null
 }) => (
-	<SidebarContainer className="grid grid-rows-[1fr_auto] w-72 overflow-y-auto bg-[#323235]">
+	<SidebarContainer className="grid-rows-[1fr_auto] w-72 overflow-y-auto bg-[#323235]">
 		<div className="py-4 overflow-y-auto">
 			{chatsPromise && (
 				<>
