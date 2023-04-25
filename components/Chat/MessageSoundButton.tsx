@@ -51,7 +51,6 @@ const ChatMessageSoundButton = ({
 		// const newText = previousText.current
 		// 	? message.text.replace(previousText.current, '')
 		// 	: message.text
-		// console.log(newText)
 		// previousText.current = message.text
 		// artyom.current.say(newText)
 	}, [message.text, previousText])

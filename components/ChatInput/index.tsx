@@ -42,13 +42,10 @@ const ChatInput = () => {
 
 	const addMessages = useCallback(
 		(newMessages: ChatMessage[]) => {
-			setMessages(previousMessages => {
-				console.log(
-					'messages',
+			setMessages(
+				previousMessages =>
 					previousMessages && [...previousMessages, ...newMessages]
-				)
-				return previousMessages && [...previousMessages, ...newMessages]
-			})
+			)
 		},
 		[setMessages]
 	)
@@ -84,8 +81,6 @@ const ChatInput = () => {
 							created: Date.now()
 						})
 					)
-
-					console.log('newMessages', newMessages)
 
 					addMessages(newMessages)
 
@@ -238,17 +233,13 @@ const ChatInput = () => {
 
 		setInitialMessages(null)
 
-		console.log('onSubmitMessages', initialMessages)
-
 		onSubmitMessages(initialMessages)
 
 		if (!chat.name && initialMessages.length)
 			updateChatName(initialMessages[0].text)
-
-		// Do not include `initialMessages` in the dependency array
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [
 		isMessagesLoaded,
+		initialMessages,
 		chat,
 		setInitialMessages,
 		onSubmitMessages,
