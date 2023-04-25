@@ -10,6 +10,7 @@ const SetRootLayoutState = ({ chats }: { chats: Promise<Chat[]> | null }) => {
 	const setChats = useSetRecoilState(chatsState)
 
 	useImmediateEffect(() => {
+		setChats(null)
 		chats?.then(setChats)
 	}, [chats, setChats])
 
