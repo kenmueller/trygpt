@@ -42,7 +42,11 @@ const ChatMessage = ({ message }: { message: ChatMessage }) => {
 				width={50}
 				height={50}
 			/>
-			<Markdown ref={content} className="min-h-[40px]" text={message.text} />
+			<Markdown
+				ref={content}
+				className="grow-[1] min-h-[40px]"
+				text={message.text}
+			/>
 			{/* {message.role === 'assistant' && (
 				<SoundButton message={message} />
 			)} */}
