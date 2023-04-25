@@ -1,7 +1,8 @@
+import DEV from '@/lib/dev'
 import HttpError from './http'
 
 const alertError = (error: HttpError) => {
-	alert(error.message)
+	if (DEV) alert(error.message)
 	console.error(error)
 }
 
