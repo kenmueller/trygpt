@@ -6,13 +6,14 @@ import NewChatLink from './NewChatLink'
 import Chats from './Chats'
 import Settings from './Settings'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
+import SidebarContainer from './Container'
 
 const Sidebar = ({
 	chats: chatsPromise
 }: {
 	chats: Promise<Chat[]> | null
 }) => (
-	<aside className="grid grid-rows-[1fr_auto] w-72 overflow-y-auto bg-white bg-opacity-5">
+	<SidebarContainer className="grid grid-rows-[1fr_auto] w-72 overflow-y-auto bg-[#323235]">
 		<div className="py-4 overflow-y-auto">
 			{chatsPromise && (
 				<>
@@ -27,7 +28,7 @@ const Sidebar = ({
 			)}
 		</div>
 		<Settings />
-	</aside>
+	</SidebarContainer>
 )
 
 export default Sidebar

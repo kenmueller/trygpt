@@ -12,7 +12,11 @@ module.exports = {
 			xs: '450px',
 			...defaultTheme.screens
 		},
-		extend: {}
+		extend: {
+			transitionProperty: {
+				left: 'left'
+			}
+		}
 	},
 	plugins: []
 }
