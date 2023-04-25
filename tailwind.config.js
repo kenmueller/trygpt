@@ -1,5 +1,3 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	content: [
@@ -8,9 +6,10 @@ module.exports = {
 	],
 	theme: {
 		screens: {
-			xxs: '380px',
-			xs: '450px',
-			...defaultTheme.screens
+			'w-380': '380px',
+			'w-450': '450px',
+			'w-1000': '1000px',
+			'w-1500': '1500px'
 		},
 		extend: {
 			transitionProperty: {

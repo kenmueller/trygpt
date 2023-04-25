@@ -1,5 +1,7 @@
 'use client'
 
+import { useCallback } from 'react'
+import { useSetRecoilState } from 'recoil'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -7,14 +9,21 @@ import { faMessage } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import Chat from '@/lib/chat'
+import isSidebarShowingState from '@/lib/atoms/isSidebarShowing'
 
 const PATHNAME_MATCH = /^\/chats\/(.+)$/
 
 const SidebarChatLink = ({ chat }: { chat: Chat }) => {
+	const setIsSidebarShowing = useSetRecoilState(isSidebarShowingState)
+
 	const pathname = usePathname()
 	const currentChatId = pathname.match(PATHNAME_MATCH)?.[1] ?? null
 
 	const active = chat.id === currentChatId
+
+	const hideSidebar = useCallback(() => {
+		setIsSidebarShowing(false)
+	}, [setIsSidebarShowing])
 
 	return (
 		<Link
@@ -24,6 +33,7 @@ const SidebarChatLink = ({ chat }: { chat: Chat }) => {
 			)}
 			aria-current={active ? 'page' : undefined}
 			href={`/chats/${encodeURIComponent(chat.id)}`}
+			onClick={hideSidebar}
 		>
 			<FontAwesomeIcon className="shrink-0 w-[30px] text-xl" icon={faMessage} />
 			{chat.name ?? 'Untitled'}

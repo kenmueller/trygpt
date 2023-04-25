@@ -10,6 +10,7 @@ import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
 import Await from '@/components/Await'
 import SetChatPageState from '@/components/ChatPage/SetState'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
+import Nav from '@/components/ChatPage/Nav'
 
 export const generateMetadata = async ({
 	params: { id: encodedChatId }
@@ -43,24 +44,27 @@ const ChatPage = async ({
 	const messages = chatMessagesFromChatId(chat.id)
 
 	return (
-		<main className="grid grid-rows-[1fr_auto] overflow-y-auto">
+		<>
 			<SetChatPageState chat={chat} messages={messages} />
-			<Suspense
-				fallback={
-					<div className="flex flex-col overflow-y-auto">
-						<ThreeDotsLoader className="m-auto" />
-					</div>
-				}
-			>
-				{/* @ts-expect-error */}
-				<Await promise={messages}>
-					<ChatMessagesContainer className="flex flex-col overflow-y-auto">
-						<ChatMessages />
-					</ChatMessagesContainer>
-				</Await>
-			</Suspense>
-			<ChatInput />
-		</main>
+			<Nav />
+			<main className="grid grid-rows-[1fr_auto] overflow-y-auto">
+				<Suspense
+					fallback={
+						<div className="flex flex-col overflow-y-auto">
+							<ThreeDotsLoader className="m-auto" />
+						</div>
+					}
+				>
+					{/* @ts-expect-error */}
+					<Await promise={messages}>
+						<ChatMessagesContainer className="flex flex-col overflow-y-auto">
+							<ChatMessages />
+						</ChatMessagesContainer>
+					</Await>
+				</Suspense>
+				<ChatInput />
+			</main>
+		</>
 	)
 }
 

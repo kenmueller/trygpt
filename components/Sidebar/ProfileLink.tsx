@@ -1,21 +1,29 @@
 'use client'
 
+import { useCallback } from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import cx from 'classnames'
 
 import userState from '@/lib/atoms/user'
 import defaultUserImage from '@/assets/user.png'
+import isSidebarShowingState from '@/lib/atoms/isSidebarShowing'
 
 const SidebarProfileLink = () => {
 	const user = useRecoilValue(userState)
+	const setIsSidebarShowing = useSetRecoilState(isSidebarShowingState)
+
 	const pathname = usePathname()
 
 	if (!user) throw new Error('User is not signed in')
 
 	const active = pathname === '/profile'
+
+	const hideSidebar = useCallback(() => {
+		setIsSidebarShowing(false)
+	}, [setIsSidebarShowing])
 
 	return (
 		<Link
@@ -25,6 +33,7 @@ const SidebarProfileLink = () => {
 			)}
 			aria-current={active ? 'page' : undefined}
 			href="/profile"
+			onClick={hideSidebar}
 		>
 			<Image
 				className="rounded-lg"

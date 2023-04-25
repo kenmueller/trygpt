@@ -19,7 +19,7 @@ const SidebarContainer = ({
 	children?: ReactNode
 }) => {
 	const mediaQuery = useRef<MediaQueryList | null>(null)
-	const [isExpanded, setIsExpanded] = useState(false)
+	const [isExpanded, setIsExpanded] = useState(true)
 
 	const onMediaQueryChange = useCallback(
 		({ matches }: MediaQueryListEvent) => {

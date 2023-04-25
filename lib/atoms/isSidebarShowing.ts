@@ -2,7 +2,7 @@ import { atom } from 'recoil'
 
 const isSidebarShowingState = atom({
 	key: 'isSidebarShowing',
-	default: true //false
+	default: false
 })
 
 export default isSidebarShowingState

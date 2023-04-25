@@ -39,6 +39,7 @@ const CollapsedSidebarContainer = ({
 				'fixed inset-0 bg-opacity-50 z-10 transition-colors duration-300 ease-linear',
 				isSidebarShowing ? 'bg-black' : 'pointer-events-none bg-transparent'
 			)}
+			aria-hidden={isSidebarShowing ? undefined : true}
 			onClick={onRootClick}
 		>
 			<aside

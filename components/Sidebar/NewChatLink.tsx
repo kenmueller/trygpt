@@ -5,10 +5,20 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
+import { useCallback } from 'react'
+import { useSetRecoilState } from 'recoil'
+
+import isSidebarShowingState from '@/lib/atoms/isSidebarShowing'
 
 const SidebarNewChatLink = () => {
+	const setIsSidebarShowing = useSetRecoilState(isSidebarShowingState)
+
 	const pathname = usePathname()
 	const active = pathname === '/chats/new'
+
+	const hideSidebar = useCallback(() => {
+		setIsSidebarShowing(false)
+	}, [setIsSidebarShowing])
 
 	return (
 		<Link
@@ -18,6 +28,7 @@ const SidebarNewChatLink = () => {
 			)}
 			aria-current={active ? 'page' : undefined}
 			href="/chats/new"
+			onClick={hideSidebar}
 		>
 			<FontAwesomeIcon className="shrink-0 w-[30px] text-xl" icon={faPlus} />
 			New Chat
