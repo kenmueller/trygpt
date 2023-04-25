@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOut } from '@fortawesome/free-solid-svg-icons'
 
@@ -10,18 +11,20 @@ import errorFromUnknown from '@/lib/error/fromUnknown'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 
 const SidebarSignOutButton = () => {
+	const router = useRouter()
+
 	const [isLoading, setIsLoading] = useState(false)
 
 	const onClick = useCallback(async () => {
 		try {
 			setIsLoading(true)
 			await signOut()
-			// No need to set isLoading to false because the page will be refreshed
+			router.push('/')
 		} catch (unknownError) {
 			setIsLoading(false)
 			alertError(errorFromUnknown(unknownError))
 		}
-	}, [setIsLoading])
+	}, [setIsLoading, router])
 
 	return (
 		<button
