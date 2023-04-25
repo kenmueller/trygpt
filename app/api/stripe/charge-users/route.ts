@@ -9,6 +9,7 @@ import verifyAuthorization from '@/lib/verifyAuthorization'
 import allPayingUsers from '@/lib/user/allPaying'
 import nextMonth from '@/lib/date/nextMonth'
 import costThisPeriod from '@/lib/user/costThisPeriod'
+import formatCents from '@/lib/cents/format'
 
 export const dynamic = 'force-dynamic'
 
@@ -22,28 +23,37 @@ export const POST = async () => {
 
 		const results = await Promise.allSettled(
 			users.map(async user => {
-				if (!user.lastCharged) return
+				if (!user.lastCharged) return 'User has never been charged'
 				if (!user.paymentMethod) throw new Error('Missing payment method')
 
 				const scheduledCharge = nextMonth(user.lastCharged)
-				if (now.getTime() < scheduledCharge.getTime()) return
+
+				if (now.getTime() < scheduledCharge.getTime())
+					return 'User not due for charge'
+
+				const amount = costThisPeriod(user)
 
 				await stripe.paymentIntents.create({
 					customer: user.customerId,
 					payment_method: user.paymentMethod,
 					currency: 'usd',
-					amount: costThisPeriod(user),
+					amount,
 					confirm: true
 				})
 
-				return user.id
+				return `Successful charge for ${formatCents(amount)}`
 			})
 		)
 
 		return NextResponse.json(
-			results.filter(
-				result => result.status === 'rejected' || result.value
-			) as PromiseSettledResult<string>[]
+			results.map((result, index) => ({
+				user: users[index],
+				status: result.status === 'fulfilled' ? 'success' : 'error',
+				response:
+					result.status === 'fulfilled'
+						? result.value
+						: errorFromUnknown(result.reason).message
+			}))
 		)
 	} catch (unknownError) {
 		const { code, message } = errorFromUnknown(unknownError)
