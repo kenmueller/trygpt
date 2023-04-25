@@ -29,8 +29,13 @@
 	}
 
 	a {
+		@apply text-sky-500;
 		font-weight: 700;
-		color: blue;
+		transition: opacity 0.15s;
+
+		&:hover {
+			opacity: 0.7;
+		}
 	}
 
 	pre {
