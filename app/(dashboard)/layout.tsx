@@ -4,6 +4,7 @@ import Sidebar from '@/components/Sidebar'
 import userFromRequest from '@/lib/user/fromRequest'
 import chatsFromUserId from '@/lib/chat/fromUserId'
 import SetDashboardLayoutState from '@/components/DashboardLayout/SetState'
+import DisableScroll from '@/components/DisableScroll'
 
 const DashboardLayout = async ({ children }: { children: ReactNode }) => {
 	const user = await userFromRequest()
@@ -14,6 +15,7 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
 			<SetDashboardLayoutState chats={chats} />
 			<Sidebar chats={chats} />
 			{children}
+			<DisableScroll />
 		</div>
 	)
 }

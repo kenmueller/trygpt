@@ -14,7 +14,15 @@ const baseMetadata = (): Metadata => {
 		creator: 'Ken Mueller',
 		themeColor: 'black',
 		manifest: '/manifest.webmanifest',
-		icons: favicon.src
+		icons: favicon.src,
+		viewport: {
+			width: 'device-width',
+			initialScale: 1,
+			minimumScale: 1,
+			maximumScale: 1,
+			viewportFit: 'cover',
+			userScalable: false
+		}
 	}
 }
 
