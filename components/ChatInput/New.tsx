@@ -49,6 +49,8 @@ const NewChatInput = ({ user }: { user: User }) => {
 				setChats(chats => chats && [chat, ...chats])
 				setInitialMessages([{ role: 'user', text: prompt }])
 
+				console.log('initialMessages', [{ role: 'user', text: prompt }])
+
 				router.push(`/chats/${encodeURIComponent(id)}`)
 
 				// No need to set isLoading to false because the page will be redirected

@@ -29,7 +29,7 @@ const SidebarSignOutButton = () => {
 			disabled={isLoading}
 			onClick={onClick}
 		>
-			<FontAwesomeIcon className="w-[30px] text-xl" icon={faSignOut} />
+			<FontAwesomeIcon className="shrink-0 w-[30px] text-xl" icon={faSignOut} />
 			{isLoading ? <ThreeDotsLoader /> : 'Sign out'}
 		</button>
 	)

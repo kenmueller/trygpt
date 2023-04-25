@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { nanoid } from 'nanoid'
 
 import alertError from '@/lib/error/alert'
@@ -34,20 +34,21 @@ const ChatInput = () => {
 
 	const [initialMessages, setInitialMessages] =
 		useRecoilState(initialMessagesState)
-	const [chats, setChats] = useRecoilState(chatsState)
+	const setChats = useSetRecoilState(chatsState)
 	const [messages, setMessages] = useRecoilState(chatMessagesState)
-
-	const isMessagesLoaded = Boolean(messages)
 
 	const [prompt, setPrompt] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
 
 	const addMessages = useCallback(
 		(newMessages: ChatMessage[]) => {
-			setMessages(
-				previousMessages =>
+			setMessages(previousMessages => {
+				console.log(
+					'messages',
 					previousMessages && [...previousMessages, ...newMessages]
-			)
+				)
+				return previousMessages && [...previousMessages, ...newMessages]
+			})
 		},
 		[setMessages]
 	)
@@ -83,6 +84,8 @@ const ChatInput = () => {
 							created: Date.now()
 						})
 					)
+
+					console.log('newMessages', newMessages)
 
 					addMessages(newMessages)
 
@@ -205,8 +208,6 @@ const ChatInput = () => {
 
 	const updateChatName = useCallback(
 		async (prompt: string) => {
-			if (!chat.id) return
-
 			try {
 				const response = await fetch(
 					`/api/chats/${encodeURIComponent(chat.id)}/name`,
@@ -230,10 +231,14 @@ const ChatInput = () => {
 		[chat, updateChat]
 	)
 
+	const isMessagesLoaded = Boolean(messages)
+
 	useEffect(() => {
-		if (!(initialMessages && isMessagesLoaded)) return
+		if (!(isMessagesLoaded && initialMessages)) return
 
 		setInitialMessages(null)
+
+		console.log('onSubmitMessages', initialMessages)
 
 		onSubmitMessages(initialMessages)
 
@@ -243,8 +248,8 @@ const ChatInput = () => {
 		// Do not include `initialMessages` in the dependency array
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [
-		chat,
 		isMessagesLoaded,
+		chat,
 		setInitialMessages,
 		onSubmitMessages,
 		updateChatName

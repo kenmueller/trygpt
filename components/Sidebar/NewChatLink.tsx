@@ -19,7 +19,7 @@ const SidebarNewChatLink = () => {
 			aria-current={active ? 'page' : undefined}
 			href="/chats/new"
 		>
-			<FontAwesomeIcon className="w-[30px] text-xl" icon={faPlus} />
+			<FontAwesomeIcon className="shrink-0 w-[30px] text-xl" icon={faPlus} />
 			New Chat
 		</Link>
 	)

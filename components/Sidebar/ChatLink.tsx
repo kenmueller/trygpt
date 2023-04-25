@@ -25,7 +25,7 @@ const SidebarChatLink = ({ chat }: { chat: Chat }) => {
 			aria-current={active ? 'page' : undefined}
 			href={`/chats/${encodeURIComponent(chat.id)}`}
 		>
-			<FontAwesomeIcon className="w-[30px] text-xl" icon={faMessage} />
+			<FontAwesomeIcon className="shrink-0 w-[30px] text-xl" icon={faMessage} />
 			{chat.name ?? 'Untitled'}
 		</Link>
 	)

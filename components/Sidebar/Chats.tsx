@@ -10,7 +10,7 @@ const SidebarChats = () => {
 
 	return (
 		<div className="mt-4">
-			{chats.map(chat => (
+			{chats?.map(chat => (
 				<ChatLink key={chat.id} chat={chat} />
 			))}
 		</div>

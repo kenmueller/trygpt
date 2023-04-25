@@ -20,6 +20,8 @@ const SetChatPageState = ({
 
 	useImmediateEffect(() => {
 		setChat(chat)
+
+		setChatMessages(null)
 		messages.then(setChatMessages)
 	}, [chat, messages, setChat, setChatMessages])
 

@@ -2,9 +2,9 @@ import { atom } from 'recoil'
 
 import ChatMessage from '@/lib/chat/message'
 
-const chatMessagesState = atom<ChatMessage[]>({
+const chatMessagesState = atom<ChatMessage[] | null>({
 	key: 'chatMessages',
-	default: []
+	default: null
 })
 
 export default chatMessagesState
