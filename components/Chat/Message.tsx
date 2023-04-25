@@ -1,3 +1,6 @@
+'use client'
+
+import { useRef } from 'react'
 import Image from 'next/image'
 import { useRecoilValue } from 'recoil'
 import cx from 'classnames'
@@ -5,6 +8,7 @@ import cx from 'classnames'
 import ChatMessage from '@/lib/chat/message'
 import Markdown from '@/components/Markdown'
 import SoundButton from './MessageSoundButton'
+import CopyButton from './MessageCopyButton'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 import defaultUserImage from '@/assets/user.png'
 import assistantImage from '@/assets/chatgpt.jpg'
@@ -13,6 +17,8 @@ import chatState from '@/lib/atoms/chat'
 const ChatMessage = ({ message }: { message: ChatMessage }) => {
 	const chat = useRecoilValue(chatState)
 	if (!chat) throw new Error('Chat not found')
+
+	const content = useRef<HTMLDivElement | null>(null)
 
 	return (
 		<article
@@ -36,12 +42,13 @@ const ChatMessage = ({ message }: { message: ChatMessage }) => {
 				width={50}
 				height={50}
 			/>
-			<Markdown text={message.text} />
+			<Markdown ref={content} text={message.text} />
 			{/* {message.role === 'assistant' && (
-				<SoundButton className="" message={message} />
+				<SoundButton message={message} />
 			)} */}
+			<CopyButton className="absolute right-8 top-4" content={content} />
 			{message.loading && (
-				<ThreeDotsLoader className="absolute right-8 bottom-[4.8px]" />
+				<ThreeDotsLoader className="absolute right-8 bottom-4" />
 			)}
 		</article>
 	)
