@@ -24,7 +24,7 @@ const Preview = ({ title }: { title: string }) => (
 		>
 			TryGPT
 		</h3>
-		<h1 style={{ fontSize: 50 }}>{title}</h1>
+		<h1 style={{ textAlign: 'center', fontSize: 50 }}>{title}</h1>
 	</div>
 )
 
