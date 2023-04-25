@@ -28,7 +28,8 @@ const createChatWithConnection = async (
 	await connection.query(
 		sql.unsafe`INSERT INTO
 				   chats (user_id, id, original_id, name)
-				   VALUES (${user.id}, ${id}, ${data.original}, ${data.name})`
+				   VALUES (${user.id}, ${id}, ${data.original}, ${data.name})
+				   ON CONFLICT DO NOTHING`
 	)
 
 	return id

@@ -23,7 +23,8 @@ const createUserFromTokenDataWithConnection = async (
 	await connection.query(
 		sql.unsafe`INSERT INTO
 				   users (id, customer_id, photo, name, email)
-				   VALUES (${id}, ${customerId}, ${photo}, ${name}, ${email})`
+				   VALUES (${id}, ${customerId}, ${photo}, ${name}, ${email})
+				   ON CONFLICT DO NOTHING`
 	)
 }
 
