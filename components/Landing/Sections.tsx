@@ -87,12 +87,11 @@ const LandingPageSections = () => (
 		<Section
 			title={
 				<>
-					Let ChatGPT <strong>read to you</strong> with sound.
+					<strong>Talk</strong> to ChatGPT. Let ChatGPT{' '}
+					<strong>read back to you</strong>.
 				</>
 			}
-			description={
-				<>Click the sound icon to hear ChatGPT read the responses to you.</>
-			}
+			description={<>Click the microphone icon to start talking to ChatGPT.</>}
 			image={textToSpeechImage}
 			imageAlt="Text-to-speech"
 		/>
