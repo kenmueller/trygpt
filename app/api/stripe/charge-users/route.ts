@@ -8,7 +8,6 @@ import stripe from '@/lib/stripe'
 import verifyAuthorization from '@/lib/verifyAuthorization'
 import allPayingUsers from '@/lib/user/allPaying'
 import nextMonth from '@/lib/date/nextMonth'
-import isSameDay from '@/lib/date/isSameDay'
 import costThisPeriod from '@/lib/user/costThisPeriod'
 
 export const dynamic = 'force-dynamic'
@@ -27,7 +26,7 @@ export const POST = async () => {
 				if (!user.paymentMethod) throw new Error('Missing payment method')
 
 				const scheduledCharge = nextMonth(user.lastCharged)
-				if (!isSameDay(scheduledCharge, now)) return
+				if (now.getTime() < scheduledCharge.getTime()) return
 
 				await stripe.paymentIntents.create({
 					customer: user.customerId,
