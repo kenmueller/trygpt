@@ -1,4 +1,3 @@
-import { ReactNode } from 'react'
 import Image from 'next/image'
 
 import SignInButton from '@/components/SignInButton'
@@ -6,7 +5,7 @@ import chatImage from '@/assets/chat.png'
 
 const LandingPageHeader = () => (
 	<header className="max-w-[1000px] w-[95%] mx-auto pt-4 pb-8">
-		<h1 className="text-center text-5xl font-black [&_strong]:text-[#24e098]">
+		<h1 className="text-center text-4xl xs:text-5xl font-black [&_strong]:text-[#24e098]">
 			ChatGPT <strong>4</strong> for <strong>$1</strong>
 		</h1>
 		<p className="mt-4 text-center">

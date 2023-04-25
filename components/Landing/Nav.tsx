@@ -11,7 +11,7 @@ const LandingPageNav = () => (
 		>
 			TryGPT
 		</Link>
-		<div className="flex items-center gap-8">
+		<div className="flex items-center gap-2 xxs:gap-4 xs:gap-8">
 			<NavLink href="#pricing">Pricing</NavLink>
 			<NavLink href="#features">Features</NavLink>
 		</div>
