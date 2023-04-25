@@ -46,12 +46,12 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
 	const user = await userFromRequest()
 
 	return (
-		<html lang="en" dir="ltr" className="h-full">
+		<html lang="en" dir="ltr" className="h-full scroll-smooth">
 			<body
 				className={cx(
 					inter.className,
 					sfMono.variable,
-					'h-full text-white bg-zinc-800'
+					'h-full scroll-smooth text-white bg-zinc-800'
 				)}
 			>
 				<RecoilRoot>

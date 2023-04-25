@@ -17,7 +17,7 @@ const ChatMessagesContainer = ({
 	const root = useRef<HTMLDivElement | null>(null)
 
 	useEffect(() => {
-		if (!root.current) return
+		if (!(messages && root.current)) return
 		root.current.scrollTop = root.current.scrollHeight
 	}, [messages, root])
 

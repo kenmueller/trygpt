@@ -20,7 +20,7 @@ const SidebarChatLink = ({ chat }: { chat: Chat }) => {
 		<Link
 			className={cx(
 				'flex items-center gap-4 px-4 py-2 transition-colors ease-linear hover:bg-white hover:bg-opacity-10',
-				active && 'bg-white bg-opacity-10'
+				active && 'pointer-events-none bg-white bg-opacity-10'
 			)}
 			aria-current={active ? 'page' : undefined}
 			href={`/chats/${encodeURIComponent(chat.id)}`}

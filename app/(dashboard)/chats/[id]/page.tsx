@@ -45,14 +45,20 @@ const ChatPage = async ({
 	return (
 		<main className="grid grid-rows-[1fr_auto] overflow-y-auto">
 			<SetChatPageState chat={chat} messages={messages} />
-			<ChatMessagesContainer className="flex flex-col overflow-y-auto">
-				<Suspense fallback={<ThreeDotsLoader className="m-auto" />}>
-					{/* @ts-expect-error */}
-					<Await promise={messages}>
+			<Suspense
+				fallback={
+					<div className="flex flex-col overflow-y-auto">
+						<ThreeDotsLoader className="m-auto" />
+					</div>
+				}
+			>
+				{/* @ts-expect-error */}
+				<Await promise={messages}>
+					<ChatMessagesContainer className="flex flex-col overflow-y-auto">
 						<ChatMessages />
-					</Await>
-				</Suspense>
-			</ChatMessagesContainer>
+					</ChatMessagesContainer>
+				</Await>
+			</Suspense>
 			<ChatInput />
 		</main>
 	)
