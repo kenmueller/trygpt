@@ -10,6 +10,7 @@ import allPayingUsers from '@/lib/user/allPaying'
 import nextMonth from '@/lib/date/nextMonth'
 import costThisPeriod from '@/lib/user/costThisPeriod'
 import formatCents from '@/lib/cents/format'
+import formatDate from '@/lib/date/format'
 
 export const dynamic = 'force-dynamic'
 
@@ -29,7 +30,9 @@ export const POST = async () => {
 				const scheduledCharge = nextMonth(user.lastCharged)
 
 				if (now.getTime() < scheduledCharge.getTime())
-					return 'User not due for charge'
+					return `User not due for charge (scheduled for ${formatDate(
+						scheduledCharge
+					)})`
 
 				const amount = costThisPeriod(user)
 
