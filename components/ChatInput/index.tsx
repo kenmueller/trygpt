@@ -15,6 +15,7 @@ import useNewEffect from '@/lib/useNewEffect'
 import trimQuotes from '@/lib/trimQuotes'
 import SpeechButton from './SpeechButton'
 import ScreenshotButton from './ScreenshotButton'
+import ShareButton from './ShareButton'
 import initialMessagesState, {
 	InitialMessage
 } from '@/lib/atoms/initialMessages'
@@ -266,6 +267,7 @@ const ChatInput = () => {
 		>
 			{/* <SpeechButton disabled={isLoading} submit={onSubmitPrompt} />
 			<ScreenshotButton chatName={chatName} /> */}
+			<ShareButton />
 		</BaseChatInput>
 	)
 }
