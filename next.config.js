@@ -18,6 +18,11 @@ const csp = getCSP({
 			'https://apis.google.com'
 		],
 		'connect-src': [SELF, 'https://identitytoolkit.googleapis.com'],
+		'img-src': [
+			SELF,
+			'https://source.unsplash.com',
+			'https://images.unsplash.com'
+		],
 		'frame-src': [
 			SELF,
 			`https://${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.firebaseapp.com`

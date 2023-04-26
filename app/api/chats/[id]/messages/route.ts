@@ -22,7 +22,12 @@ const encoder = new TextEncoder()
 const systemMessages: ChatCompletionMessage[] = [
 	{
 		role: 'system',
-		text: 'Surround code in backticks and provide a language. Surround display mode math in \\[ and \\] and inline math in \\( and \\) and format as LaTeX. Format everything else as markdown.'
+		text: '\
+Surround code in backticks and provide a language. \
+Surround display mode math in \\[ and \\] and inline math in \\( and \\) and format as LaTeX. \
+Format everything else as markdown. \
+If asked to generate an image, output a markdown image with the URL "https://source.unsplash.com/1600x900/?{query}" with a detailed query and do not surround it in a code block.\
+'
 	}
 ]
 
