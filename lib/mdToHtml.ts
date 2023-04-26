@@ -1,8 +1,6 @@
 import { Converter } from 'showdown'
 import katex from 'katex'
 
-// @ts-expect-error
-import htmlEscape from 'showdown-htmlescape'
 import highlight from 'showdown-highlight'
 
 const replaceMath = (text: string, match: RegExp, displayMode: boolean) =>
@@ -16,6 +14,7 @@ const converter = new Converter({
 
 converter.setOption('literalMidWordUnderscores', true)
 converter.setOption('literalMidWordAsterisks', true)
+converter.setOption('tables', true)
 
 const mdToHtml = (md: string) => {
 	md = replaceMath(md, /\\\[(.*?)\\\]/gs, true)
