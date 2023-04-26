@@ -22,7 +22,7 @@ const encoder = new TextEncoder()
 const systemMessages: ChatCompletionMessage[] = [
 	{
 		role: 'system',
-		text: 'Only surround code in backticks and provide a language. Format everything else as text.'
+		text: 'Surround code in backticks and provide a language. Surround display mode math in \\[ and \\] and inline math in \\( and \\) and format as LaTeX. Format everything else as text.'
 	}
 ]
 

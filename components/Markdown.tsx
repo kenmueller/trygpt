@@ -3,6 +3,7 @@ import cx from 'classnames'
 
 import mdToHtml from '@/lib/mdToHtml'
 
+import 'katex/dist/katex.css'
 import 'highlight.js/styles/github-dark.css'
 import styles from './Markdown.module.scss'
 
