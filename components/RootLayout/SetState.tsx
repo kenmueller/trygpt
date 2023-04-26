@@ -46,7 +46,10 @@ const SetRootLayoutState = ({ user }: { user: User | null }) => {
 				alertError(errorFromUnknown(unknownError))
 			}
 		)
-	}, [user, router])
+
+		// Do not include user in dependencies
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [router])
 
 	useEffect(() => {
 		const interval = setInterval(() => {
