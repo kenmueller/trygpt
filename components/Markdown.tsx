@@ -13,7 +13,7 @@ const _Markdown = (
 ) => (
 	<div
 		ref={ref}
-		className={cx(styles.root, className)}
+		className={cx('overflow-x-auto overflow-y-hidden', styles.root, className)}
 		dangerouslySetInnerHTML={{ __html: mdToHtml(text) }}
 	/>
 )

@@ -8,6 +8,11 @@
 		}
 	}
 
+	.katex-display {
+		overflow-x: auto;
+		overflow-y: hidden;
+	}
+
 	li,
 	ul ul,
 	ul ol,
