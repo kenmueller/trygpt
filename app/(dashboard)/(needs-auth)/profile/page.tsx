@@ -25,7 +25,7 @@ const ProfilePage = async () => {
 	return (
 		<>
 			<Nav>Profile</Nav>
-			<main className="px-4 py-3 [&>*]:mt-4 [&>:first-child]:mt-0">
+			<main className="px-4 py-3 overflow-y-auto [&>*]:mt-4 [&>:first-child]:mt-0">
 				<h1 className="text-4xl font-bold">Profile</h1>
 				<p>Name: {user.name}</p>
 				<p>Email: {user.email}</p>
