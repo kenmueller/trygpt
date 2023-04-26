@@ -1,26 +1,34 @@
-import { Converter } from 'showdown'
+import { Converter, ShowdownExtension } from 'showdown'
 import katex from 'katex'
-
 import highlight from 'showdown-highlight'
 
-const replaceMath = (text: string, match: RegExp, displayMode: boolean) =>
-	text.replace(match, (_substring, math) =>
-		katex.renderToString(math, { displayMode })
-	)
+const katexToString = (math: string, displayMode: boolean) =>
+	katex.renderToString(math, {
+		throwOnError: false,
+		errorColor: 'rgb(239, 68, 68)',
+		displayMode
+	})
+
+const katexDisplay: ShowdownExtension = {
+	type: 'lang',
+	regex: /\\\[(.*?)\\\]/gs,
+	replace: (_substring: string, math: string) => katexToString(math, true)
+}
+
+const katexInline: ShowdownExtension = {
+	type: 'lang',
+	regex: /\\\((.*?)\\\)/gs,
+	replace: (_substring: string, math: string) => katexToString(math, false)
+}
 
 const converter = new Converter({
-	extensions: [highlight()]
+	extensions: [katexDisplay, katexInline, highlight()]
 })
 
 converter.setOption('literalMidWordUnderscores', true)
 converter.setOption('literalMidWordAsterisks', true)
 converter.setOption('tables', true)
 
-const mdToHtml = (md: string) => {
-	md = replaceMath(md, /\\\[(.*?)\\\]/gs, true)
-	md = replaceMath(md, /\\\((.*?)\\\)/gs, false)
-
-	return converter.makeHtml(md)
-}
+const mdToHtml = (md: string) => converter.makeHtml(md)
 
 export default mdToHtml
