@@ -72,9 +72,11 @@ const BaseChatInput = ({
 		}
 	}, [submit])
 
+	const canFocus = !(isDisabled || isLoading)
+
 	useEffect(() => {
-		if (!isLoading) textArea.current?.focus()
-	}, [isLoading, textArea])
+		if (canFocus) textArea.current?.focus()
+	}, [canFocus, textArea])
 
 	return (
 		<div className="flex items-end gap-4 p-4">
