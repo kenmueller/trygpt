@@ -25,6 +25,7 @@ const DashboardNav = ({
 		<nav className="flex justify-between items-center w-screen w-1000:hidden">
 			<button
 				className="shrink-0 px-4 py-2 text-xl transition-opacity ease-linear hover:opacity-70"
+				aria-label="Show sidebar"
 				onClick={showSidebar}
 			>
 				<FontAwesomeIcon icon={faBars} />
@@ -36,6 +37,7 @@ const DashboardNav = ({
 				<Link
 					className="shrink-0 px-4 py-2 text-xl transition-opacity ease-linear hover:opacity-70"
 					href="/chats/new"
+					aria-label="Create new chat"
 				>
 					<FontAwesomeIcon icon={faPlus} />
 				</Link>

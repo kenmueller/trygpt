@@ -59,6 +59,7 @@ const ChatMessageSoundButton = ({
 		<button
 			className={cx('', className)}
 			disabled={isPlaying}
+			aria-label="Hear message out loud"
 			onClick={playSound}
 		>
 			<FontAwesomeIcon icon={faVolumeHigh} />

@@ -14,11 +14,7 @@ const ChatInputSpeechButton = ({
 	const startSpeech = useCallback(() => {}, [])
 
 	return (
-		<button
-			onClick={startSpeech}
-			aria-label="Speak your messages"
-			data-balloon-pos="up-left"
-		>
+		<button onClick={startSpeech} aria-label="Speak your messages">
 			<FontAwesomeIcon icon={faMicrophone} />
 		</button>
 	)

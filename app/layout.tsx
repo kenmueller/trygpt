@@ -9,7 +9,6 @@ import baseMetadata from '@/lib/metadata/base'
 import FontAwesomeConfig from '@/components/FontAwesomeConfig'
 import RecoilRoot from '@/components/Recoil/Root'
 
-import 'balloon-css/src/balloon.scss'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import './layout.scss'
 

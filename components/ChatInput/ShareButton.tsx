@@ -12,6 +12,7 @@ const share = () => {
 const ChatInputShareButton = () => (
 	<button
 		className="pl-1 text-2xl text-sky-500 transition-opacity ease-linear hover:opacity-70"
+		aria-label="Copy chat link to clipboard"
 		onClick={share}
 	>
 		<FontAwesomeIcon icon={faShareSquare} />

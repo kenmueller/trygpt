@@ -37,11 +37,7 @@ const ChatInputSpeechButton = ({ chatName }: { chatName: string }) => {
 	)
 
 	return (
-		<button
-			onClick={captureImage}
-			aria-label="Capture a full-size screenshot"
-			data-balloon-pos="up-left"
-		>
+		<button onClick={captureImage} aria-label="Capture a full-size screenshot">
 			<FontAwesomeIcon icon={faImage} />
 		</button>
 	)

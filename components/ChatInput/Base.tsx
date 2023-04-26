@@ -95,6 +95,7 @@ const BaseChatInput = ({
 				<button
 					className="absolute right-[16px] bottom-[11px] text-sky-500 transition-colors ease-linear hover:text-opacity-70 disabled:text-white disabled:text-opacity-50"
 					disabled={isDisabled || !normalizedPrompt || isLoading}
+					aria-label="Send message"
 				>
 					<FontAwesomeIcon icon={faPaperPlane} />
 				</button>
