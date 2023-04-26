@@ -238,9 +238,11 @@ const ChatInput = () => {
 
 		if (!chat.name && initialMessages.length)
 			updateChatName(initialMessages[0].text)
+
+		// Do not include initialMessages in dependency array
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [
 		isMessagesLoaded,
-		initialMessages,
 		chat,
 		setInitialMessages,
 		onSubmitMessages,
