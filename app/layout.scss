@@ -9,6 +9,24 @@
 	word-break: break-word;
 }
 
+* {
+	&::-webkit-scrollbar {
+		width: 6px;
+	}
+
+	&::-webkit-scrollbar-track {
+		@apply bg-white bg-opacity-5;
+	}
+
+	&::-webkit-scrollbar-thumb {
+		@apply bg-white bg-opacity-20;
+	}
+
+	&::-webkit-scrollbar-thumb:hover {
+		@apply bg-white bg-opacity-25;
+	}
+}
+
 input,
 textarea {
 	@apply block;
