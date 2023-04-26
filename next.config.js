@@ -17,7 +17,11 @@ const csp = getCSP({
 			...(DEV ? [UNSAFE_EVAL] : []),
 			'https://apis.google.com'
 		],
-		'connect-src': [SELF, 'https://identitytoolkit.googleapis.com'],
+		'connect-src': [
+			SELF,
+			'https://identitytoolkit.googleapis.com',
+			'https://securetoken.googleapis.com'
+		],
 		'img-src': [
 			SELF,
 			'https://source.unsplash.com',
