@@ -36,7 +36,7 @@ const CollapsedSidebarContainer = ({
 	return (
 		<div
 			className={cx(
-				'fixed inset-0 bg-opacity-50 z-10 transition-colors duration-300 ease-linear',
+				'fixed inset-0 bg-opacity-50 z-10 transition-colors duration-200',
 				isSidebarShowing ? 'bg-black' : 'pointer-events-none bg-transparent'
 			)}
 			aria-hidden={isSidebarShowing ? undefined : true}
@@ -45,8 +45,8 @@ const CollapsedSidebarContainer = ({
 			<aside
 				ref={sidebar}
 				className={cx(
-					'absolute inset-y-0 transition-left duration-300 ease-linear',
-					isSidebarShowing ? 'left-0' : '-left-full',
+					'absolute left-0 inset-y-0 transition-transform duration-200',
+					!isSidebarShowing && '-translate-x-full',
 					className
 				)}
 			>
