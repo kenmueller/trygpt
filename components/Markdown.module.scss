@@ -3,7 +3,8 @@
 	p,
 	ol,
 	ul,
-	table {
+	table,
+	img {
 		&:not(:last-child) {
 			margin-bottom: 1rem;
 		}
@@ -89,5 +90,9 @@
 	td {
 		min-width: 150px;
 		padding: 0.25rem 0.5rem;
+	}
+
+	img {
+		@apply rounded-2xl shadow-lg;
 	}
 }
