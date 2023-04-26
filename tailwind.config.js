@@ -12,11 +12,7 @@ module.exports = {
 			'w-1000': '1000px',
 			'w-1500': '1500px'
 		},
-		extend: {
-			transitionProperty: {
-				left: 'left'
-			}
-		}
+		extend: {}
 	},
 	plugins: []
 }
