@@ -44,7 +44,7 @@ const ChatMessage = ({ message }: { message: ChatMessage }) => {
 				<SoundButton message={message} />
 			)} */}
 			<CopyButton
-				className="copy absolute right-2 w-700:right-4 top-4"
+				className="copy !absolute right-2 w-700:right-4 top-4"
 				message={message}
 			/>
 			{message.loading && (

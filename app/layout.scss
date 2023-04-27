@@ -39,3 +39,11 @@ pre {
 code {
 	font-family: var(--font-sf-mono);
 }
+
+button:disabled {
+	@apply pointer-events-none;
+}
+
+[aria-label][data-balloon-pos]::after {
+	@apply leading-5;
+}
