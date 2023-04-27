@@ -3,10 +3,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShareSquare } from '@fortawesome/free-solid-svg-icons'
 import copy from 'copy-to-clipboard'
+import { toast } from 'react-toastify'
 
 const share = () => {
 	copy(window.location.href)
-	alert('Chat link copied to clipboard')
+	toast.success('Chat link copied to clipboard')
 }
 
 const ChatInputShareButton = () => (

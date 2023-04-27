@@ -1,8 +1,9 @@
-import DEV from '@/lib/dev'
+import { toast } from 'react-toastify'
+
 import HttpError from './http'
 
 const alertError = (error: HttpError) => {
-	if (DEV) alert(error.message)
+	toast.error(error.message)
 	console.error(error)
 }
 

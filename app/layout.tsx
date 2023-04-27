@@ -8,7 +8,10 @@ import SetRootLayoutState from '@/components/RootLayout/SetState'
 import baseMetadata from '@/lib/metadata/base'
 import FontAwesomeConfig from '@/components/FontAwesomeConfig'
 import RecoilRoot from '@/components/Recoil/Root'
+import ToastContainer from '@/components/Toast/Container'
 
+import 'balloon-css/balloon.css'
+import 'react-toastify/dist/ReactToastify.css'
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import './layout.scss'
 
@@ -56,6 +59,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
 				<RecoilRoot>
 					<SetRootLayoutState user={user} />
 					{children}
+					<ToastContainer theme="dark" />
 					<FontAwesomeConfig />
 				</RecoilRoot>
 			</body>

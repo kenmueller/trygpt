@@ -4,11 +4,28 @@ import { useCallback, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
+import { toast } from 'react-toastify'
 
 import alertError from '@/lib/error/alert'
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import Chat from '@/lib/chat'
 import chatMessagesContainerRef from '@/lib/atoms/chatMessagesContainer'
+
+const saveImage = async (container: HTMLDivElement, filename: string) => {
+	const saveAsPromise = import('file-saver').then(module => module.default)
+	const domToImage = await import('dom-to-image').then(module => module.default)
+
+	container.classList.add('chat-messages-container-screenshot')
+
+	const [saveAs, url] = await Promise.all([
+		saveAsPromise,
+		domToImage.toJpeg(container, { cacheBust: true })
+	])
+
+	container.classList.remove('chat-messages-container-screenshot')
+
+	saveAs(url, `${filename}.jpg`)
+}
 
 const ChatInputSpeechButton = ({ chat }: { chat: Chat }) => {
 	const chatMessagesContainer = useRecoilValue(chatMessagesContainerRef)
@@ -22,21 +39,11 @@ const ChatInputSpeechButton = ({ chat }: { chat: Chat }) => {
 
 			setIsLoading(true)
 
-			const saveAsPromise = import('file-saver').then(module => module.default)
-			const domToImage = await import('dom-to-image').then(
-				module => module.default
-			)
-
-			container.classList.add('chat-messages-container-screenshot')
-
-			const [saveAs, url] = await Promise.all([
-				saveAsPromise,
-				domToImage.toJpeg(container, { cacheBust: true })
-			])
-
-			container.classList.remove('chat-messages-container-screenshot')
-
-			saveAs(url, `${chat.name}.jpg`)
+			await toast.promise(saveImage(container, chat.name ?? 'Untitled'), {
+				pending: 'Generating chat image...',
+				success: 'Generated chat image',
+				error: 'Failed to generate chat image'
+			})
 		} catch (unknownError) {
 			alertError(errorFromUnknown(unknownError))
 		} finally {

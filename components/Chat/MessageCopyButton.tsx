@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClipboard } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 import copy from 'copy-to-clipboard'
+import { toast } from 'react-toastify'
 
 import ChatMessage from '@/lib/chat/message'
 
@@ -17,7 +18,7 @@ const ChatMessageCopyButton = ({
 }) => {
 	const onClick = useCallback(() => {
 		copy(message.text)
-		alert('Copied to clipboard')
+		toast.success('Copied to clipboard')
 	}, [message.text])
 
 	return (
