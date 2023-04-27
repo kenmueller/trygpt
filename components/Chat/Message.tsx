@@ -1,6 +1,5 @@
 'use client'
 
-import { useRef } from 'react'
 import Image from 'next/image'
 import { useRecoilValue } from 'recoil'
 import cx from 'classnames'
@@ -17,8 +16,6 @@ import chatState from '@/lib/atoms/chat'
 const ChatMessage = ({ message }: { message: ChatMessage }) => {
 	const chat = useRecoilValue(chatState)
 	if (!chat) throw new Error('Chat not found')
-
-	const content = useRef<HTMLDivElement | null>(null)
 
 	return (
 		<article
@@ -42,17 +39,13 @@ const ChatMessage = ({ message }: { message: ChatMessage }) => {
 				width={50}
 				height={50}
 			/>
-			<Markdown
-				ref={content}
-				className="grow-[1] min-h-[40px]"
-				text={message.text}
-			/>
+			<Markdown className="grow-[1] min-h-[40px]" text={message.text} />
 			{/* {message.role === 'assistant' && (
 				<SoundButton message={message} />
 			)} */}
 			<CopyButton
 				className="absolute right-2 w-700:right-4 top-4"
-				content={content}
+				message={message}
 			/>
 			{message.loading && (
 				<ThreeDotsLoader className="absolute right-2 w-700:right-4 bottom-4" />

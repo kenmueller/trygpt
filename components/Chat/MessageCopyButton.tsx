@@ -1,22 +1,24 @@
 'use client'
 
-import { RefObject, useCallback } from 'react'
+import { useCallback } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClipboard } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 import copy from 'copy-to-clipboard'
 
+import ChatMessage from '@/lib/chat/message'
+
 const ChatMessageCopyButton = ({
 	className,
-	content
+	message
 }: {
 	className?: string
-	content: RefObject<HTMLDivElement | null>
+	message: ChatMessage
 }) => {
 	const onClick = useCallback(() => {
-		copy(content.current?.textContent ?? '')
+		copy(message.text)
 		alert('Copied to clipboard')
-	}, [content])
+	}, [message.text])
 
 	return (
 		<button
