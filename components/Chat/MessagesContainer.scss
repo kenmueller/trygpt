@@ -1,0 +1,13 @@
+.chat-messages-container-screenshot {
+	@apply w-[1500px] overflow-visible;
+
+	> .message {
+		@apply pr-2 w-700:pr-4;
+
+		> .image,
+		> .copy,
+		> .loader {
+			@apply hidden;
+		}
+	}
+}

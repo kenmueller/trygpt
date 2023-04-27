@@ -1,9 +1,13 @@
 'use client'
 
-import { ReactNode, useEffect, useRef } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { useRecoilValue } from 'recoil'
+import cx from 'classnames'
 
 import chatMessagesState from '@/lib/atoms/chatMessages'
+import chatMessagesContainerRef from '@/lib/atoms/chatMessagesContainer'
+
+import './MessagesContainer.scss'
 
 const ChatMessagesContainer = ({
 	className,
@@ -12,17 +16,18 @@ const ChatMessagesContainer = ({
 	className?: string
 	children?: ReactNode
 }) => {
+	const chatMessagesContainer = useRecoilValue(chatMessagesContainerRef)
 	const messages = useRecoilValue(chatMessagesState)
 
-	const root = useRef<HTMLDivElement | null>(null)
-
 	useEffect(() => {
-		if (!(messages && root.current)) return
-		root.current.scrollTop = root.current.scrollHeight
-	}, [messages, root])
+		const container = chatMessagesContainer.current
+		if (!(messages && container)) return
+
+		container.scrollTop = container.scrollHeight
+	}, [messages, chatMessagesContainer])
 
 	return (
-		<div ref={root} className={className}>
+		<div ref={chatMessagesContainer} className={cx('bg-zinc-800', className)}>
 			{children}
 		</div>
 	)

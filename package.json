@@ -22,6 +22,8 @@
 		"cookie-signature": "^1.2.1",
 		"copy-to-clipboard": "^3.3.3",
 		"csp-header": "^5.1.0",
+		"dom-to-image": "^2.6.0",
+		"file-saver": "^2.0.5",
 		"firebase": "^9.20.0",
 		"firebase-admin": "^11.7.0",
 		"gpt3-tokenizer": "^1.1.5",
@@ -34,19 +36,21 @@
 		"react-textarea-autosize": "^8.4.1",
 		"recoil": "^0.7.7",
 		"server-only": "^0.0.1",
-		"sharp": "^0.32.0",
+		"sharp": "^0.32.1",
 		"showdown": "^2.1.0",
 		"showdown-highlight": "^3.1.0",
 		"slonik": "^33.3.1",
-		"stripe": "^12.2.0"
+		"stripe": "^12.3.0"
 	},
 	"devDependencies": {
 		"@types/cookie": "^0.5.1",
 		"@types/cookie-signature": "^1.1.0",
+		"@types/dom-to-image": "^2.6.4",
+		"@types/file-saver": "^2.0.5",
 		"@types/katex": "^0.16.0",
-		"@types/node": "18.16.0",
-		"@types/react": "18.0.38",
-		"@types/react-dom": "18.0.11",
+		"@types/node": "18.16.1",
+		"@types/react": "18.2.0",
+		"@types/react-dom": "18.2.1",
 		"@types/showdown": "^2.0.0",
 		"autoprefixer": "^10.4.14",
 		"encoding": "^0.1.13",
@@ -54,10 +58,10 @@
 		"eslint-config-next": "13.3.1",
 		"postcss": "^8.4.23",
 		"prettier": "^2.8.8",
-		"sass": "^1.62.0",
-		"tailwindcss": "^3.3.1",
+		"sass": "^1.62.1",
+		"tailwindcss": "^3.3.2",
 		"typescript": "5.0.4",
-		"webpack": "^5.80.0"
+		"webpack": "^5.81.0"
 	},
 	"private": true
 }

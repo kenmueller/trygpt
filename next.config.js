@@ -1,10 +1,12 @@
 if (!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID)
 	throw new Error('Missing NEXT_PUBLIC_FIREBASE_PROJECT_ID')
 
-const { getCSP, SELF, UNSAFE_INLINE, UNSAFE_EVAL } = require('csp-header')
+const { getCSP, SELF, UNSAFE_INLINE, UNSAFE_EVAL, DATA } = require('csp-header')
 const { IgnorePlugin } = require('webpack')
 
 const DEV = process.env.NODE_ENV === 'development'
+
+const UNSPlASH_SOURCES = ['source.unsplash.com', 'images.unsplash.com']
 
 const csp = getCSP({
 	directives: {
@@ -15,21 +17,19 @@ const csp = getCSP({
 			SELF,
 			UNSAFE_INLINE,
 			...(DEV ? [UNSAFE_EVAL] : []),
-			'https://apis.google.com'
+			'apis.google.com'
 		],
 		'connect-src': [
 			SELF,
-			'https://identitytoolkit.googleapis.com',
-			'https://securetoken.googleapis.com'
+			DATA,
+			'identitytoolkit.googleapis.com',
+			'securetoken.googleapis.com',
+			...UNSPlASH_SOURCES
 		],
-		'img-src': [
-			SELF,
-			'https://source.unsplash.com',
-			'https://images.unsplash.com'
-		],
+		'img-src': [SELF, DATA, ...UNSPlASH_SOURCES],
 		'frame-src': [
 			SELF,
-			`https://${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.firebaseapp.com`
+			`${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.firebaseapp.com`
 		]
 	}
 })
