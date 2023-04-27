@@ -7,6 +7,7 @@ import formatCents from '@/lib/cents/format'
 import startImage from '@/assets/chat.png'
 import pricingImage from '@/assets/chat.png'
 import shareImage from '@/assets/chat.png'
+import screenshotImage from '@/assets/screenshot.jpg'
 import textToSpeechImage from '@/assets/chat.png'
 
 const LandingPageSections = () => (
@@ -81,8 +82,8 @@ const LandingPageSections = () => (
 					screenshot, <strong>no matter how long it is</strong>.
 				</>
 			}
-			image={shareImage}
-			imageAlt="Share"
+			image={screenshotImage}
+			imageAlt="Screenshot"
 		/>
 		<Section
 			title={
