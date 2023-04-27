@@ -81,7 +81,9 @@ const BaseChatInput = ({
 	return (
 		<div className="flex items-end gap-4 p-4">
 			{children && (
-				<div className="flex items-center gap-4 h-[46px]">{children}</div>
+				<div className="flex items-center gap-3 w-450:gap-4 h-[46px]">
+					{children}
+				</div>
 			)}
 			<form ref={form} className="grow-[1] relative" onSubmit={_onSubmit}>
 				<TextAreaAutosize

@@ -46,7 +46,7 @@ const ChatInputSpeechButton = ({ chat }: { chat: Chat }) => {
 
 	return (
 		<button
-			className="text-2xl text-sky-500 transition-opacity ease-linear hover:opacity-70 disabled:opacity-50"
+			className="text-xl w-450:text-2xl text-sky-500 transition-opacity ease-linear hover:opacity-70 disabled:opacity-50"
 			aria-label="Capture a full-size screenshot"
 			disabled={isLoading}
 			onClick={captureImage}
