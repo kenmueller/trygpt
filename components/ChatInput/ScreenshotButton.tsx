@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
@@ -13,10 +13,14 @@ import chatMessagesContainerRef from '@/lib/atoms/chatMessagesContainer'
 const ChatInputSpeechButton = ({ chat }: { chat: Chat }) => {
 	const chatMessagesContainer = useRecoilValue(chatMessagesContainerRef)
 
+	const [isLoading, setIsLoading] = useState(false)
+
 	const captureImage = useCallback(async () => {
 		try {
 			const container = chatMessagesContainer.current
 			if (!container) throw new Error('No messages container')
+
+			setIsLoading(true)
 
 			const saveAsPromise = import('file-saver').then(module => module.default)
 			const domToImage = await import('dom-to-image').then(
@@ -35,13 +39,16 @@ const ChatInputSpeechButton = ({ chat }: { chat: Chat }) => {
 			saveAs(url, `${chat.name}.jpg`)
 		} catch (unknownError) {
 			alertError(errorFromUnknown(unknownError))
+		} finally {
+			setIsLoading(false)
 		}
-	}, [chat.name, chatMessagesContainer])
+	}, [chat.name, chatMessagesContainer, setIsLoading])
 
 	return (
 		<button
-			className="text-2xl text-sky-500 transition-opacity ease-linear hover:opacity-70"
+			className="text-2xl text-sky-500 transition-opacity ease-linear hover:opacity-70 disabled:opacity-50"
 			aria-label="Capture a full-size screenshot"
+			disabled={isLoading}
 			onClick={captureImage}
 		>
 			<FontAwesomeIcon icon={faImage} />
