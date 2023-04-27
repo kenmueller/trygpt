@@ -19,7 +19,7 @@ const LandingPageSection = ({
 		id={id}
 	>
 		<article className="grow-[1] basis-0">
-			<h2 className="text-2xl w-1500:text-4xl font-extrabold [&_strong]:text-[#24e098] [&_br]:content-[''] [&_br]:block [&_br]:mt-4">
+			<h2 className="text-2xl w-1500:text-4xl font-extrabold [&_strong]:text-[#24e098] [&_strong.bad]:text-red-500 [&_br]:content-[''] [&_br]:block [&_br]:mt-4">
 				{title}
 			</h2>
 			<p className="mt-8 text-lg w-1500:text-xl">{description}</p>

@@ -1,3 +1,4 @@
+import TitleSection from './TitleSection'
 import Section from './Section'
 import {
 	COST_PER_1000_COMPLETION_TOKENS,
@@ -12,6 +13,18 @@ import textToSpeechImage from '@/assets/chat.png'
 
 const LandingPageSections = () => (
 	<main className="flex flex-col items-center gap-8 py-16">
+		<TitleSection>
+			TryGPT is the <strong>cheapest</strong> way to get access to GPT-4 which
+			is far, far superior to the free GPT-3.5.
+			<br />
+			For example, GPT-4 scores in the <strong>90th percentile</strong> for the
+			bar exam and gets a <strong>4 on AP Calc BC</strong>.
+			<br />
+			GPT-3.5 scores in the <strong className="bad">10th percentile</strong> and
+			gets a <strong className="bad">1 on AP Calc BC</strong>. It's also{' '}
+			<strong>significantly better at writing essays</strong>.
+		</TitleSection>
+		<hr className="max-w-[1800px] w-[95%] border-2 border-white border-opacity-20" />
 		<Section
 			id="pricing"
 			title={
