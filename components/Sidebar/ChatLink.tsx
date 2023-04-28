@@ -88,7 +88,12 @@ const SidebarChatLink = ({ chat }: { chat: Chat }) => {
 		try {
 			setIsDeleteChatLoading(true)
 
-			if (!confirm(`Are you sure you want to delete "${chat.name}"?`)) return
+			if (
+				!confirm(
+					`Are you sure you want to delete "${chat.name ?? 'Untitled'}"?`
+				)
+			)
+				return
 
 			const response = await fetch(
 				`/api/chats/${encodeURIComponent(chat.id)}`,
