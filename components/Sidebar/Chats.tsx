@@ -1,18 +1,12 @@
 'use client'
 
-import { useMemo } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import ChatLink from './ChatLink'
-import chatsState from '@/lib/atoms/chats'
+import sortedChatsState from '@/lib/atoms/sortedChats'
 
 const SidebarChats = () => {
-	const chats = useRecoilValue(chatsState)
-
-	const sortedChats = useMemo(
-		() => chats && [...chats].sort((a, b) => b.updated - a.updated),
-		[chats]
-	)
+	const sortedChats = useRecoilValue(sortedChatsState)
 
 	return (
 		<div className="mt-4">
