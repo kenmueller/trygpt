@@ -20,7 +20,7 @@ const encoder = new TextEncoder()
 const systemMessages: ChatCompletionMessage[] = [
 	{
 		role: 'system',
-		text: 'Do not surround your response in quotes'
+		text: 'Do not surround your response in quotes. Write a maximum of 15 words.'
 	}
 ]
 
