@@ -133,7 +133,9 @@ const SidebarChatLink = ({ chat }: { chat: Chat }) => {
 			</Link>
 			<div
 				className={cx(
-					'absolute right-1 top-1 flex items-center bg-[#6c6c6e] rounded-md pointer-events-none opacity-0 transition-opacity ease-linear group-hover:pointer-events-auto group-hover:opacity-100',
+					'absolute right-1 top-1 flex items-center bg-[#6c6c6e] rounded-md pointer-events-none opacity-0 transition-opacity ease-linear',
+					!isMobile &&
+						'group-hover:pointer-events-auto group-hover:opacity-100',
 					isMobile && active && 'pointer-events-auto opacity-100'
 				)}
 			>
