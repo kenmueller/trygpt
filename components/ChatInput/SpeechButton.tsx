@@ -59,6 +59,9 @@ const ChatInputSpeechButton = ({
 
 			startArtyom(artyom)
 		} catch (unknownError) {
+			if (unknownError === 'not-allowed')
+				unknownError = new Error('Microphone access has been disabled')
+
 			alertError(errorFromUnknown(unknownError))
 		}
 	}, [artyom])
@@ -82,6 +85,9 @@ const ChatInputSpeechButton = ({
 
 			setIsStarted(isStarted => !isStarted)
 		} catch (unknownError) {
+			if (unknownError === 'not-allowed')
+				unknownError = new Error('Microphone access has been disabled')
+
 			alertError(errorFromUnknown(unknownError))
 		} finally {
 			setIsLoading(false)
