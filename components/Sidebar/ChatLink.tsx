@@ -146,6 +146,7 @@ const SidebarChatLink = ({ chat }: { chat: Chat }) => {
 			>
 				<button
 					className="pl-2 pr-1 py-0.5 transition-opacity ease-linear hover:opacity-70 disabled:opacity-50"
+					aria-label="Edit chat name"
 					disabled={isEditChatLoading}
 					onClick={editChat}
 				>
@@ -153,6 +154,7 @@ const SidebarChatLink = ({ chat }: { chat: Chat }) => {
 				</button>
 				<button
 					className="pl-1 pr-2 py-0.5 transition-opacity ease-linear hover:opacity-70 disabled:opacity-50"
+					aria-label="Delete chat"
 					disabled={isDeleteChatLoading}
 					onClick={deleteChat}
 				>
