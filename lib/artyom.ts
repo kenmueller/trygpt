@@ -22,6 +22,8 @@ export interface Artyom {
 		debug: boolean
 		speed: number
 	}) => Promise<void>
+	say: (message: string) => string
+	shutUp: () => void
 }
 
 export const stopArtyom = (artyom: Artyom) => {

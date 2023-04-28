@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { nanoid } from 'nanoid'
@@ -24,6 +24,8 @@ import errorFromUnknown from '@/lib/error/fromUnknown'
 import chatMessagesState from '@/lib/atoms/chatMessages'
 import userState from '@/lib/atoms/user'
 import chatState from '@/lib/atoms/chat'
+import isSpeechStartedState from '@/lib/atoms/isSpeechStarted'
+import Artyom from '@/lib/artyom'
 
 const ChatInput = () => {
 	const router = useRouter()
@@ -40,6 +42,35 @@ const ChatInput = () => {
 
 	const [prompt, setPrompt] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
+
+	const isSpeechStarted = useRecoilValue(isSpeechStartedState)
+	const isSpeechStartedRef = useRef(isSpeechStarted)
+
+	const didUnloadRef = useRef(false)
+
+	useEffect(() => {
+		isSpeechStartedRef.current = isSpeechStarted
+	}, [isSpeechStartedRef, isSpeechStarted])
+
+	const artyom = useMemo(() => {
+		if (typeof window === 'undefined') return null
+		return new Artyom()
+	}, [])
+
+	useEffect(() => {
+		// On unload stop text-to-speech
+
+		return () => {
+			try {
+				if (!artyom) throw new Error('Artyom is not initialized')
+
+				didUnloadRef.current = true
+				artyom.shutUp()
+			} catch (unknownError) {
+				alertError(errorFromUnknown(unknownError))
+			}
+		}
+	}, [artyom])
 
 	const updateChat = useCallback(
 		(transform: (chat: Chat) => Chat) => {
@@ -114,11 +145,13 @@ const ChatInput = () => {
 
 						if (!response.ok) throw await errorFromResponse(response)
 
+						let responseText = ''
+
 						const responseMessage: ChatMessage = {
 							chatId: chat.id,
 							id: nanoid(),
 							role: 'assistant',
-							text: '',
+							text: responseText,
 							created: Date.now(),
 							loading: true
 						}
@@ -126,11 +159,27 @@ const ChatInput = () => {
 						addMessages([responseMessage])
 
 						try {
-							for await (const chunk of streamResponse(response))
+							for await (const chunk of streamResponse(response)) {
 								updateMessage(responseMessage.id, message => ({
 									...message,
 									text: message.text + chunk
 								}))
+
+								responseText += chunk
+							}
+
+							if (isSpeechStartedRef.current && !didUnloadRef.current) {
+								try {
+									if (!artyom) throw new Error('Artyom is not initialized')
+
+									if (!artyom.speechSupported)
+										throw new Error('Text-to-speech is not supported')
+
+									artyom.say(responseText)
+								} catch (unknownError) {
+									alertError(errorFromUnknown(unknownError))
+								}
+							}
 						} catch (unknownError) {
 							updateMessage(responseMessage.id, message => ({
 								...message,
@@ -197,7 +246,10 @@ const ChatInput = () => {
 			messages,
 			setChats,
 			setInitialMessages,
-			router
+			router,
+			isSpeechStartedRef,
+			didUnloadRef,
+			artyom
 		]
 	)
 
