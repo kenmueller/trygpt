@@ -7,7 +7,7 @@ import Nav from '@/components/Dashboard/Nav'
 
 const ChatPageNav = () => {
 	const chat = useRecoilValue(chatState)
-	return <Nav>{chat?.name ?? 'Chat not found'}</Nav>
+	return <Nav>{chat ? chat.name ?? 'Untitled' : 'Chat not found'}</Nav>
 }
 
 export default ChatPageNav
