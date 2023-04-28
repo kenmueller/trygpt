@@ -213,7 +213,11 @@ const ChatInput = () => {
 			try {
 				const response = await fetch(
 					`/api/chats/${encodeURIComponent(chat.id)}/name`,
-					{ method: 'PATCH', body: prompt }
+					{
+						method: 'PATCH',
+						headers: { 'content-type': 'application/json' },
+						body: JSON.stringify({ type: 'prompt', value: prompt })
+					}
 				)
 
 				if (!response.ok) throw await errorFromResponse(response)

@@ -24,12 +24,20 @@ const systemMessages: ChatCompletionMessage[] = [
 	}
 ]
 
+interface UpdateChatNameData {
+	type: 'prompt' | 'value'
+	value: string
+}
+
 export const PATCH = async (
 	request: NextRequest,
 	{ params: { id: encodedChatId } }: { params: { id: string } }
 ) => {
 	try {
 		const chatId = decodeURIComponent(encodedChatId)
+
+		if (request.headers.get('content-type') !== 'application/json')
+			throw new HttpError(ErrorCode.BadRequest, 'Invalid content type')
 
 		const user = await userFromRequest()
 		if (!user) throw new HttpError(ErrorCode.Unauthorized, 'Unauthorized')
@@ -40,53 +48,75 @@ export const PATCH = async (
 		if (!(await isChatOwnedByUser(chatId, user.id)))
 			throw new HttpError(ErrorCode.Forbidden, 'You do not own this chat')
 
-		const prompt = (await request.text()).trim()
-		if (!prompt) throw new HttpError(ErrorCode.BadRequest, 'No prompt')
+		const data: UpdateChatNameData = await request.json()
 
-		const requestMessages: ChatCompletionMessage[] = [
-			...systemMessages,
-			{
-				role: 'user',
-				text: `Generate a short title for a conversation starting with this prompt: ${prompt}`
-			}
-		]
-
-		const chatCompletion = createChatCompletion(requestMessages)
-
-		let responseText = ''
-
-		return new NextResponse(
-			new ReadableStream<Uint8Array>({
-				pull: async controller => {
-					const { value, done } = await chatCompletion.next()
-
-					if (!done) {
-						controller.enqueue(encoder.encode(value))
-						responseText += value
-
-						return
-					}
-
-					const responseMessage: ChatCompletionMessage = {
-						role: 'assistant',
-						text: responseText
-					}
-
-					await Promise.all([
-						updateChat(chatId, {
-							name: trimQuotes(responseText),
-							updated: 'now'
-						}),
-						updateUser(user.id, {
-							incrementRequestTokens: getTokens(requestMessages),
-							incrementResponseTokens: getTokens([responseMessage])
-						})
-					])
-
-					controller.close()
-				}
-			})
+		if (
+			!(
+				typeof data === 'object' &&
+				data &&
+				['prompt', 'value'].includes(data.type) &&
+				typeof data.value === 'string' &&
+				data.value
+			)
 		)
+			throw new HttpError(ErrorCode.BadRequest, 'Invalid data')
+
+		switch (data.type) {
+			case 'prompt': {
+				const requestMessages: ChatCompletionMessage[] = [
+					...systemMessages,
+					{
+						role: 'user',
+						text: `Generate a short title for a conversation starting with this prompt: ${data.value}`
+					}
+				]
+
+				const chatCompletion = createChatCompletion(requestMessages)
+
+				let responseText = ''
+
+				return new NextResponse(
+					new ReadableStream<Uint8Array>({
+						pull: async controller => {
+							const { value, done } = await chatCompletion.next()
+
+							if (!done) {
+								controller.enqueue(encoder.encode(value))
+								responseText += value
+
+								return
+							}
+
+							const responseMessage: ChatCompletionMessage = {
+								role: 'assistant',
+								text: responseText
+							}
+
+							await Promise.all([
+								updateChat(chatId, {
+									name: trimQuotes(responseText),
+									updated: 'now'
+								}),
+								updateUser(user.id, {
+									incrementRequestTokens: getTokens(requestMessages),
+									incrementResponseTokens: getTokens([responseMessage])
+								})
+							])
+
+							controller.close()
+						}
+					})
+				)
+			}
+			case 'value': {
+				await updateChat(chatId, {
+					name: data.value,
+					updated: 'now'
+				})
+
+				return new NextResponse('')
+			}
+		}
 	} catch (unknownError) {
 		const { code, message } = errorFromUnknown(unknownError)
 		return new NextResponse(message, { status: code })
