@@ -14,7 +14,7 @@ import useImmediateEffect from '@/lib/useImmediateEffect'
 import userState from '@/lib/atoms/user'
 import isMobileState from '@/lib/atoms/isMobile'
 
-const REFRESH_INTERVAL = 10 * 60 * 1000
+const REFRESH_INTERVAL = 10 * 60 * 1000 // 10 minutes
 
 const auth = getAuth(app)
 
