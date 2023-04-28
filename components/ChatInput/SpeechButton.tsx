@@ -60,7 +60,7 @@ const ChatInputShareButton = ({
 			if (!isStarted) {
 				await toast.promise(startArtyom(artyom), {
 					pending: 'Starting speech...',
-					success: 'Speech started',
+					success: 'Speech started. Start your prompt with "Tell chat..."',
 					error: 'Failed to start speech'
 				})
 			} else {
@@ -87,6 +87,21 @@ const ChatInputShareButton = ({
 			alertError(errorFromUnknown(unknownError))
 		}
 	}, [disabled, artyom, setIsStarted])
+
+	useEffect(() => {
+		// On unload stop speech
+
+		return () => {
+			try {
+				if (!artyom) throw new Error('Artyom is not initialized')
+
+				stopArtyom(artyom)
+				setIsStarted(false)
+			} catch (unknownError) {
+				alertError(errorFromUnknown(unknownError))
+			}
+		}
+	}, [artyom])
 
 	useEffect(() => {
 		isTypingRef.current = isTyping
