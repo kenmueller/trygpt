@@ -6,6 +6,7 @@ import alertError from '@/lib/error/alert'
 import errorFromResponse from '@/lib/error/fromResponse'
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
+import formatCents from '@/lib/cents/format'
 
 const BuyLink = ({ className }: { className?: string }) => {
 	const [isLoading, setIsLoading] = useState(false)
@@ -28,7 +29,13 @@ const BuyLink = ({ className }: { className?: string }) => {
 
 	return (
 		<button className={className} disabled={isLoading} onClick={onClick}>
-			{isLoading ? <ThreeDotsLoader /> : 'Purchase tokens for $1'}
+			{isLoading ? (
+				<ThreeDotsLoader />
+			) : (
+				<span>
+					Purchase tokens for <strong>{formatCents(100)}</strong>
+				</span>
+			)}
 		</button>
 	)
 }
