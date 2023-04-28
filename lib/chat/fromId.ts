@@ -20,7 +20,7 @@ const chatFromIdWithConnection = async (
 					   chats.id, chats.name, chats.created, chats.updated
 				   FROM chats
 				   LEFT JOIN users ON users.id = chats.user_id
-				   WHERE chats.id = ${id}`
+				   WHERE chats.id = ${id} AND chats.visible`
 	)) as ChatWithUserData[]
 
 	return (chats[0] as ChatWithUserData | undefined) ?? null

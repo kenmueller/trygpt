@@ -5,6 +5,7 @@ import { connect } from '@/lib/pool'
 export interface UpdateChatData {
 	name?: string
 	updated?: 'now'
+	visible?: false
 }
 
 const updateChat = (
@@ -18,7 +19,7 @@ const updateChat = (
 
 const updateChatWithConnection = async (
 	id: string,
-	{ name, updated }: UpdateChatData,
+	{ name, updated, visible }: UpdateChatData,
 	connection: DatabasePoolConnection
 ) => {
 	await connection.query(
@@ -26,11 +27,12 @@ const updateChatWithConnection = async (
 				   SET ${sql.join(
 							[
 								name !== undefined && sql.unsafe`name = ${name}`,
-								updated !== undefined && sql.unsafe`updated = NOW()`
+								updated !== undefined && sql.unsafe`updated = NOW()`,
+								visible !== undefined && sql.unsafe`visible = ${visible}`
 							].filter(Boolean) as ReturnType<typeof sql.unsafe>[],
 							sql.fragment`, `
 						)}
-				   WHERE id = ${id}`
+				   WHERE id = ${id} AND visible`
 	)
 }
 

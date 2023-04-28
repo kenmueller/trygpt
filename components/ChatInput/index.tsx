@@ -112,7 +112,7 @@ const ChatInput = () => {
 							}
 						)
 
-						if (!response.ok) throw errorFromResponse(response)
+						if (!response.ok) throw await errorFromResponse(response)
 
 						const responseMessage: ChatMessage = {
 							chatId: chat.id,

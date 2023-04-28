@@ -21,7 +21,7 @@ const isChatOwnedByUserWithConnection = async (
 		sql.unsafe`SELECT EXISTS(
 				      SELECT 1
 					  FROM chats
-					  WHERE user_id = ${userId} AND id = ${chatId}
+					  WHERE user_id = ${userId} AND id = ${chatId} AND visible
 				   )`
 	)) as [{ exists: boolean }]
 

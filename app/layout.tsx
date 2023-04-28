@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import localFont from 'next/font/local'
 import cx from 'classnames'
 
+import getIsMobile from '@/lib/isMobile'
 import userFromRequest from '@/lib/user/fromRequest'
 import SetRootLayoutState from '@/components/RootLayout/SetState'
 import baseMetadata from '@/lib/metadata/base'
@@ -45,6 +46,7 @@ export const dynamic = 'force-dynamic'
 export const generateMetadata = () => baseMetadata()
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
+	const isMobile = getIsMobile()
 	const user = await userFromRequest()
 
 	return (
@@ -57,7 +59,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
 				)}
 			>
 				<RecoilRoot>
-					<SetRootLayoutState user={user} />
+					<SetRootLayoutState isMobile={isMobile} user={user} />
 					{children}
 					<ToastContainer theme="dark" />
 					<FontAwesomeConfig />

@@ -12,14 +12,27 @@ import alertError from '@/lib/error/alert'
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import useImmediateEffect from '@/lib/useImmediateEffect'
 import userState from '@/lib/atoms/user'
+import isMobileState from '@/lib/atoms/isMobile'
 
 const REFRESH_INTERVAL = 10 * 60 * 1000
 
 const auth = getAuth(app)
 
-const SetRootLayoutState = ({ user }: { user: User | null }) => {
+const SetRootLayoutState = ({
+	isMobile,
+	user
+}: {
+	isMobile: boolean
+	user: User | null
+}) => {
 	const router = useRouter()
+
+	const setIsMobile = useSetRecoilState(isMobileState)
 	const setUser = useSetRecoilState(userState)
+
+	useImmediateEffect(() => {
+		setIsMobile(isMobile)
+	}, [isMobile, setIsMobile])
 
 	useImmediateEffect(() => {
 		setUser(user)

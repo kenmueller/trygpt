@@ -18,7 +18,7 @@ const chatsFromUserIdWithConnection = async (
 	const chats = (await connection.any(
 		sql.unsafe`SELECT user_id AS "userId", id, name, created, updated
 				   FROM chats
-				   WHERE user_id = ${userId}
+				   WHERE user_id = ${userId} AND visible
 				   ORDER BY updated DESC`
 	)) as Chat[]
 
