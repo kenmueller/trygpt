@@ -11,6 +11,7 @@ import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 import defaultUserImage from '@/assets/user.png'
 import assistantImage from '@/assets/chatgpt.jpg'
 import chatState from '@/lib/atoms/chat'
+import SoundButton from './MessageSoundButton'
 
 const ChatMessage = ({ message }: { message: ChatMessage }) => {
 	const chat = useRecoilValue(chatState)
@@ -38,11 +39,11 @@ const ChatMessage = ({ message }: { message: ChatMessage }) => {
 				width={50}
 				height={50}
 			/>
-			<Markdown className="content grow-[1] min-h-[40px]" text={message.text} />
-			<CopyButton
-				className="copy !absolute right-2 w-700:right-4 top-4"
-				message={message}
-			/>
+			<Markdown className="content grow-[1] min-h-[75px]" text={message.text} />
+			<div className="options absolute right-2 w-700:right-4 top-4 flex flex-col items-center gap-2">
+				<CopyButton message={message} />
+				<SoundButton message={message} />
+			</div>
 			{message.loading && (
 				<ThreeDotsLoader className="loader absolute right-2 w-700:right-4 bottom-4" />
 			)}

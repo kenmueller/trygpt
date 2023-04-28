@@ -4,8 +4,12 @@
 	> .message {
 		@apply pr-2 w-700:pr-4;
 
+		> .content {
+			@apply min-h-[auto];
+		}
+
 		> .image,
-		> .copy,
+		> .options,
 		> .loader {
 			@apply hidden;
 		}

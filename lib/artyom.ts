@@ -22,7 +22,7 @@ export interface Artyom {
 		debug: boolean
 		speed: number
 	}) => Promise<void>
-	say: (message: string) => string
+	say: (message: string, options?: { onEnd?: () => void }) => string
 	shutUp: () => void
 }
 
