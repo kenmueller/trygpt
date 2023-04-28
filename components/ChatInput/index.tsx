@@ -58,6 +58,19 @@ const ChatInput = () => {
 	}, [])
 
 	useEffect(() => {
+		// When speech is stopped stop text-to-speech
+
+		if (isSpeechStarted) return
+
+		try {
+			if (!artyom) throw new Error('Artyom is not initialized')
+			artyom.shutUp()
+		} catch (unknownError) {
+			alertError(errorFromUnknown(unknownError))
+		}
+	}, [isSpeechStarted, artyom])
+
+	useEffect(() => {
 		// On unload stop text-to-speech
 
 		return () => {
