@@ -12,6 +12,7 @@ import User from '@/lib/user'
 import chatsState from '@/lib/atoms/chats'
 import initialMessagesState from '@/lib/atoms/initialMessages'
 import errorFromUnknown from '@/lib/error/fromUnknown'
+import SpeechButton from './SpeechButton'
 
 const NewChatInput = ({ user }: { user: User }) => {
 	const router = useRouter()
@@ -71,7 +72,13 @@ const NewChatInput = ({ user }: { user: User }) => {
 			setPrompt={setPrompt}
 			isLoading={isLoading}
 			onSubmit={onSubmit}
-		/>
+		>
+			<SpeechButton
+				isTyping={isLoading}
+				disabled={!user.purchasedAmount}
+				submit={onSubmit}
+			/>
+		</BaseChatInput>
 	)
 }
 

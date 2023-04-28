@@ -27,7 +27,7 @@ const saveImage = async (container: HTMLDivElement, filename: string) => {
 	saveAs(url, `${filename}.jpg`)
 }
 
-const ChatInputSpeechButton = ({ chat }: { chat: Chat }) => {
+const ChatInputScreenshotButton = ({ chat }: { chat: Chat }) => {
 	const chatMessagesContainer = useRecoilValue(chatMessagesContainerRef)
 
 	const [isLoading, setIsLoading] = useState(false)
@@ -64,4 +64,4 @@ const ChatInputSpeechButton = ({ chat }: { chat: Chat }) => {
 	)
 }
 
-export default ChatInputSpeechButton
+export default ChatInputScreenshotButton

@@ -10,13 +10,13 @@ import Artyom, { startArtyom, stopArtyom } from '@/lib/artyom'
 import alertError from '@/lib/error/alert'
 import errorFromUnknown from '@/lib/error/fromUnknown'
 
-const ChatInputShareButton = ({
-	isTyping,
-	disabled,
+const ChatInputSpeechButton = ({
+	isTyping = false,
+	disabled = false,
 	submit
 }: {
-	isTyping: boolean
-	disabled: boolean
+	isTyping?: boolean
+	disabled?: boolean
 	submit: (prompt: string) => void
 }) => {
 	const isTypingRef = useRef(isTyping)
@@ -127,4 +127,4 @@ const ChatInputShareButton = ({
 	)
 }
 
-export default ChatInputShareButton
+export default ChatInputSpeechButton
