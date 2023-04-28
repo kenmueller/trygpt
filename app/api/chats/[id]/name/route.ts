@@ -8,7 +8,7 @@ import isChatOwnedByUser from '@/lib/chat/isOwnedByUser'
 import createChatCompletion, {
 	ChatCompletionMessage
 } from '@/lib/createChatCompletion'
-import updateChatName from '@/lib/chat/updateName'
+import updateChat from '@/lib/chat/update'
 import trimQuotes from '@/lib/trimQuotes'
 import updateUser from '@/lib/user/update'
 import getTokens from '@/lib/getTokens'
@@ -72,12 +72,16 @@ export const PATCH = async (
 						text: responseText
 					}
 
-					await updateChatName(chatId, trimQuotes(responseText))
-
-					await updateUser(user.id, {
-						incrementRequestTokens: getTokens(requestMessages),
-						incrementResponseTokens: getTokens([responseMessage])
-					})
+					await Promise.all([
+						updateChat(chatId, {
+							name: trimQuotes(responseText),
+							updated: 'now'
+						}),
+						updateUser(user.id, {
+							incrementRequestTokens: getTokens(requestMessages),
+							incrementResponseTokens: getTokens([responseMessage])
+						})
+					])
 
 					controller.close()
 				}

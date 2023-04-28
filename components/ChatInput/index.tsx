@@ -41,6 +41,21 @@ const ChatInput = () => {
 	const [prompt, setPrompt] = useState('')
 	const [isLoading, setIsLoading] = useState(false)
 
+	const updateChat = useCallback(
+		(transform: (chat: Chat) => Chat) => {
+			setChat(chat => chat && (transform(chat) as ChatWithUserData))
+
+			setChats(
+				chats =>
+					chats &&
+					chats.map(otherChat =>
+						otherChat.id === chat.id ? transform(otherChat) : otherChat
+					)
+			)
+		},
+		[chat.id, setChat, setChats]
+	)
+
 	const addMessages = useCallback(
 		(newMessages: ChatMessage[]) => {
 			setMessages(
@@ -73,6 +88,8 @@ const ChatInput = () => {
 				setIsLoading(true)
 
 				if (user.id === chat.userId) {
+					updateChat(chat => ({ ...chat, updated: Date.now() }))
+
 					const newMessages: ChatMessage[] = inputMessages.map(
 						({ role, text }) => ({
 							chatId: chat.id,
@@ -174,6 +191,7 @@ const ChatInput = () => {
 		[
 			user,
 			chat,
+			updateChat,
 			addMessages,
 			updateMessage,
 			messages,
@@ -190,18 +208,6 @@ const ChatInput = () => {
 		[onSubmitMessages]
 	)
 
-	const updateChat = useCallback(
-		(id: string, transform: (chat: Chat) => Chat) => {
-			setChat(chat => chat && (transform(chat) as ChatWithUserData))
-
-			setChats(
-				chats =>
-					chats && chats.map(chat => (chat.id === id ? transform(chat) : chat))
-			)
-		},
-		[setChat, setChats]
-	)
-
 	const updateChatName = useCallback(
 		async (prompt: string) => {
 			try {
@@ -210,13 +216,17 @@ const ChatInput = () => {
 					{ method: 'PATCH', body: prompt }
 				)
 
+				if (!response.ok) throw await errorFromResponse(response)
+
+				updateChat(chat => ({ ...chat, updated: Date.now() }))
+
 				for await (const chunk of streamResponse(response))
-					updateChat(chat.id, chat => ({
+					updateChat(chat => ({
 						...chat,
 						name: (chat.name ?? '') + chunk
 					}))
 
-				updateChat(chat.id, chat => ({
+				updateChat(chat => ({
 					...chat,
 					name: chat.name && trimQuotes(chat.name)
 				}))
@@ -224,7 +234,7 @@ const ChatInput = () => {
 				alertError(errorFromUnknown(unknownError))
 			}
 		},
-		[chat, updateChat]
+		[chat.id, updateChat]
 	)
 
 	const isMessagesLoaded = Boolean(messages)

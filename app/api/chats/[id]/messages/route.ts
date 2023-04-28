@@ -14,6 +14,7 @@ import createChatCompletion, {
 import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
 import updateUser from '@/lib/user/update'
 import getTokens from '@/lib/getTokens'
+import updateChat from '@/lib/chat/update'
 
 export const dynamic = 'force-dynamic'
 
@@ -101,12 +102,16 @@ export const POST = async (
 						text: responseText
 					}
 
-					await createChatMessages([responseMessage])
-
-					await updateUser(user.id, {
-						incrementRequestTokens: getTokens(requestMessages),
-						incrementResponseTokens: getTokens([responseMessage])
-					})
+					await Promise.all([
+						createChatMessages([responseMessage]),
+						updateChat(chatId, {
+							updated: 'now'
+						}),
+						updateUser(user.id, {
+							incrementRequestTokens: getTokens(requestMessages),
+							incrementResponseTokens: getTokens([responseMessage])
+						})
+					])
 
 					controller.close()
 				}
