@@ -1,6 +1,6 @@
 import cx from 'classnames'
 
-import mdToHtml from '@/lib/mdToHtml'
+import mdToHtml from '@/lib/md/toHtml'
 
 import 'katex/dist/katex.css'
 import 'highlight.js/styles/github-dark.css'

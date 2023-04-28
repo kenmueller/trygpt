@@ -26,6 +26,7 @@ import userState from '@/lib/atoms/user'
 import chatState from '@/lib/atoms/chat'
 import isSpeechStartedState from '@/lib/atoms/isSpeechStarted'
 import Artyom from '@/lib/artyom'
+import mdToText from '@/lib/md/toText'
 
 const ChatInput = () => {
 	const router = useRouter()
@@ -188,7 +189,7 @@ const ChatInput = () => {
 									if (!artyom.speechSupported)
 										throw new Error('Text-to-speech is not supported')
 
-									artyom.say(responseText)
+									artyom.say(mdToText(responseText))
 								} catch (unknownError) {
 									alertError(errorFromUnknown(unknownError))
 								}
