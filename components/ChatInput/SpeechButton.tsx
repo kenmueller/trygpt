@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useRecoilState } from 'recoil'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicrophone } from '@fortawesome/free-solid-svg-icons'
 import { toast } from 'react-toastify'
@@ -9,6 +10,7 @@ import cx from 'classnames'
 import Artyom, { startArtyom, stopArtyom } from '@/lib/artyom'
 import alertError from '@/lib/error/alert'
 import errorFromUnknown from '@/lib/error/fromUnknown'
+import isSpeechStartedState from '@/lib/atoms/isSpeechStarted'
 
 const ChatInputSpeechButton = ({
 	isTyping = false,
@@ -23,7 +25,7 @@ const ChatInputSpeechButton = ({
 	const submitRef = useRef(submit)
 
 	const [isLoading, setIsLoading] = useState(false)
-	const [isStarted, setIsStarted] = useState(false)
+	const [isStarted, setIsStarted] = useRecoilState(isSpeechStartedState)
 
 	const artyom = useMemo(() => {
 		if (typeof window === 'undefined') return null
@@ -48,14 +50,24 @@ const ChatInputSpeechButton = ({
 		return artyom
 	}, [isTypingRef, submitRef])
 
+	const start = useCallback(() => {
+		try {
+			if (!artyom) throw new Error('Artyom is not initialized')
+
+			if (!artyom.recognizingSupported)
+				throw new Error('Speech recognition is not supported')
+
+			startArtyom(artyom)
+		} catch (unknownError) {
+			alertError(errorFromUnknown(unknownError))
+		}
+	}, [artyom])
+
 	const toggle = useCallback(async () => {
 		try {
 			setIsLoading(true)
 
 			if (!artyom) throw new Error('Artyom is not initialized')
-
-			if (!artyom.recognizingSupported)
-				throw new Error('Speech recognition is not supported')
 
 			if (!isStarted) {
 				await toast.promise(startArtyom(artyom), {
@@ -77,6 +89,14 @@ const ChatInputSpeechButton = ({
 	}, [setIsLoading, isStarted, setIsStarted, artyom])
 
 	useEffect(() => {
+		// Start speech on mount if started was true from another chat
+		if (isStarted) start()
+
+		// Do not include isStarted in the depenedencies, only run on mount
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [start])
+
+	useEffect(() => {
 		try {
 			if (!disabled) return
 			if (!artyom) throw new Error('Artyom is not initialized')
@@ -94,9 +114,7 @@ const ChatInputSpeechButton = ({
 		return () => {
 			try {
 				if (!artyom) throw new Error('Artyom is not initialized')
-
 				stopArtyom(artyom)
-				setIsStarted(false)
 			} catch (unknownError) {
 				alertError(errorFromUnknown(unknownError))
 			}
