@@ -35,7 +35,7 @@ const ChatInputSpeechButton = ({
 		artyom.addCommands([
 			{
 				smart: true,
-				indexes: ['tell chat *', 'tell chad *'],
+				indexes: ['tell chat *', 'tell chad *', 'tell jack *'],
 				action: (_index: number, message: string) => {
 					if (isTypingRef.current) {
 						alertError(new Error('Wait for ChatGPT to stop typing'))
