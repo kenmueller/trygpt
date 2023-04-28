@@ -2,6 +2,8 @@ if (!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID)
 	throw new Error('Missing NEXT_PUBLIC_FIREBASE_PROJECT_ID')
 
 const { getCSP, SELF, UNSAFE_INLINE, UNSAFE_EVAL, DATA } = require('csp-header')
+const withPlugins = require('next-compose-plugins')
+const { default: withPwa } = require('@ducanh2912/next-pwa')
 const { IgnorePlugin } = require('webpack')
 
 const DEV = process.env.NODE_ENV === 'development'
@@ -63,4 +65,7 @@ const config = {
 	}
 }
 
-module.exports = config
+module.exports = withPlugins(
+	[withPwa({ disable: DEV, dest: 'public' })],
+	config
+)
