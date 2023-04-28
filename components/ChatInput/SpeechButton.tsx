@@ -117,7 +117,7 @@ const ChatInputShareButton = ({
 				'text-xl w-450:text-2xl transition-colors ease-linear hover:text-opacity-70 disabled:text-opacity-50',
 				!isStarted ? 'text-sky-500' : 'text-red-500'
 			)}
-			aria-label="Start speaking your messages"
+			aria-label={!isStarted ? 'Start speaking your messages' : 'Stop speech'}
 			data-balloon-pos="up-left"
 			disabled={disabled || isLoading}
 			onClick={toggle}
