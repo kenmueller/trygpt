@@ -6,7 +6,6 @@ import cx from 'classnames'
 
 import ChatMessage from '@/lib/chat/message'
 import Markdown from '@/components/Markdown'
-import SoundButton from './MessageSoundButton'
 import CopyButton from './MessageCopyButton'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 import defaultUserImage from '@/assets/user.png'
@@ -40,9 +39,6 @@ const ChatMessage = ({ message }: { message: ChatMessage }) => {
 				height={50}
 			/>
 			<Markdown className="content grow-[1] min-h-[40px]" text={message.text} />
-			{/* {message.role === 'assistant' && (
-				<SoundButton message={message} />
-			)} */}
 			<CopyButton
 				className="copy !absolute right-2 w-700:right-4 top-4"
 				message={message}
