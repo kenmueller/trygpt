@@ -18,6 +18,17 @@ const REFRESH_INTERVAL = 10 * 60 * 1000
 
 const auth = getAuth(app)
 
+const sendTokenForCurrentUser = async () => {
+	try {
+		const { currentUser } = auth
+		if (!currentUser) return
+
+		await sendToken(currentUser)
+	} catch (unknownError) {
+		alertError(errorFromUnknown(unknownError))
+	}
+}
+
 const SetRootLayoutState = ({
 	isMobile,
 	user
@@ -65,14 +76,15 @@ const SetRootLayoutState = ({
 	}, [router])
 
 	useEffect(() => {
-		const interval = setInterval(() => {
-			const { currentUser } = auth
+		window.addEventListener('focus', sendTokenForCurrentUser)
 
-			if (currentUser)
-				sendToken(currentUser).catch(unknownError => {
-					alertError(errorFromUnknown(unknownError))
-				})
-		}, REFRESH_INTERVAL)
+		return () => {
+			window.removeEventListener('focus', sendTokenForCurrentUser)
+		}
+	})
+
+	useEffect(() => {
+		const interval = setInterval(sendTokenForCurrentUser, REFRESH_INTERVAL)
 
 		return () => {
 			clearInterval(interval)
