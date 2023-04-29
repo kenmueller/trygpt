@@ -12,12 +12,28 @@ import getUrl from '@/lib/getUrl'
 
 export const dynamic = 'force-dynamic'
 
-export const POST = async (_request: NextRequest) => {
+export const POST = async (request: NextRequest) => {
 	try {
-		const url = getUrl()
-
 		const user = await userFromRequest()
 		if (!user) throw new HttpError(ErrorCode.Unauthorized, 'Unauthorized')
+
+		if (user.purchasedAmount)
+			throw new HttpError(
+				ErrorCode.Forbidden,
+				"You've already purchased GPT 4. Reload the page to continue."
+			)
+
+		const referer = request.headers.get('referer')
+
+		const previousUrl = referer
+			? new URL(referer)
+			: new URL('/chats/new', getUrl().origin)
+
+		const successUrl = new URL(previousUrl)
+		successUrl.searchParams.set('purchased', 'true')
+
+		const cancelUrl = new URL(previousUrl)
+		cancelUrl.searchParams.set('purchased', 'false')
 
 		const { url: checkoutUrl } = await stripe.checkout.sessions.create({
 			line_items: [
@@ -30,8 +46,8 @@ export const POST = async (_request: NextRequest) => {
 			customer: user.customerId,
 			mode: 'payment',
 			payment_intent_data: { setup_future_usage: 'off_session' },
-			success_url: `${url.origin}/chats/new`,
-			cancel_url: `${url.origin}/chats/new`
+			success_url: successUrl.href,
+			cancel_url: cancelUrl.href
 		})
 
 		if (!checkoutUrl)
