@@ -23,7 +23,7 @@ const NewChatPage = async () => {
 					<div className="flex flex-col items-center m-auto">
 						<h1 className="text-4xl font-black">New Chat</h1>
 						<p className="mt-1 font-bold opacity-50">GPT 4</p>
-						{user.purchasedAmount && (
+						{!user.purchasedAmount && (
 							<BuyLink className="flex flex-col justify-center items-center w-60 h-10 mt-6 font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70" />
 						)}
 					</div>
