@@ -24,6 +24,7 @@ const csp = getCSP({
 		'connect-src': [
 			SELF,
 			DATA,
+			'apis.google.com',
 			'identitytoolkit.googleapis.com',
 			'securetoken.googleapis.com',
 			...UNSPlASH_SOURCES
