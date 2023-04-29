@@ -362,7 +362,7 @@ const ChatInput = () => {
 			isLoading={isLoading}
 			onSubmit={onSubmitPrompt}
 		>
-			<ShareButton />
+			<ShareButton chat={chat} />
 			<ScreenshotButton chat={chat} />
 			<SpeechButton
 				isTyping={isLoading}
