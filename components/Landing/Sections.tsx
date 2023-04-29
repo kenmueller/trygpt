@@ -29,6 +29,23 @@ const LandingPageSections = () => (
 			id="pricing"
 			title={
 				<>
+					Try ChatGPT for <strong>free</strong>. If you like it, you can
+					purchase the most advanced model (GPT 4) for <strong>$1</strong>.
+				</>
+			}
+			description={
+				<>
+					A limited number of free messages are available once you sign up. If
+					you want more, or you want the most advanced model, you can purchase
+					it for <strong>$1</strong>.
+				</>
+			}
+			image={startImage}
+			imageAlt="Starting out"
+		/>
+		<Section
+			title={
+				<>
 					Start out with <strong>$1</strong>.
 				</>
 			}
