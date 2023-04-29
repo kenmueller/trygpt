@@ -17,6 +17,13 @@ const PurchasedAlert = () => {
 				toast.info("That's okay, you can always buy GPT 4 later.")
 				break
 		}
+
+		if (purchased) {
+			const newUrl = new URL(window.location.href)
+			newUrl.searchParams.delete('purchased')
+
+			window.history.replaceState({ path: newUrl.href }, '', newUrl.href)
+		}
 	}, [purchased])
 
 	return null
