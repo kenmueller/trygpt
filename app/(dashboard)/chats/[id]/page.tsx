@@ -10,7 +10,9 @@ import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
 import Await from '@/components/Await'
 import SetChatPageState from '@/components/ChatPage/SetState'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
-import Nav from '@/components/ChatPage/Nav'
+import ChatPageNav from '@/components/ChatPage/Nav'
+import ChatPageContainer from '@/components/ChatPage/Container'
+import ChatPageBuyLink from '@/components/ChatPage/BuyLink'
 
 export const generateMetadata = async ({
 	params: { id: encodedChatId }
@@ -46,8 +48,8 @@ const ChatPage = async ({
 	return (
 		<>
 			<SetChatPageState chat={chat} messages={messages} />
-			<Nav />
-			<main className="grid grid-rows-[1fr_auto] overflow-y-auto">
+			<ChatPageNav />
+			<ChatPageContainer>
 				<Suspense
 					fallback={
 						<div className="flex flex-col overflow-y-auto">
@@ -62,8 +64,9 @@ const ChatPage = async ({
 						</ChatMessagesContainer>
 					</Await>
 				</Suspense>
+				<ChatPageBuyLink />
 				<ChatInput />
-			</main>
+			</ChatPageContainer>
 		</>
 	)
 }

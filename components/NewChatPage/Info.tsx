@@ -30,13 +30,13 @@ const NewChatPageInfo = ({ className }: { className?: string }) => {
 			<h1 className="text-4xl font-black">New Chat</h1>
 			<p className="mt-4 font-bold opacity-50">{modelName(model)}</p>
 			{!user.purchasedAmount && (
-				<p className="mt-1 font-bold opacity-50">
-					You have {previewMessagesRemaining} free message
-					{previewMessagesRemaining === 1 ? '' : 's'} remaining
-				</p>
-			)}
-			{!user.purchasedAmount && (
-				<BuyLink className="flex flex-col justify-center items-center w-60 h-10 mt-6 font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70" />
+				<>
+					<p className="mt-1 font-bold opacity-50">
+						You have {previewMessagesRemaining} free message
+						{previewMessagesRemaining === 1 ? '' : 's'} remaining
+					</p>
+					<BuyLink className="flex flex-col justify-center items-center w-60 h-10 mt-6 font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70" />
+				</>
 			)}
 		</div>
 	)

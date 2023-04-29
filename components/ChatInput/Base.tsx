@@ -79,7 +79,7 @@ const BaseChatInput = ({
 	}, [canFocus, textArea])
 
 	return (
-		<div className="flex items-end gap-4 p-4">
+		<div className="flex items-end gap-4 px-4 pb-4">
 			{children && (
 				<div className="flex items-center gap-3 w-450:gap-4 h-[46px]">
 					{children}
