@@ -24,6 +24,7 @@ const userFromIdWithConnection = async (
 					   prompt_tokens AS "requestTokens",
 					   completion_tokens AS "responseTokens",
 					   purchased_amount AS "purchasedAmount",
+					   preview_messages AS "previewMessages",
 					   created, updated
 				   FROM users
 				   WHERE id = ${id}`

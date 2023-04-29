@@ -22,6 +22,8 @@ export default interface User {
 	/** In cents. */
 	purchasedAmount: number
 
+	previewMessages: number
+
 	/** Milliseconds since epoch. */
 	created: number
 

@@ -11,6 +11,7 @@ export interface UpdateUserData {
 	incrementRequestTokens?: number
 	incrementResponseTokens?: number
 	incrementPurchasedAmount?: number
+	incrementPreviewMessages?: number
 	updated?: 'now'
 }
 
@@ -35,6 +36,7 @@ const updateUserWithConnection = async (
 		incrementRequestTokens,
 		incrementResponseTokens,
 		incrementPurchasedAmount,
+		incrementPreviewMessages,
 		updated
 	}: UpdateUserData,
 	connection: DatabasePoolConnection
@@ -52,6 +54,8 @@ const updateUserWithConnection = async (
 									sql.unsafe`completion_tokens = completion_tokens + ${incrementResponseTokens}`,
 								incrementPurchasedAmount !== undefined &&
 									sql.unsafe`purchased_amount = purchased_amount + ${incrementPurchasedAmount}`,
+								incrementPreviewMessages !== undefined &&
+									sql.unsafe`preview_messages = preview_messages + ${incrementPreviewMessages}`,
 								updated !== undefined && sql.unsafe`updated = NOW()`
 							].filter(Boolean) as ReturnType<typeof sql.unsafe>[],
 							sql.fragment`, `

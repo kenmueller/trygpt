@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useSetRecoilState } from 'recoil'
 import { useRouter } from 'next/navigation'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
@@ -41,6 +41,8 @@ const SetRootLayoutState = ({
 	const setIsMobile = useSetRecoilState(isMobileState)
 	const setUser = useSetRecoilState(userState)
 
+	const userRef = useRef(user)
+
 	useImmediateEffect(() => {
 		setIsMobile(isMobile)
 	}, [isMobile, setIsMobile])
@@ -50,17 +52,22 @@ const SetRootLayoutState = ({
 	}, [user, setUser])
 
 	useEffect(() => {
-		onAuthStateChanged(
+		userRef.current = user
+	}, [userRef, user])
+
+	useEffect(() => {
+		const unsubscribe = onAuthStateChanged(
 			auth,
 			async authUser => {
 				try {
-					await sendToken(authUser)
+					const user = userRef.current
 
 					const isAuthStateMismatched = !(
 						(authUser === null && user === null) ||
 						(authUser && user && authUser.uid === user.id)
 					)
 
+					await sendToken(authUser)
 					if (isAuthStateMismatched) router.refresh()
 				} catch (unknownError) {
 					alertError(errorFromUnknown(unknownError))
@@ -71,9 +78,10 @@ const SetRootLayoutState = ({
 			}
 		)
 
-		// Do not include user in dependencies
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [router])
+		return () => {
+			unsubscribe()
+		}
+	}, [userRef, router])
 
 	useEffect(() => {
 		window.addEventListener('focus', sendTokenForCurrentUser)
