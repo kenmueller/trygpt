@@ -1,7 +1,8 @@
 import 'server-only'
 
 if (!process.env.OPENAI_API_KEY) throw new Error('Missing OPENAI_API_KEY')
-if (!process.env.OPENAI_MODEL) throw new Error('Missing OPENAI_MODEL')
+if (!process.env.NEXT_PUBLIC_OPENAI_MODEL)
+	throw new Error('Missing NEXT_PUBLIC_OPENAI_MODEL')
 
 import ChatMessage from '@/lib/chat/message'
 import responseToGenerator from './responseToGenerator'
@@ -22,7 +23,7 @@ const createChatCompletion = async function* (
 			authorization: `Bearer ${process.env.OPENAI_API_KEY!}`
 		},
 		body: JSON.stringify({
-			model: process.env.OPENAI_MODEL!,
+			model: process.env.NEXT_PUBLIC_OPENAI_MODEL!,
 			messages: messages.map(({ role, text }) => ({ role, content: text })),
 			stream: true
 		})
