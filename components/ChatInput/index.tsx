@@ -343,6 +343,12 @@ const ChatInput = () => {
 		document.title = `${chat.name ?? 'Untitled'} | TryGPT`
 	}, [chat.name])
 
+	const previewMessagesRemaining =
+		!user || user.purchasedAmount
+			? null
+			: Number.parseInt(process.env.NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT!) -
+			  user.previewMessages
+
 	return (
 		<BaseChatInput
 			disabledMessage={
@@ -356,6 +362,11 @@ const ChatInput = () => {
 								100
 						  )} to continue.`
 					: undefined
+			}
+			message={
+				previewMessagesRemaining === null
+					? ''
+					: `(${previewMessagesRemaining} free messages remaining)`
 			}
 			prompt={prompt}
 			setPrompt={setPrompt}

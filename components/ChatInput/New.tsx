@@ -68,6 +68,11 @@ const NewChatInput = () => {
 		[user, router, setChats, setInitialMessages, setPrompt, setIsLoading]
 	)
 
+	const previewMessagesRemaining = user.purchasedAmount
+		? null
+		: Number.parseInt(process.env.NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT!) -
+		  user.previewMessages
+
 	return (
 		<BaseChatInput
 			disabledMessage={
@@ -79,6 +84,11 @@ const NewChatInput = () => {
 								100
 						  )} to continue.`
 					: undefined
+			}
+			message={
+				previewMessagesRemaining === null
+					? ''
+					: `(${previewMessagesRemaining} free messages remaining)`
 			}
 			prompt={prompt}
 			setPrompt={setPrompt}

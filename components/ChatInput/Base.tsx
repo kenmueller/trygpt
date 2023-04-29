@@ -14,6 +14,7 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 
 const BaseChatInput = ({
 	disabledMessage,
+	message,
 	prompt,
 	setPrompt,
 	isLoading,
@@ -21,6 +22,7 @@ const BaseChatInput = ({
 	children
 }: {
 	disabledMessage?: string
+	message?: string
 	prompt: string
 	setPrompt: (prompt: string) => void
 	isLoading: boolean
@@ -91,7 +93,10 @@ const BaseChatInput = ({
 					className="w-full h-[46px] overflow-hidden resize-none pl-4 pr-[2.7rem] py-[0.7rem] bg-white bg-opacity-10 rounded-lg outline-none placeholder:text-white placeholder:opacity-50"
 					value={prompt}
 					placeholder={
-						isLoading ? 'Typing...' : disabledMessage ?? 'Type a message...'
+						isLoading
+							? 'Typing...'
+							: disabledMessage ??
+							  `Type a message...${message ? ` ${message}` : ''}`
 					}
 					disabled={isDisabled || isLoading}
 					onChange={onChange}
