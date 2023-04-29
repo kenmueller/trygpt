@@ -5,7 +5,7 @@ import highlight from 'showdown-highlight'
 const katexToString = (math: string, displayMode: boolean) =>
 	katex.renderToString(math, {
 		throwOnError: false,
-		errorColor: 'rgb(239, 68, 68)',
+		errorColor: '#ef4444',
 		displayMode
 	})
 

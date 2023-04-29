@@ -10,7 +10,7 @@ const Preview = ({ title }: { title: string }) => (
 			wordWrap: 'break-word',
 			wordBreak: 'break-word',
 			color: 'white',
-			background: 'rgb(39, 39, 42)'
+			background: '#27272a'
 		}}
 	>
 		<h3
