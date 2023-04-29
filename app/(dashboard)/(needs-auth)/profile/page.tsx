@@ -81,8 +81,8 @@ const ProfilePage = async () => {
 					Start a new chat whenever possible. Every message in the chat is
 					passed back to ChatGPT as part of the prompt.
 				</p>
-				<Refresh />
 			</main>
+			<Refresh /> {/* Refresh cost */}
 		</>
 	)
 }

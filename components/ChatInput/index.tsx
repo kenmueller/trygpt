@@ -1,5 +1,8 @@
 'use client'
 
+if (!process.env.NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT)
+	throw new Error('Missing NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT')
+
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
@@ -27,11 +30,12 @@ import chatState from '@/lib/atoms/chat'
 import isSpeechStartedState from '@/lib/atoms/isSpeechStarted'
 import Artyom from '@/lib/artyom'
 import mdToText from '@/lib/md/toText'
+import formatCents from '@/lib/cents/format'
 
 const ChatInput = () => {
 	const router = useRouter()
 
-	const user = useRecoilValue(userState)
+	const [user, setUser] = useRecoilState(userState)
 	const [chat, setChat] = useRecoilState(chatState)
 
 	if (!chat) throw new Error('Chat not found')
@@ -159,6 +163,11 @@ const ChatInput = () => {
 
 						if (!response.ok) throw await errorFromResponse(response)
 
+						setUser(
+							user =>
+								user && { ...user, previewMessages: user.previewMessages + 1 }
+						)
+
 						let responseText = ''
 
 						const responseMessage: ChatMessage = {
@@ -254,6 +263,7 @@ const ChatInput = () => {
 		[
 			user,
 			chat,
+			setUser,
 			updateChat,
 			addMessages,
 			updateMessage,
@@ -339,7 +349,12 @@ const ChatInput = () => {
 				!user
 					? 'Not signed in'
 					: !user.purchasedAmount
-					? 'You have no tokens'
+					? user.previewMessages <
+					  Number.parseInt(process.env.NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT!)
+						? undefined
+						: `You have no free messages remaining. Purchase GPT 4 for ${formatCents(
+								100
+						  )} to continue.`
 					: undefined
 			}
 			prompt={prompt}
@@ -351,7 +366,14 @@ const ChatInput = () => {
 			<ScreenshotButton chat={chat} />
 			<SpeechButton
 				isTyping={isLoading}
-				disabled={!(user && user.purchasedAmount)}
+				disabled={
+					!(
+						user &&
+						(user.purchasedAmount ||
+							user.previewMessages <
+								Number.parseInt(process.env.NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT!))
+					)
+				}
 				submit={onSubmitPrompt}
 			/>
 		</BaseChatInput>

@@ -1,3 +1,6 @@
+if (!process.env.NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT)
+	throw new Error('Missing NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT')
+
 import { NextRequest, NextResponse } from 'next/server'
 
 import errorFromUnknown from '@/lib/error/fromUnknown'
@@ -12,6 +15,7 @@ import updateChat from '@/lib/chat/update'
 import trimQuotes from '@/lib/trimQuotes'
 import updateUser from '@/lib/user/update'
 import getTokens from '@/lib/getTokens'
+import formatCents from '@/lib/cents/format'
 
 export const dynamic = 'force-dynamic'
 
@@ -42,8 +46,19 @@ export const PATCH = async (
 		const user = await userFromRequest()
 		if (!user) throw new HttpError(ErrorCode.Unauthorized, 'Unauthorized')
 
-		if (!user.purchasedAmount)
-			throw new HttpError(ErrorCode.Forbidden, 'You have no tokens')
+		const preview = !user.purchasedAmount
+
+		const hasPreviewMessagesRemaining =
+			user.previewMessages <
+			Number.parseInt(process.env.NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT!)
+
+		if (preview && !hasPreviewMessagesRemaining)
+			throw new HttpError(
+				ErrorCode.Forbidden,
+				`You have no free messages remaining. Purchase GPT 4 for ${formatCents(
+					100
+				)} to continue.`
+			)
 
 		if (!(await isChatOwnedByUser(chatId, user.id)))
 			throw new HttpError(ErrorCode.Forbidden, 'You do not own this chat')
@@ -71,7 +86,7 @@ export const PATCH = async (
 					}
 				]
 
-				const chatCompletion = createChatCompletion(requestMessages)
+				const chatCompletion = createChatCompletion(requestMessages, preview)
 
 				let responseText = ''
 

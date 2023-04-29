@@ -1,6 +1,8 @@
 import 'server-only'
 
 if (!process.env.OPENAI_API_KEY) throw new Error('Missing OPENAI_API_KEY')
+if (!process.env.NEXT_PUBLIC_PREVIEW_OPENAI_MODEL)
+	throw new Error('Missing NEXT_PUBLIC_PREVIEW_OPENAI_MODEL')
 if (!process.env.NEXT_PUBLIC_OPENAI_MODEL)
 	throw new Error('Missing NEXT_PUBLIC_OPENAI_MODEL')
 
@@ -14,8 +16,13 @@ interface ParsedMessage {
 }
 
 const createChatCompletion = async function* (
-	messages: ChatCompletionMessage[]
+	messages: ChatCompletionMessage[],
+	preview: boolean
 ) {
+	const model = preview
+		? process.env.NEXT_PUBLIC_PREVIEW_OPENAI_MODEL!
+		: process.env.NEXT_PUBLIC_OPENAI_MODEL!
+
 	const response = await fetch('https://api.openai.com/v1/chat/completions', {
 		method: 'POST',
 		headers: {
@@ -23,7 +30,7 @@ const createChatCompletion = async function* (
 			authorization: `Bearer ${process.env.OPENAI_API_KEY!}`
 		},
 		body: JSON.stringify({
-			model: process.env.NEXT_PUBLIC_OPENAI_MODEL!,
+			model,
 			messages: messages.map(({ role, text }) => ({ role, content: text })),
 			stream: true
 		})

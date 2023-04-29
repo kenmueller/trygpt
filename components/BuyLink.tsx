@@ -32,9 +32,7 @@ const BuyLink = ({ className }: { className?: string }) => {
 			{isLoading ? (
 				<ThreeDotsLoader />
 			) : (
-				<span>
-					Purchase tokens for <strong>{formatCents(100)}</strong>
-				</span>
+				`Purchase GPT 4 for ${formatCents(100)}`
 			)}
 		</button>
 	)

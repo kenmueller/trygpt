@@ -91,7 +91,7 @@ const BaseChatInput = ({
 					className="w-full h-[46px] overflow-hidden resize-none pl-4 pr-[2.7rem] py-[0.7rem] bg-white bg-opacity-10 rounded-lg outline-none placeholder:text-white placeholder:opacity-50"
 					value={prompt}
 					placeholder={
-						disabledMessage ?? (isLoading ? 'Typing...' : 'Type a message...')
+						isLoading ? 'Typing...' : disabledMessage ?? 'Type a message...'
 					}
 					disabled={isDisabled || isLoading}
 					onChange={onChange}

@@ -1,21 +1,28 @@
 'use client'
 
+if (!process.env.NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT)
+	throw new Error('Missing NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT')
+
 import { useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 
 import alertError from '@/lib/error/alert'
 import errorFromResponse from '@/lib/error/fromResponse'
 import BaseChatInput from './Base'
 import Chat from '@/lib/chat'
-import User from '@/lib/user'
 import chatsState from '@/lib/atoms/chats'
 import initialMessagesState from '@/lib/atoms/initialMessages'
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import SpeechButton from './SpeechButton'
+import userState from '@/lib/atoms/user'
+import formatCents from '@/lib/cents/format'
 
-const NewChatInput = ({ user }: { user: User }) => {
+const NewChatInput = () => {
 	const router = useRouter()
+
+	const user = useRecoilValue(userState)
+	if (!user) throw new Error('User is not signed in')
 
 	const setChats = useSetRecoilState(chatsState)
 	const setInitialMessages = useSetRecoilState(initialMessagesState)
@@ -65,7 +72,12 @@ const NewChatInput = ({ user }: { user: User }) => {
 		<BaseChatInput
 			disabledMessage={
 				!user.purchasedAmount
-					? 'You need to purchase tokens to create a new chat'
+					? user.previewMessages <
+					  Number.parseInt(process.env.NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT!)
+						? undefined
+						: `You have no free messages remaining. Purchase GPT 4 for ${formatCents(
+								100
+						  )} to continue.`
 					: undefined
 			}
 			prompt={prompt}
@@ -75,7 +87,13 @@ const NewChatInput = ({ user }: { user: User }) => {
 		>
 			<SpeechButton
 				isTyping={isLoading}
-				disabled={!user.purchasedAmount}
+				disabled={
+					!(
+						user.purchasedAmount ||
+						user.previewMessages <
+							Number.parseInt(process.env.NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT!)
+					)
+				}
 				submit={onSubmit}
 			/>
 		</BaseChatInput>

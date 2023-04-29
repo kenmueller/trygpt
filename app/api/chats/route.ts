@@ -1,3 +1,6 @@
+if (!process.env.NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT)
+	throw new Error('Missing NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT')
+
 import { NextRequest, NextResponse } from 'next/server'
 
 import errorFromUnknown from '@/lib/error/fromUnknown'
@@ -5,6 +8,7 @@ import userFromRequest from '@/lib/user/fromRequest'
 import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
 import createChat, { CreateChatData } from '@/lib/chat/create'
+import formatCents from '@/lib/cents/format'
 
 export const dynamic = 'force-dynamic'
 
@@ -16,8 +20,19 @@ export const POST = async (request: NextRequest) => {
 		const user = await userFromRequest()
 		if (!user) throw new HttpError(ErrorCode.Unauthorized, 'Unauthorized')
 
-		if (!user.purchasedAmount)
-			throw new HttpError(ErrorCode.Forbidden, 'You have no tokens')
+		const preview = !user.purchasedAmount
+
+		const hasPreviewMessagesRemaining =
+			user.previewMessages <
+			Number.parseInt(process.env.NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT!)
+
+		if (preview && !hasPreviewMessagesRemaining)
+			throw new HttpError(
+				ErrorCode.Forbidden,
+				`You have no free messages remaining. Purchase GPT 4 for ${formatCents(
+					100
+				)} to continue.`
+			)
 
 		const data: CreateChatData = await request.json()
 
