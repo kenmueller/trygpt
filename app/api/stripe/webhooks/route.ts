@@ -29,28 +29,60 @@ export const POST = async (request: NextRequest) => {
 		)
 
 		switch (event.type) {
-			case 'payment_intent.succeeded':
+			case 'checkout.session.completed': {
 				const user = await userFromStripeEvent(event)
 
-				const {
-					amount_received: amountCharged,
-					payment_method: paymentMethod
-				} = event.data.object as Stripe.PaymentIntent
+				const { payment_intent: paymentIntentId, setup_intent: setupIntentId } =
+					event.data.object as Stripe.Checkout.Session
 
-				if (typeof paymentMethod !== 'string')
-					throw new HttpError(ErrorCode.BadRequest, 'Missing payment method')
+				if (typeof paymentIntentId === 'string') {
+					const { payment_method: paymentMethod } =
+						await stripe.paymentIntents.retrieve(paymentIntentId)
+
+					if (typeof paymentMethod !== 'string')
+						throw new HttpError(
+							ErrorCode.BadRequest,
+							'Missing payment method from payment intent'
+						)
+
+					await updateUser(user.id, { paymentMethod })
+				} else if (typeof setupIntentId === 'string') {
+					const { payment_method: paymentMethod } =
+						await stripe.setupIntents.retrieve(setupIntentId)
+
+					if (typeof paymentMethod !== 'string')
+						throw new HttpError(
+							ErrorCode.BadRequest,
+							'Missing payment method from setup intent'
+						)
+
+					await updateUser(user.id, { paymentMethod })
+				} else {
+					throw new HttpError(
+						ErrorCode.BadRequest,
+						'Missing payment intent and setup intent'
+					)
+				}
+
+				break
+			}
+			case 'payment_intent.succeeded': {
+				const user = await userFromStripeEvent(event)
+
+				const { amount_received: amountCharged } = event.data
+					.object as Stripe.PaymentIntent
 
 				const amountReceived = Math.floor(
 					amountCharged - (amountCharged * (2.9 / 100) + 30)
 				)
 
 				await updateUser(user.id, {
-					paymentMethod,
 					lastCharged: 'now',
 					incrementPurchasedAmount: amountReceived
 				})
 
 				break
+			}
 		}
 
 		return new NextResponse('')

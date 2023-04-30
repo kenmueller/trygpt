@@ -1,3 +1,5 @@
+import { Suspense } from 'react'
+
 import pageMetadata from '@/lib/metadata/page'
 import userFromRequest from '@/lib/user/fromRequest'
 import {
@@ -10,6 +12,10 @@ import nextMonth from '@/lib/date/nextMonth'
 import formatCents from '@/lib/cents/format'
 import Refresh from '@/components/Refresh'
 import Nav from '@/components/Dashboard/Nav'
+import UpdatePaymentMethodButton from '@/components/UpdatePaymentMethodButton'
+import PurchaseButton from '@/components/PurchaseButton'
+import ThreeDotsLoader from '@/components/ThreeDotsLoader'
+import PaymentMethod from '@/components/Profile/PaymentMethod'
 
 export const generateMetadata = () =>
 	pageMetadata({
@@ -37,14 +43,37 @@ const ProfilePage = async () => {
 	return (
 		<>
 			<Nav>Profile</Nav>
-			<main className="px-4 py-3 overflow-y-auto [&>*]:mt-4 [&>:first-child]:mt-0">
-				<h1 className="text-4xl font-bold">Profile</h1>
+			<main className="flex flex-col items-start gap-4 px-4 py-3 overflow-y-auto">
+				<h1 className="text-4xl font-bold border-b-2 border-gray-500">
+					Profile
+				</h1>
 				<p>Name: {user.name}</p>
 				<p>Email: {user.email}</p>
-				<h2 className="max-w-max text-2xl font-bold border-b-2 border-gray-500">
+				<h2 className="text-2xl font-bold border-b-2 border-gray-500">
+					Payment info
+				</h2>
+				<p>
+					Card on file:{' '}
+					{user.paymentMethod ? (
+						<Suspense fallback={<ThreeDotsLoader />}>
+							{/* @ts-expect-error */}
+							<PaymentMethod paymentMethodId={user.paymentMethod} />
+						</Suspense>
+					) : (
+						<code>
+							<strong>none</strong>
+						</code>
+					)}
+				</p>
+				{!user.purchasedAmount ? (
+					<PurchaseButton className="flex flex-col justify-center items-center w-60 h-10 font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70" />
+				) : (
+					<UpdatePaymentMethodButton className="flex flex-col justify-center items-center w-60 h-10 font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70" />
+				)}
+				<h2 className="text-2xl font-bold border-b-2 border-gray-500">
 					Usage this period
 				</h2>
-				{baseCost <= 0 && (
+				{user.purchasedAmount > 0 && baseCost <= 0 && (
 					<p className="[&_strong]:text-[#24e098]">
 						You have <strong>{formatCents(-baseCost)}</strong> remaining of your
 						initial <strong>{formatCents(100)}</strong>.
@@ -59,7 +88,7 @@ const ProfilePage = async () => {
 						</>
 					)}
 				</p>
-				<h3 className="max-w-max text-xl font-bold border-b-2 border-gray-500">
+				<h3 className="text-xl font-bold border-b-2 border-gray-500">
 					How we calculate price
 				</h3>
 				<p>
@@ -74,7 +103,7 @@ const ProfilePage = async () => {
 					<strong>minimum of $0.50 per month</strong> (if you've used this
 					service at all this month).
 				</p>
-				<h3 className="max-w-max text-xl font-bold border-b-2 border-gray-500">
+				<h3 className="text-xl font-bold border-b-2 border-gray-500">
 					Tips for keeping cost down
 				</h3>
 				<p>

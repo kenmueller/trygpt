@@ -10,7 +10,7 @@ import baseMetadata from '@/lib/metadata/base'
 import FontAwesomeConfig from '@/components/FontAwesomeConfig'
 import RecoilRoot from '@/components/Recoil/Root'
 import ToastContainer from '@/components/Toast/Container'
-import PurchasedAlert from '@/components/PurchasedAlert'
+import PaymentAlert from '@/components/PaymentAlert'
 import ScreenView from '@/components/ScreenView'
 
 import 'balloon-css/balloon.css'
@@ -63,7 +63,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
 				<RecoilRoot>
 					<SetRootLayoutState isMobile={isMobile} user={user} />
 					{children}
-					<PurchasedAlert />
+					<PaymentAlert />
 					<ScreenView />
 					<ToastContainer theme="dark" />
 					<FontAwesomeConfig />

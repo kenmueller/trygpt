@@ -12,8 +12,10 @@ const PurchasedAlert = () => {
 	const userId = user?.id ?? null
 
 	useEffect(() => {
+		const name = 'purchased-gpt-4'
+
 		const searchParams = new URLSearchParams(window.location.search)
-		const purchased = searchParams.get('purchased')
+		const purchased = searchParams.get(name)
 
 		switch (purchased) {
 			case 'true':
@@ -28,7 +30,32 @@ const PurchasedAlert = () => {
 
 		if (purchased) {
 			const newUrl = new URL(window.location.href)
-			newUrl.searchParams.delete('purchased')
+			newUrl.searchParams.delete(name)
+
+			window.history.replaceState({ path: newUrl.href }, '', newUrl.href)
+		}
+	}, [userId])
+
+	useEffect(() => {
+		const name = 'updated-payment-method'
+
+		const searchParams = new URLSearchParams(window.location.search)
+		const updated = searchParams.get(name)
+
+		switch (updated) {
+			case 'true':
+				logEvent('update_payment_method_success', { userId })
+				toast.success('Successfully updated your payment method!')
+				break
+			case 'false':
+				logEvent('update_payment_method_cancel', { userId })
+				toast.info('Your payment method remains unchanged.')
+				break
+		}
+
+		if (updated) {
+			const newUrl = new URL(window.location.href)
+			newUrl.searchParams.delete(name)
 
 			window.history.replaceState({ path: newUrl.href }, '', newUrl.href)
 		}

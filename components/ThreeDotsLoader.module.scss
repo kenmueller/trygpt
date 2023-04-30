@@ -5,10 +5,12 @@ $size: 10px;
 $gap: 5px;
 
 .root {
+	display: inline-block;
 	width: $size * 3 + $gap * 2;
 }
 
 .dot {
+	display: block;
 	position: relative;
 	width: $size;
 	height: $size;

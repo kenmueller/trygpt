@@ -12,7 +12,7 @@ import SetChatPageState from '@/components/ChatPage/SetState'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 import ChatPageNav from '@/components/ChatPage/Nav'
 import ChatPageContainer from '@/components/ChatPage/Container'
-import ChatPageBuyLink from '@/components/ChatPage/BuyLink'
+import ChatPagePurchaseButton from '@/components/ChatPage/PurchaseButton'
 
 export const generateMetadata = async ({
 	params: { chatId: encodedChatId }
@@ -64,7 +64,7 @@ const ChatPage = async ({
 						</ChatMessagesContainer>
 					</Await>
 				</Suspense>
-				<ChatPageBuyLink />
+				<ChatPagePurchaseButton />
 				<ChatInput />
 			</ChatPageContainer>
 		</>

@@ -6,21 +6,23 @@ import alertError from '@/lib/error/alert'
 import errorFromResponse from '@/lib/error/fromResponse'
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
-import formatCents from '@/lib/cents/format'
 import { logEvent } from '@/lib/analytics/lazy'
 
-const BuyLink = ({ className }: { className?: string }) => {
+const UpdatePaymentMethodButton = ({ className }: { className?: string }) => {
 	const [isLoading, setIsLoading] = useState(false)
 
 	const onClick = useCallback(async () => {
 		try {
 			setIsLoading(true)
 
-			logEvent('click_buy_link')
+			logEvent('click_update_payment_method_button')
 
 			const response = await fetch('/api/stripe/checkout-sessions', {
-				method: 'POST'
+				method: 'POST',
+				headers: { 'content-type': 'application/json' },
+				body: JSON.stringify({ mode: 'setup' })
 			})
+
 			if (!response.ok) throw await errorFromResponse(response)
 
 			window.location.href = await response.text()
@@ -32,13 +34,9 @@ const BuyLink = ({ className }: { className?: string }) => {
 
 	return (
 		<button className={className} disabled={isLoading} onClick={onClick}>
-			{isLoading ? (
-				<ThreeDotsLoader />
-			) : (
-				`Purchase GPT 4 for ${formatCents(100)}`
-			)}
+			{isLoading ? <ThreeDotsLoader /> : 'Update payment method'}
 		</button>
 	)
 }
 
-export default BuyLink
+export default UpdatePaymentMethodButton

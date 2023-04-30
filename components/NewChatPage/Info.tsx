@@ -11,7 +11,7 @@ import { useRecoilValue } from 'recoil'
 
 import userState from '@/lib/atoms/user'
 import modelName from '@/lib/modelName'
-import BuyLink from '@/components/BuyLink'
+import PurchaseButton from '@/components/PurchaseButton'
 
 const NewChatPageInfo = ({ className }: { className?: string }) => {
 	const user = useRecoilValue(userState)
@@ -35,7 +35,7 @@ const NewChatPageInfo = ({ className }: { className?: string }) => {
 						You have {previewMessagesRemaining} free message
 						{previewMessagesRemaining === 1 ? '' : 's'} remaining
 					</p>
-					<BuyLink className="flex flex-col justify-center items-center w-60 h-10 mt-6 font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70" />
+					<PurchaseButton className="flex flex-col justify-center items-center w-60 h-10 mt-6 font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70" />
 				</>
 			)}
 		</div>
