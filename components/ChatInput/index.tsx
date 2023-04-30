@@ -31,6 +31,7 @@ import isSpeechStartedState from '@/lib/atoms/isSpeechStarted'
 import Artyom from '@/lib/artyom'
 import mdToText from '@/lib/md/toText'
 import formatCents from '@/lib/cents/format'
+import { logEvent } from '@/lib/analytics/lazy'
 
 const ChatInput = () => {
 	const router = useRouter()
@@ -137,6 +138,8 @@ const ChatInput = () => {
 				setIsLoading(true)
 
 				if (user.id === chat.userId) {
+					logEvent('send_message', { chatId: chat.id })
+
 					updateChat(chat => ({ ...chat, updated: Date.now() }))
 
 					const newMessages: ChatMessage[] = inputMessages.map(
@@ -162,6 +165,8 @@ const ChatInput = () => {
 						)
 
 						if (!response.ok) throw await errorFromResponse(response)
+
+						logEvent('response_message', { chatId: chat.id })
 
 						setUser(
 							user =>
@@ -240,6 +245,12 @@ const ChatInput = () => {
 					if (!response.ok) throw await errorFromResponse(response)
 
 					const id = await response.text()
+
+					logEvent('continue_chat', {
+						originalChatId: chat.id,
+						chatId: id,
+						chatName: chat.name
+					})
 
 					const newChat: Chat = {
 						userId: user.id,

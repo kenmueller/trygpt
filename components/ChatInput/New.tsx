@@ -17,6 +17,7 @@ import errorFromUnknown from '@/lib/error/fromUnknown'
 import SpeechButton from './SpeechButton'
 import userState from '@/lib/atoms/user'
 import formatCents from '@/lib/cents/format'
+import { logEvent } from '@/lib/analytics/lazy'
 
 const NewChatInput = () => {
 	const router = useRouter()
@@ -45,6 +46,8 @@ const NewChatInput = () => {
 				if (!response.ok) throw await errorFromResponse(response)
 
 				const id = await response.text()
+
+				logEvent('create_chat', { chatId: id })
 
 				const chat: Chat = {
 					userId: user.id,
