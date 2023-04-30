@@ -5,13 +5,12 @@ import { useRecoilValue } from 'recoil'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 import { toast } from 'react-toastify'
-import { logEvent } from 'firebase/analytics'
 
 import alertError from '@/lib/error/alert'
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import Chat from '@/lib/chat'
 import chatMessagesContainerRef from '@/lib/atoms/chatMessagesContainer'
-import analytics from '@/lib/analytics'
+import { logEvent } from '@/lib/analytics/lazy'
 
 const saveImage = async (container: HTMLDivElement, filename: string) => {
 	const saveAsPromise = import('file-saver').then(module => module.default)
@@ -41,7 +40,7 @@ const ChatInputScreenshotButton = ({ chat }: { chat: Chat }) => {
 
 			setIsLoading(true)
 
-			logEvent(analytics, 'chat_screenshot')
+			logEvent('chat_screenshot')
 
 			await toast.promise(saveImage(container, chat.name ?? 'Untitled'), {
 				pending: 'Generating chat image...',

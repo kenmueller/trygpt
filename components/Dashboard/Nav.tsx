@@ -5,13 +5,12 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { useSetRecoilState } from 'recoil'
-import { logEvent } from 'firebase/analytics'
 
 import isSidebarShowingState from '@/lib/atoms/isSidebarShowing'
-import analytics from '@/lib/analytics'
+import { logEvent } from '@/lib/analytics/lazy'
 
 const onCreateChatClick = () => {
-	logEvent(analytics, 'click_nav_create_chat')
+	logEvent('click_nav_create_chat')
 }
 
 const DashboardNav = ({
@@ -24,7 +23,7 @@ const DashboardNav = ({
 	const setIsSidebarShowing = useSetRecoilState(isSidebarShowingState)
 
 	const showSidebar = useCallback(() => {
-		logEvent(analytics, 'show_sidebar')
+		logEvent('show_sidebar')
 		setIsSidebarShowing(true)
 	}, [setIsSidebarShowing])
 

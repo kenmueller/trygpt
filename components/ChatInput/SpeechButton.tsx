@@ -6,13 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMicrophone } from '@fortawesome/free-solid-svg-icons'
 import { toast } from 'react-toastify'
 import cx from 'classnames'
-import { logEvent } from 'firebase/analytics'
 
 import Artyom, { startArtyom, stopArtyom } from '@/lib/artyom'
 import alertError from '@/lib/error/alert'
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import isSpeechStartedState from '@/lib/atoms/isSpeechStarted'
-import analytics from '@/lib/analytics'
+import { logEvent } from '@/lib/analytics/lazy'
 
 const ChatInputSpeechButton = ({
 	isTyping = false,
@@ -41,7 +40,7 @@ const ChatInputSpeechButton = ({
 				action: (_index: number, message: string) => {
 					message = message.trim()
 
-					logEvent(analytics, 'speech_message', { message })
+					logEvent('speech_message', { message })
 
 					if (isTypingRef.current) {
 						alertError(new Error('Wait for ChatGPT to stop typing'))
@@ -79,7 +78,7 @@ const ChatInputSpeechButton = ({
 			if (!artyom) throw new Error('Artyom is not initialized')
 
 			if (!isStarted) {
-				logEvent(analytics, 'start_speech')
+				logEvent('start_speech')
 
 				await toast.promise(startArtyom(artyom), {
 					pending: 'Starting speech...',
@@ -87,7 +86,7 @@ const ChatInputSpeechButton = ({
 					error: 'Failed to start speech'
 				})
 			} else {
-				logEvent(analytics, 'stop_speech')
+				logEvent('stop_speech')
 
 				stopArtyom(artyom)
 				toast.success('Speech stopped')

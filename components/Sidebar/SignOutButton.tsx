@@ -4,13 +4,12 @@ import { useCallback, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSignOut } from '@fortawesome/free-solid-svg-icons'
-import { logEvent } from 'firebase/analytics'
 
 import alertError from '@/lib/error/alert'
 import signOut from '@/lib/user/signOut'
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
-import analytics from '@/lib/analytics'
+import { logEvent } from '@/lib/analytics/lazy'
 
 const SidebarSignOutButton = () => {
 	const router = useRouter()
@@ -21,7 +20,7 @@ const SidebarSignOutButton = () => {
 		try {
 			setIsLoading(true)
 
-			logEvent(analytics, 'click_sign_out')
+			logEvent('click_sign_out')
 
 			await signOut()
 			router.push('/')

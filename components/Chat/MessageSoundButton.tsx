@@ -4,14 +4,13 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faVolumeHigh } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
-import { logEvent } from 'firebase/analytics'
 
 import ChatMessage from '@/lib/chat/message'
 import Artyom from '@/lib/artyom'
 import alertError from '@/lib/error/alert'
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import mdToText from '@/lib/md/toText'
-import analytics from '@/lib/analytics'
+import { logEvent } from '@/lib/analytics/lazy'
 
 const ChatMessageSoundButton = ({
 	className,
@@ -35,7 +34,7 @@ const ChatMessageSoundButton = ({
 				if (!artyom.speechSupported)
 					throw new Error('Text-to-speech is not supported')
 
-				logEvent(analytics, 'start_playing_message')
+				logEvent('start_playing_message')
 
 				artyom.say(mdToText(message.text), {
 					onEnd: () => {
@@ -43,7 +42,7 @@ const ChatMessageSoundButton = ({
 					}
 				})
 			} else {
-				logEvent(analytics, 'stop_playing_message')
+				logEvent('stop_playing_message')
 				artyom.shutUp()
 			}
 

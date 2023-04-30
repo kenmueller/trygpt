@@ -3,13 +3,12 @@
 import { useCallback, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
-import { logEvent } from 'firebase/analytics'
 
 import signIn from '@/lib/user/signIn'
 import alertError from '@/lib/error/alert'
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import ThreeDotsLoader from './ThreeDotsLoader'
-import analytics from '@/lib/analytics'
+import { logEvent } from '@/lib/analytics/lazy'
 
 const SignInButton = ({
 	className,
@@ -24,13 +23,13 @@ const SignInButton = ({
 		try {
 			setIsLoading(true)
 
-			logEvent(analytics, 'click_sign_in')
+			logEvent('click_sign_in')
 
 			if (await signIn()) {
 				// No need to set isLoading to false if the sign in was successful because the page will be refreshed
-				logEvent(analytics, 'sign_in_successful')
+				logEvent('sign_in_successful')
 			} else {
-				logEvent(analytics, 'sign_in_canceled')
+				logEvent('sign_in_canceled')
 				setIsLoading(false)
 			}
 		} catch (unknownError) {

@@ -2,13 +2,12 @@
 
 import { ReactNode, useCallback } from 'react'
 import Link from 'next/link'
-import { logEvent } from 'firebase/analytics'
 
 import SignInButton from '@/components/SignInButton'
-import analytics from '@/lib/analytics'
+import { logEvent } from '@/lib/analytics/lazy'
 
 const onNavHomeClick = () => {
-	logEvent(analytics, 'click_nav_home')
+	logEvent('click_nav_home')
 }
 
 const LandingPageNav = () => (
@@ -33,7 +32,7 @@ const LandingPageNav = () => (
 
 const NavLink = ({ href, children }: { href: string; children: ReactNode }) => {
 	const onClick = useCallback(() => {
-		logEvent(analytics, 'nav_link_clicked', { href })
+		logEvent('nav_link_clicked', { href })
 	}, [href])
 
 	return (

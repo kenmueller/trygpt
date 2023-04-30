@@ -2,13 +2,12 @@
 
 import { faHome } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { logEvent } from 'firebase/analytics'
 import Link from 'next/link'
 
-import analytics from '@/lib/analytics'
+import { logEvent } from '@/lib/analytics/lazy'
 
 const onClick = () => {
-	logEvent(analytics, 'click_sidebar_home')
+	logEvent('click_sidebar_home')
 }
 
 const SidebarHomeLink = () => (

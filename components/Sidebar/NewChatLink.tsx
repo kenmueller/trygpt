@@ -7,10 +7,9 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 import { useCallback } from 'react'
 import { useSetRecoilState } from 'recoil'
-import { logEvent } from 'firebase/analytics'
 
 import isSidebarShowingState from '@/lib/atoms/isSidebarShowing'
-import analytics from '@/lib/analytics'
+import { logEvent } from '@/lib/analytics/lazy'
 
 const SidebarNewChatLink = () => {
 	const setIsSidebarShowing = useSetRecoilState(isSidebarShowingState)
@@ -19,7 +18,7 @@ const SidebarNewChatLink = () => {
 	const active = pathname === '/chats/new'
 
 	const onClick = useCallback(() => {
-		logEvent(analytics, 'click_sidebar_new_chat')
+		logEvent('click_sidebar_new_chat')
 		setIsSidebarShowing(false)
 	}, [setIsSidebarShowing])
 
