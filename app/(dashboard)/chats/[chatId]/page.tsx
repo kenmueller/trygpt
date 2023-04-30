@@ -15,9 +15,9 @@ import ChatPageContainer from '@/components/ChatPage/Container'
 import ChatPageBuyLink from '@/components/ChatPage/BuyLink'
 
 export const generateMetadata = async ({
-	params: { id: encodedChatId }
+	params: { chatId: encodedChatId }
 }: {
-	params: { id: string }
+	params: { chatId: string }
 }) => {
 	const chatId = decodeURIComponent(encodedChatId)
 
@@ -34,9 +34,9 @@ export const generateMetadata = async ({
 }
 
 const ChatPage = async ({
-	params: { id: encodedChatId }
+	params: { chatId: encodedChatId }
 }: {
-	params: { id: string }
+	params: { chatId: string }
 }) => {
 	const chatId = decodeURIComponent(encodedChatId)
 

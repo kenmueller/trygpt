@@ -11,6 +11,7 @@ import FontAwesomeConfig from '@/components/FontAwesomeConfig'
 import RecoilRoot from '@/components/Recoil/Root'
 import ToastContainer from '@/components/Toast/Container'
 import PurchasedAlert from '@/components/PurchasedAlert'
+import ScreenView from '@/components/ScreenView'
 
 import 'balloon-css/balloon.css'
 import 'react-toastify/dist/ReactToastify.css'
@@ -63,6 +64,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
 					<SetRootLayoutState isMobile={isMobile} user={user} />
 					{children}
 					<PurchasedAlert />
+					<ScreenView />
 					<ToastContainer theme="dark" />
 					<FontAwesomeConfig />
 				</RecoilRoot>
