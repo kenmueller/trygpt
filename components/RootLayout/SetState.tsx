@@ -13,6 +13,7 @@ import errorFromUnknown from '@/lib/error/fromUnknown'
 import useImmediateEffect from '@/lib/useImmediateEffect'
 import userState from '@/lib/atoms/user'
 import isMobileState from '@/lib/atoms/isMobile'
+import { setUserId } from '@/lib/analytics/lazy'
 
 const REFRESH_INTERVAL = 10 * 60 * 1000 // 10 minutes
 
@@ -50,6 +51,12 @@ const SetRootLayoutState = ({
 	useImmediateEffect(() => {
 		setUser(user)
 	}, [user, setUser])
+
+	const userId = user?.id ?? null
+
+	useEffect(() => {
+		setUserId(userId)
+	}, [userId])
 
 	useEffect(() => {
 		userRef.current = user
