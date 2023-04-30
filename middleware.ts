@@ -20,9 +20,7 @@ const middleware = (request: NextRequest) => {
 		if (!(protocol && host))
 			throw new HttpError(ErrorCode.BadRequest, 'Invalid request')
 
-		console.log(protocol, host)
-
-		if (!(DEV || (protocol === 'https' && host === process.env.HOST!)))
+		if (!(DEV || (/https/.test(protocol) && host === process.env.HOST!)))
 			return NextResponse.redirect(new URL(url.pathname, ORIGIN))
 
 		headers.set('x-url', new URL(url.pathname, DEV ? url.origin : ORIGIN).href)
