@@ -107,16 +107,22 @@ export const PATCH = async (
 								text: responseText
 							}
 
-							await Promise.all([
+							const promises = [
 								updateChat(chatId, {
 									name: trimQuotes(responseText),
 									updated: 'now'
-								}),
-								updateUser(user.id, {
-									incrementRequestTokens: getTokens(requestMessages),
-									incrementResponseTokens: getTokens([responseMessage])
 								})
-							])
+							]
+
+							if (!preview)
+								promises.push(
+									updateUser(user.id, {
+										incrementRequestTokens: getTokens(requestMessages),
+										incrementResponseTokens: getTokens([responseMessage])
+									})
+								)
+
+							await Promise.all(promises)
 
 							controller.close()
 						}
