@@ -5,6 +5,8 @@ const middleware = (request: NextRequest) => {
 	const headers = new Headers(request.headers)
 	const url = new URL(request.url)
 
+	console.log(url.href)
+
 	headers.set(
 		'x-url',
 		new URL(url.pathname, DEV ? url.origin : 'https://trygpt.co').href
