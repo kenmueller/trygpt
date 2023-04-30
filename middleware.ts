@@ -5,7 +5,7 @@ const middleware = (request: NextRequest) => {
 	const headers = new Headers(request.headers)
 	const url = new URL(request.url)
 
-	console.log(url.href)
+	console.log(url.href, Object.fromEntries(headers.entries()))
 
 	headers.set(
 		'x-url',
