@@ -6,10 +6,12 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import cx from 'classnames'
+import { logEvent } from 'firebase/analytics'
 
 import userState from '@/lib/atoms/user'
 import defaultUserImage from '@/assets/user.png'
 import isSidebarShowingState from '@/lib/atoms/isSidebarShowing'
+import analytics from '@/lib/analytics'
 
 const SidebarProfileLink = () => {
 	const user = useRecoilValue(userState)
@@ -21,7 +23,8 @@ const SidebarProfileLink = () => {
 
 	const active = pathname === '/profile'
 
-	const hideSidebar = useCallback(() => {
+	const onClick = useCallback(() => {
+		logEvent(analytics, 'click_sidebar_profile')
 		setIsSidebarShowing(false)
 	}, [setIsSidebarShowing])
 
@@ -33,7 +36,7 @@ const SidebarProfileLink = () => {
 			)}
 			aria-current={active ? 'page' : undefined}
 			href="/profile"
-			onClick={hideSidebar}
+			onClick={onClick}
 		>
 			<Image
 				className="rounded-lg"

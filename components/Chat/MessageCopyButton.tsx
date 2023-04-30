@@ -6,8 +6,10 @@ import { faClipboard } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 import copy from 'copy-to-clipboard'
 import { toast } from 'react-toastify'
+import { logEvent } from 'firebase/analytics'
 
 import ChatMessage from '@/lib/chat/message'
+import analytics from '@/lib/analytics'
 
 const ChatMessageCopyButton = ({
 	className,
@@ -17,6 +19,8 @@ const ChatMessageCopyButton = ({
 	message: ChatMessage
 }) => {
 	const onClick = useCallback(() => {
+		logEvent(analytics, 'copy_message')
+
 		copy(message.text)
 		toast.success('Copied to clipboard')
 	}, [message.text])

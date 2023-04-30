@@ -1,12 +1,14 @@
 'use client'
 
 import { useCallback, useState } from 'react'
+import { logEvent } from 'firebase/analytics'
 
 import alertError from '@/lib/error/alert'
 import errorFromResponse from '@/lib/error/fromResponse'
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 import formatCents from '@/lib/cents/format'
+import analytics from '@/lib/analytics'
 
 const BuyLink = ({ className }: { className?: string }) => {
 	const [isLoading, setIsLoading] = useState(false)
@@ -14,6 +16,8 @@ const BuyLink = ({ className }: { className?: string }) => {
 	const onClick = useCallback(async () => {
 		try {
 			setIsLoading(true)
+
+			logEvent(analytics, 'click_buy_link')
 
 			const response = await fetch('/api/stripe/checkout-sessions', {
 				method: 'POST'

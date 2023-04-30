@@ -1,13 +1,22 @@
-import { ReactNode } from 'react'
+'use client'
+
+import { ReactNode, useCallback } from 'react'
 import Link from 'next/link'
+import { logEvent } from 'firebase/analytics'
 
 import SignInButton from '@/components/SignInButton'
+import analytics from '@/lib/analytics'
+
+const onNavHomeClick = () => {
+	logEvent(analytics, 'click_nav_home')
+}
 
 const LandingPageNav = () => (
 	<nav className="flex justify-between items-center max-w-[1000px] w-[95%] mx-auto py-4">
 		<Link
 			className="transition-opacity ease-linear hover:opacity-70 text-2xl font-bold"
 			href="/"
+			onClick={onNavHomeClick}
 		>
 			TryGPT
 		</Link>
@@ -22,10 +31,20 @@ const LandingPageNav = () => (
 	</nav>
 )
 
-const NavLink = ({ href, children }: { href: string; children: ReactNode }) => (
-	<a className="transition-opacity ease-linear hover:opacity-70" href={href}>
-		{children}
-	</a>
-)
+const NavLink = ({ href, children }: { href: string; children: ReactNode }) => {
+	const onClick = useCallback(() => {
+		logEvent(analytics, 'nav_link_clicked', { href })
+	}, [href])
+
+	return (
+		<a
+			className="transition-opacity ease-linear hover:opacity-70"
+			href={href}
+			onClick={onClick}
+		>
+			{children}
+		</a>
+	)
+}
 
 export default LandingPageNav

@@ -7,8 +7,10 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 import { useCallback } from 'react'
 import { useSetRecoilState } from 'recoil'
+import { logEvent } from 'firebase/analytics'
 
 import isSidebarShowingState from '@/lib/atoms/isSidebarShowing'
+import analytics from '@/lib/analytics'
 
 const SidebarNewChatLink = () => {
 	const setIsSidebarShowing = useSetRecoilState(isSidebarShowingState)
@@ -16,7 +18,8 @@ const SidebarNewChatLink = () => {
 	const pathname = usePathname()
 	const active = pathname === '/chats/new'
 
-	const hideSidebar = useCallback(() => {
+	const onClick = useCallback(() => {
+		logEvent(analytics, 'click_sidebar_new_chat')
 		setIsSidebarShowing(false)
 	}, [setIsSidebarShowing])
 
@@ -28,7 +31,7 @@ const SidebarNewChatLink = () => {
 			)}
 			aria-current={active ? 'page' : undefined}
 			href="/chats/new"
-			onClick={hideSidebar}
+			onClick={onClick}
 		>
 			<FontAwesomeIcon className="shrink-0 w-[30px] text-xl" icon={faPlus} />
 			New Chat

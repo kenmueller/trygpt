@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faMessage, faTrash } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
+import { logEvent } from 'firebase/analytics'
 
 import Chat from '@/lib/chat'
 import isSidebarShowingState from '@/lib/atoms/isSidebarShowing'
@@ -16,6 +17,7 @@ import errorFromUnknown from '@/lib/error/fromUnknown'
 import chatState from '@/lib/atoms/chat'
 import chatsState from '@/lib/atoms/chats'
 import errorFromResponse from '@/lib/error/fromResponse'
+import analytics from '@/lib/analytics'
 
 const PATHNAME_MATCH = /^\/chats\/(.+)$/
 
@@ -34,9 +36,10 @@ const SidebarChatLink = ({ chat }: { chat: Chat }) => {
 
 	const active = chat.id === currentChatId
 
-	const hideSidebar = useCallback(() => {
+	const onClick = useCallback(() => {
+		logEvent(analytics, 'click_sidebar_chat', { chatId: chat.id })
 		setIsSidebarShowing(false)
-	}, [setIsSidebarShowing])
+	}, [chat.id, setIsSidebarShowing])
 
 	const [isEditChatLoading, setIsEditChatLoading] = useState(false)
 
@@ -44,8 +47,12 @@ const SidebarChatLink = ({ chat }: { chat: Chat }) => {
 		try {
 			setIsEditChatLoading(true)
 
+			logEvent(analytics, 'edit_chat_name')
+
 			const newName = prompt('Edit chat name', chat.name ?? 'Untitled')
 			if (!newName) return
+
+			logEvent(analytics, 'edit_chat_name_confirmed')
 
 			const response = await fetch(
 				`/api/chats/${encodeURIComponent(chat.id)}/name`,
@@ -88,12 +95,16 @@ const SidebarChatLink = ({ chat }: { chat: Chat }) => {
 		try {
 			setIsDeleteChatLoading(true)
 
+			logEvent(analytics, 'delete_chat')
+
 			if (
 				!confirm(
 					`Are you sure you want to delete "${chat.name ?? 'Untitled'}"?`
 				)
 			)
 				return
+
+			logEvent(analytics, 'delete_chat_confirmed')
 
 			const response = await fetch(
 				`/api/chats/${encodeURIComponent(chat.id)}`,
@@ -128,7 +139,7 @@ const SidebarChatLink = ({ chat }: { chat: Chat }) => {
 				)}
 				aria-current={active ? 'page' : undefined}
 				href={`/chats/${encodeURIComponent(chat.id)}`}
-				onClick={hideSidebar}
+				onClick={onClick}
 			>
 				<FontAwesomeIcon
 					className="shrink-0 w-[30px] text-xl"

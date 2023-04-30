@@ -5,11 +5,15 @@ import { faShareSquare } from '@fortawesome/free-solid-svg-icons'
 import copy from 'copy-to-clipboard'
 import { toast } from 'react-toastify'
 import { useCallback } from 'react'
+import { logEvent } from 'firebase/analytics'
 
 import Chat from '@/lib/chat'
+import analytics from '@/lib/analytics'
 
 const ChatInputShareButton = ({ chat }: { chat: Chat }) => {
 	const share = useCallback(() => {
+		logEvent(analytics, 'share_chat')
+
 		const url = new URL(
 			`/chats/${encodeURIComponent(chat.id)}`,
 			window.location.origin

@@ -5,8 +5,14 @@ import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { useSetRecoilState } from 'recoil'
+import { logEvent } from 'firebase/analytics'
 
 import isSidebarShowingState from '@/lib/atoms/isSidebarShowing'
+import analytics from '@/lib/analytics'
+
+const onCreateChatClick = () => {
+	logEvent(analytics, 'click_nav_create_chat')
+}
 
 const DashboardNav = ({
 	canCreateChat = true,
@@ -18,6 +24,7 @@ const DashboardNav = ({
 	const setIsSidebarShowing = useSetRecoilState(isSidebarShowingState)
 
 	const showSidebar = useCallback(() => {
+		logEvent(analytics, 'show_sidebar')
 		setIsSidebarShowing(true)
 	}, [setIsSidebarShowing])
 
@@ -38,6 +45,7 @@ const DashboardNav = ({
 					className="shrink-0 px-4 py-2 text-xl transition-opacity ease-linear hover:opacity-70"
 					href="/chats/new"
 					aria-label="Create new chat"
+					onClick={onCreateChatClick}
 				>
 					<FontAwesomeIcon icon={faPlus} />
 				</Link>

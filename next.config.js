@@ -19,7 +19,8 @@ const csp = getCSP({
 			SELF,
 			UNSAFE_INLINE,
 			...(DEV ? [UNSAFE_EVAL] : []),
-			'apis.google.com'
+			'apis.google.com',
+			'www.googletagmanager.com'
 		],
 		'connect-src': [
 			SELF,
@@ -27,6 +28,10 @@ const csp = getCSP({
 			'apis.google.com',
 			'identitytoolkit.googleapis.com',
 			'securetoken.googleapis.com',
+			'firebase.googleapis.com',
+			'firebaseinstallations.googleapis.com',
+			'www.googletagmanager.com',
+			'*.google-analytics.com',
 			...UNSPlASH_SOURCES
 		],
 		'img-src': [SELF, DATA, ...UNSPlASH_SOURCES],
