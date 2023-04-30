@@ -36,9 +36,9 @@ const SidebarChatLink = ({ chat }: { chat: Chat }) => {
 	const active = chat.id === currentChatId
 
 	const onClick = useCallback(() => {
-		logEvent('click_sidebar_chat', { chatId: chat.id })
+		logEvent('click_sidebar_chat', { chatId: chat.id, chatName: chat.name })
 		setIsSidebarShowing(false)
-	}, [chat.id, setIsSidebarShowing])
+	}, [chat, setIsSidebarShowing])
 
 	const [isEditChatLoading, setIsEditChatLoading] = useState(false)
 

@@ -138,7 +138,7 @@ const ChatInput = () => {
 				setIsLoading(true)
 
 				if (user.id === chat.userId) {
-					logEvent('send_message', { chatId: chat.id })
+					logEvent('send_message', { chatId: chat.id, chatName: chat.name })
 
 					updateChat(chat => ({ ...chat, updated: Date.now() }))
 
@@ -166,7 +166,10 @@ const ChatInput = () => {
 
 						if (!response.ok) throw await errorFromResponse(response)
 
-						logEvent('response_message', { chatId: chat.id })
+						logEvent('response_message', {
+							chatId: chat.id,
+							chatName: chat.name
+						})
 
 						setUser(
 							user =>
