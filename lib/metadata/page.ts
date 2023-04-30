@@ -14,7 +14,7 @@ const pageMetadata = ({
 	const fullUrl = getUrl()
 	const url = new URL(fullUrl.pathname, fullUrl.origin).href
 
-	const image = `/api/preview/${encodeURIComponent(previewTitle)}`
+	const image = `/api/preview?title=${encodeURIComponent(previewTitle)}`
 
 	return {
 		alternates: { canonical: url },
