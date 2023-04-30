@@ -17,6 +17,7 @@ const csp = getCSP({
 		'style-src': [SELF, UNSAFE_INLINE],
 		'script-src': [
 			SELF,
+			DATA,
 			UNSAFE_INLINE,
 			...(DEV ? [UNSAFE_EVAL] : []),
 			'apis.google.com',
