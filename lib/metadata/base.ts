@@ -12,7 +12,7 @@ const baseMetadata = (): Metadata => {
 		authors: [{ name: 'Ken Mueller', url: url.origin }],
 		publisher: 'TryGPT',
 		creator: 'Ken Mueller',
-		themeColor: 'black',
+		themeColor: '#27272a',
 		manifest: '/manifest.webmanifest',
 		icons: favicon.src,
 		viewport: {
