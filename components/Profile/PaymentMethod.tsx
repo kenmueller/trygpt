@@ -15,14 +15,26 @@ const ProfilePagePaymentMethod = async ({
 }) => {
 	const paymentMethod = await getPaymentMethod(paymentMethodId)
 
-	const brand = paymentMethod?.card?.brand
-	const last4 = paymentMethod?.card?.last4
-
 	return paymentMethod ? (
 		<code>
-			<strong>{brand ?? 'unknown'}</strong>{' '}
-			{brand === 'amex' ? '**** ****** *' : '**** **** **** '}
-			<strong>{last4 ?? '????'}</strong>
+			{paymentMethod.type === 'card' ? (
+				<>
+					<strong>{paymentMethod.card?.brand ?? 'unknown'}</strong>{' '}
+					{paymentMethod.card?.brand === 'amex'
+						? '**** ****** *'
+						: '**** **** **** '}
+					<strong>{paymentMethod.card?.last4 ?? '????'}</strong>
+				</>
+			) : paymentMethod.type === 'link' ? (
+				<>
+					<strong>link</strong>{' '}
+					<strong>{paymentMethod.link?.email ?? 'unknown'}</strong>
+				</>
+			) : (
+				<>
+					<strong>{paymentMethod.type}</strong>
+				</>
+			)}
 		</code>
 	) : (
 		<span className="font-bold text-red-500">error</span>
