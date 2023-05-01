@@ -42,8 +42,6 @@ const SetRootLayoutState = ({
 	const setIsMobile = useSetRecoilState(isMobileState)
 	const setUser = useSetRecoilState(userState)
 
-	const userRef = useRef(user)
-
 	useImmediateEffect(() => {
 		setIsMobile(isMobile)
 	}, [isMobile, setIsMobile])
@@ -57,6 +55,8 @@ const SetRootLayoutState = ({
 	useEffect(() => {
 		setUserId(userId)
 	}, [userId])
+
+	const userRef = useRef(user)
 
 	useEffect(() => {
 		userRef.current = user
@@ -91,20 +91,24 @@ const SetRootLayoutState = ({
 	}, [userRef, router])
 
 	useEffect(() => {
+		if (!user) return
+
 		window.addEventListener('focus', sendTokenForCurrentUser)
 
 		return () => {
 			window.removeEventListener('focus', sendTokenForCurrentUser)
 		}
-	})
+	}, [user])
 
 	useEffect(() => {
+		if (!user) return
+
 		const interval = setInterval(sendTokenForCurrentUser, REFRESH_INTERVAL)
 
 		return () => {
 			clearInterval(interval)
 		}
-	}, [])
+	}, [user])
 
 	return null
 }
