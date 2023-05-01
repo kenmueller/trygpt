@@ -13,6 +13,43 @@ import updateUser from '@/lib/user/update'
 
 export const dynamic = 'force-dynamic'
 
+const getPaymentMethod = async ({
+	paymentIntentId,
+	setupIntentId
+}: {
+	paymentIntentId: unknown
+	setupIntentId: unknown
+}) => {
+	if (typeof paymentIntentId === 'string') {
+		const { payment_method: paymentMethod } =
+			await stripe.paymentIntents.retrieve(paymentIntentId)
+
+		if (typeof paymentMethod !== 'string')
+			throw new HttpError(
+				ErrorCode.BadRequest,
+				'Missing payment method from payment intent'
+			)
+
+		return paymentMethod
+	} else if (typeof setupIntentId === 'string') {
+		const { payment_method: paymentMethod } =
+			await stripe.setupIntents.retrieve(setupIntentId)
+
+		if (typeof paymentMethod !== 'string')
+			throw new HttpError(
+				ErrorCode.BadRequest,
+				'Missing payment method from setup intent'
+			)
+
+		return paymentMethod
+	} else {
+		throw new HttpError(
+			ErrorCode.BadRequest,
+			'Missing payment intent and setup intent'
+		)
+	}
+}
+
 export const POST = async (request: NextRequest) => {
 	try {
 		const signature = request.headers.get('stripe-signature')
@@ -35,33 +72,17 @@ export const POST = async (request: NextRequest) => {
 				const { payment_intent: paymentIntentId, setup_intent: setupIntentId } =
 					event.data.object as Stripe.Checkout.Session
 
-				if (typeof paymentIntentId === 'string') {
-					const { payment_method: paymentMethod } =
-						await stripe.paymentIntents.retrieve(paymentIntentId)
+				const paymentMethod = await getPaymentMethod({
+					paymentIntentId,
+					setupIntentId
+				})
 
-					if (typeof paymentMethod !== 'string')
-						throw new HttpError(
-							ErrorCode.BadRequest,
-							'Missing payment method from payment intent'
-						)
-
+				if (paymentMethod !== user.paymentMethod) {
 					await updateUser(user.id, { paymentMethod })
-				} else if (typeof setupIntentId === 'string') {
-					const { payment_method: paymentMethod } =
-						await stripe.setupIntents.retrieve(setupIntentId)
 
-					if (typeof paymentMethod !== 'string')
-						throw new HttpError(
-							ErrorCode.BadRequest,
-							'Missing payment method from setup intent'
-						)
-
-					await updateUser(user.id, { paymentMethod })
-				} else {
-					throw new HttpError(
-						ErrorCode.BadRequest,
-						'Missing payment intent and setup intent'
-					)
+					if (user.paymentMethod)
+						// Detach old payment method
+						await stripe.paymentMethods.detach(user.paymentMethod)
 				}
 
 				break
