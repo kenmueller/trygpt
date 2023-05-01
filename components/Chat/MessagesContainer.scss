@@ -1,5 +1,5 @@
 .chat-messages-container-screenshot {
-	@apply w-[1500px] overflow-visible;
+	@apply w-[1500px] h-max overflow-visible;
 
 	> .message {
 		@apply pr-2 w-700:pr-4;
