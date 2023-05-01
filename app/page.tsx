@@ -10,7 +10,8 @@ import Footer from '@/components/Landing/Footer'
 export const generateMetadata = () =>
 	pageMetadata({
 		title: 'ChatGPT 4 for $1 | TryGPT',
-		description: 'TryGPT',
+		description:
+			'TryGPT is the cheapest way to get access to GPT-4 which is far, far superior to the free GPT-3.5. Start now for only $1.',
 		previewTitle: 'ChatGPT 4 for $1'
 	})
 

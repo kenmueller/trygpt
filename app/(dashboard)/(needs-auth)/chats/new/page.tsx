@@ -7,7 +7,8 @@ import NewChatPageInfo from '@/components/NewChatPage/Info'
 export const generateMetadata = () =>
 	pageMetadata({
 		title: 'New Chat | TryGPT',
-		description: 'New Chat | TryGPT',
+		description:
+			'Start a new chat. TryGPT is the cheapest way to get access to GPT-4 which is far, far superior to the free GPT-3.5. Start now for only $1.',
 		previewTitle: 'New Chat'
 	})
 

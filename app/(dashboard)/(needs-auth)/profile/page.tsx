@@ -21,7 +21,8 @@ import PaymentMethod from '@/components/Profile/PaymentMethod'
 export const generateMetadata = () =>
 	pageMetadata({
 		title: 'Profile | TryGPT',
-		description: 'Profile | TryGPT',
+		description:
+			'View your profile. TryGPT is the cheapest way to get access to GPT-4 which is far, far superior to the free GPT-3.5. Start now for only $1.',
 		previewTitle: 'Profile'
 	})
 
