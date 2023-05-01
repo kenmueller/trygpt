@@ -11,13 +11,13 @@ import { useRecoilValue } from 'recoil'
 
 import userState from '@/lib/atoms/user'
 import modelName from '@/lib/modelName'
-import PurchaseButton from '@/components/PurchaseButton'
+import PurchaseButton from '@/components/Payment/PurchaseButton'
 
 const NewChatPageInfo = ({ className }: { className?: string }) => {
 	const user = useRecoilValue(userState)
 	if (!user) throw new Error('User is not signed in')
 
-	const model = !user.purchasedAmount
+	const model = !user.paymentMethod
 		? process.env.NEXT_PUBLIC_PREVIEW_OPENAI_MODEL!
 		: process.env.NEXT_PUBLIC_OPENAI_MODEL!
 
@@ -29,7 +29,7 @@ const NewChatPageInfo = ({ className }: { className?: string }) => {
 		<div className={className}>
 			<h1 className="text-4xl font-black">New Chat</h1>
 			<p className="mt-4 font-bold opacity-50">{modelName(model)}</p>
-			{!user.purchasedAmount && (
+			{!user.paymentMethod && (
 				<>
 					<p className="mt-1 font-bold opacity-50">
 						You have {previewMessagesRemaining} free message

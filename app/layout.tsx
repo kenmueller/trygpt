@@ -10,7 +10,7 @@ import baseMetadata from '@/lib/metadata/base'
 import FontAwesomeConfig from '@/components/FontAwesomeConfig'
 import RecoilRoot from '@/components/Recoil/Root'
 import ToastContainer from '@/components/Toast/Container'
-import PaymentAlert from '@/components/PaymentAlert'
+import PaymentAlert from '@/components/Payment/Alert'
 import ScreenView from '@/components/ScreenView'
 
 import 'balloon-css/balloon.css'

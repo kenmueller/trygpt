@@ -12,8 +12,9 @@ import nextMonth from '@/lib/date/nextMonth'
 import formatCents from '@/lib/cents/format'
 import Refresh from '@/components/Refresh'
 import Nav from '@/components/Dashboard/Nav'
-import UpdatePaymentMethodButton from '@/components/UpdatePaymentMethodButton'
-import PurchaseButton from '@/components/PurchaseButton'
+import UpdatePaymentMethodButton from '@/components/Payment/UpdatePaymentMethodButton'
+import RemovePaymentMethodButton from '@/components/Payment/RemovePaymentMethodButton'
+import PurchaseButton from '@/components/Payment/PurchaseButton'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 import PaymentMethod from '@/components/Profile/PaymentMethod'
 
@@ -32,7 +33,7 @@ const ProfilePage = async () => {
 	const cost = costThisPeriod(user)
 
 	const nextCharge = (() => {
-		if (!user.lastCharged) return null
+		if (!(user.paymentMethod && user.lastCharged)) return null
 
 		const minNextCharge = nextMonth(user.lastCharged)
 		const now = new Date()
@@ -65,19 +66,36 @@ const ProfilePage = async () => {
 						</code>
 					)}
 				</p>
-				{!user.purchasedAmount ? (
+				{!user.paymentMethod ? (
 					<PurchaseButton className="flex flex-col justify-center items-center w-60 h-10 font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70" />
 				) : (
-					<UpdatePaymentMethodButton className="flex flex-col justify-center items-center w-60 h-10 font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70" />
+					<div className="flex flex-col w-550:flex-row items-center gap-4">
+						<UpdatePaymentMethodButton className="flex flex-col justify-center items-center w-60 h-10 font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70" />
+						<RemovePaymentMethodButton
+							className="flex flex-col justify-center items-center w-60 h-10 font-bold bg-red-500 rounded-lg transition-opacity ease-linear hover:opacity-70"
+							remainingCost={cost}
+						/>
+					</div>
 				)}
 				<h2 className="text-2xl font-bold border-b-2 border-gray-500">
 					Usage this period
 				</h2>
-				{user.purchasedAmount > 0 && baseCost <= 0 && (
-					<p className="[&_strong]:text-[#24e098]">
-						You have <strong>{formatCents(-baseCost)}</strong> remaining of your
-						initial <strong>{formatCents(100)}</strong>.
-					</p>
+				{user.paymentMethod && baseCost <= 0 && (
+					<div className="flex flex-col gap-1">
+						<p className="[&_strong]:text-[#24e098]">
+							You have <strong>{formatCents(-baseCost)}</strong> remaining of
+							your initial <strong>{formatCents(100)}</strong>.{' '}
+						</p>
+						<p
+							className="underline"
+							aria-label={`We take a ${formatCents(
+								30
+							)} + 2.9% fee out of all transactions`}
+							data-balloon-pos="up"
+						>
+							Why did I only start out with {formatCents(67)}?
+						</p>
+					</div>
 				)}
 				<p className="[&_strong]:text-[#24e098]">
 					Upcoming charge: <strong>{formatCents(cost)}</strong>
@@ -99,9 +117,10 @@ const ProfilePage = async () => {
 					<strong>1,000 response tokens</strong>.
 				</p>
 				<p>
-					We also charge an <strong>extra $0.30 per month</strong> with a{' '}
-					<strong>minimum of $0.50 per month</strong> (if you've used this
-					service at all this month).
+					We also charge an{' '}
+					<strong>extra {formatCents(30)} + 2.9% per month</strong> with a{' '}
+					<strong>minimum of {formatCents(50)} per month</strong> (if you've
+					used this service at all this month).
 				</p>
 				<h3 className="text-xl font-bold border-b-2 border-gray-500">
 					Tips for keeping cost down

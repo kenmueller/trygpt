@@ -25,7 +25,7 @@ export const POST = async () => {
 		const results = await Promise.allSettled(
 			users.map(async user => {
 				if (!user.lastCharged) return 'User has never been charged'
-				if (!user.paymentMethod) throw new Error('Missing payment method')
+				if (!user.paymentMethod) return 'Missing payment method'
 
 				const scheduledCharge = nextMonth(user.lastCharged)
 
@@ -35,6 +35,7 @@ export const POST = async () => {
 					)})`
 
 				const amount = costThisPeriod(user)
+				if (!amount) return 'User has no cost this period'
 
 				await stripe.paymentIntents.create({
 					customer: user.customerId,

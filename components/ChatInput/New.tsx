@@ -71,7 +71,7 @@ const NewChatInput = () => {
 		[user, router, setChats, setInitialMessages, setPrompt, setIsLoading]
 	)
 
-	const previewMessagesRemaining = user.purchasedAmount
+	const previewMessagesRemaining = user.paymentMethod
 		? null
 		: Number.parseInt(process.env.NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT!) -
 		  user.previewMessages
@@ -79,7 +79,7 @@ const NewChatInput = () => {
 	return (
 		<BaseChatInput
 			disabledMessage={
-				!user.purchasedAmount
+				!user.paymentMethod
 					? user.previewMessages <
 					  Number.parseInt(process.env.NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT!)
 						? undefined
@@ -102,7 +102,7 @@ const NewChatInput = () => {
 				isTyping={isLoading}
 				disabled={
 					!(
-						user.purchasedAmount ||
+						user.paymentMethod ||
 						user.previewMessages <
 							Number.parseInt(process.env.NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT!)
 					)

@@ -358,7 +358,7 @@ const ChatInput = () => {
 	}, [chat.name])
 
 	const previewMessagesRemaining =
-		!user || user.purchasedAmount
+		!user || user.paymentMethod
 			? null
 			: Number.parseInt(process.env.NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT!) -
 			  user.previewMessages
@@ -368,7 +368,7 @@ const ChatInput = () => {
 			disabledMessage={
 				!user
 					? 'Not signed in'
-					: !user.purchasedAmount
+					: !user.paymentMethod
 					? user.previewMessages <
 					  Number.parseInt(process.env.NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT!)
 						? undefined
@@ -394,7 +394,7 @@ const ChatInput = () => {
 				disabled={
 					!(
 						user &&
-						(user.purchasedAmount ||
+						(user.paymentMethod ||
 							user.previewMessages <
 								Number.parseInt(process.env.NEXT_PUBLIC_PREVIEW_MESSAGE_LIMIT!))
 					)

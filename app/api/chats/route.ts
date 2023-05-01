@@ -20,7 +20,7 @@ export const POST = async (request: NextRequest) => {
 		const user = await userFromRequest()
 		if (!user) throw new HttpError(ErrorCode.Unauthorized, 'Unauthorized')
 
-		const preview = !user.purchasedAmount
+		const preview = !user.paymentMethod
 
 		const hasPreviewMessagesRemaining =
 			user.previewMessages <

@@ -1,21 +1,28 @@
 'use client'
 
 import { useEffect } from 'react'
+import { useRouter, usePathname, useSearchParams } from 'next/navigation'
 import { toast } from 'react-toastify'
 import { useRecoilValue } from 'recoil'
 
 import { logEvent } from '@/lib/analytics/lazy'
 import userState from '@/lib/atoms/user'
 
+const PURCHASED_NAME = 'purchased-gpt-4'
+const UPDATED_NAME = 'updated-payment-method'
+
 const PurchasedAlert = () => {
+	const router = useRouter()
+
+	const pathname = usePathname()
+	const searchParams = useSearchParams()
+
 	const user = useRecoilValue(userState)
 	const userId = user?.id ?? null
 
 	useEffect(() => {
-		const name = 'purchased-gpt-4'
-
-		const searchParams = new URLSearchParams(window.location.search)
-		const purchased = searchParams.get(name)
+		const purchased = searchParams.get(PURCHASED_NAME)
+		const updated = searchParams.get(UPDATED_NAME)
 
 		switch (purchased) {
 			case 'true':
@@ -28,20 +35,6 @@ const PurchasedAlert = () => {
 				break
 		}
 
-		if (purchased) {
-			const newUrl = new URL(window.location.href)
-			newUrl.searchParams.delete(name)
-
-			window.history.replaceState({ path: newUrl.href }, '', newUrl.href)
-		}
-	}, [userId])
-
-	useEffect(() => {
-		const name = 'updated-payment-method'
-
-		const searchParams = new URLSearchParams(window.location.search)
-		const updated = searchParams.get(name)
-
 		switch (updated) {
 			case 'true':
 				logEvent('update_payment_method_success', { userId })
@@ -53,13 +46,16 @@ const PurchasedAlert = () => {
 				break
 		}
 
-		if (updated) {
-			const newUrl = new URL(window.location.href)
-			newUrl.searchParams.delete(name)
+		const newSearchParams = new URLSearchParams(searchParams.toString())
 
-			window.history.replaceState({ path: newUrl.href }, '', newUrl.href)
+		if (purchased) newSearchParams.delete(PURCHASED_NAME)
+		if (updated) newSearchParams.delete(UPDATED_NAME)
+
+		if (purchased || updated) {
+			const newSearch = newSearchParams.toString()
+			router.replace(`${pathname}${newSearch && `?${newSearch}`}`)
 		}
-	}, [userId])
+	}, [router, pathname, searchParams, userId])
 
 	return null
 }

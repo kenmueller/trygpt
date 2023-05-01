@@ -40,7 +40,7 @@ export const POST = async (request: NextRequest) => {
 
 		switch (data.mode) {
 			case 'payment': {
-				if (user.purchasedAmount)
+				if (user.paymentMethod)
 					throw new HttpError(
 						ErrorCode.Forbidden,
 						"You've already purchased GPT 4. Reload the page to continue."
@@ -82,7 +82,7 @@ export const POST = async (request: NextRequest) => {
 				return new NextResponse(checkoutUrl)
 			}
 			case 'setup': {
-				if (!user.purchasedAmount)
+				if (!user.paymentMethod)
 					throw new HttpError(
 						ErrorCode.Forbidden,
 						"You haven't purchased GPT 4 yet."

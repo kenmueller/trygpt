@@ -6,7 +6,7 @@ import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
 
 export interface UpdateUserData {
-	paymentMethod?: string
+	paymentMethod?: string | null
 	lastCharged?: 'now'
 	incrementRequestTokens?: number
 	incrementResponseTokens?: number

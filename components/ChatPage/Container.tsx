@@ -13,7 +13,7 @@ const ChatPageContainer = ({ children }: { children: ReactNode }) => {
 		<main
 			className={cx(
 				'grid gap-4 overflow-y-auto',
-				!user || user.purchasedAmount
+				!user || user.paymentMethod
 					? 'grid-rows-[1fr_auto]'
 					: 'grid-rows-[1fr_auto_auto]'
 			)}
