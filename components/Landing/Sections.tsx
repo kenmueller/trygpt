@@ -5,11 +5,12 @@ import {
 	COST_PER_1000_PROMPT_TOKENS
 } from '@/lib/costPerToken'
 import formatCents from '@/lib/cents/format'
-import startImage from '@/assets/chat.png'
-import pricingImage from '@/assets/chat.png'
-import shareImage from '@/assets/chat.png'
-import screenshotImage from '@/assets/screenshot.jpg'
-import textToSpeechImage from '@/assets/chat.png'
+import previewMessagesImage from '@/assets/preview-messages.png'
+import initialDollarImage from '@/assets/initial-dollar.png'
+import sampleEssayImage from '@/assets/sample-essay.png'
+import shareImage from '@/assets/share.png'
+import screenshotImage from '@/assets/screenshot.png'
+import speechImage from '@/assets/speech.png'
 
 const LandingPageSections = () => (
 	<main className="flex flex-col items-center gap-8 py-16">
@@ -40,8 +41,8 @@ const LandingPageSections = () => (
 					it for <strong>$1</strong>.
 				</>
 			}
-			image={startImage}
-			imageAlt="Starting out"
+			image={previewMessagesImage}
+			imageAlt="Free messages"
 		/>
 		<Section
 			title={
@@ -55,8 +56,8 @@ const LandingPageSections = () => (
 					words. That's almost <strong>1 1/2</strong> 5,000-word essays.
 				</>
 			}
-			image={startImage}
-			imageAlt="Starting out"
+			image={initialDollarImage}
+			imageAlt="Initial $1"
 		/>
 		<Section
 			id="pricing"
@@ -74,11 +75,12 @@ const LandingPageSections = () => (
 					subscription for ChatGPT 4. We charge{' '}
 					{formatCents(COST_PER_1000_PROMPT_TOKENS)} for 1,000 prompt tokens
 					(~750 words) and {formatCents(COST_PER_1000_COMPLETION_TOKENS)} for
-					1,000 response tokens (~750 words).
+					1,000 response tokens (~750 words). For example, this essay cost{' '}
+					<strong>{formatCents(3)}</strong>!
 				</>
 			}
-			image={pricingImage}
-			imageAlt="Pricing"
+			image={sampleEssayImage}
+			imageAlt="Sample essay"
 		/>
 		<Section
 			id="features"
@@ -90,9 +92,9 @@ const LandingPageSections = () => (
 			}
 			description={
 				<>
-					Anyone who has the link to your chat can continue the conversation.
-					Post the link on social media, send it to a friend, or embed it in
-					your website.
+					Anyone who has the link to your chat can{' '}
+					<strong>continue the conversation</strong>. Post the link on social
+					media, send it to a friend, or embed it in your website.
 				</>
 			}
 			image={shareImage}
@@ -122,8 +124,8 @@ const LandingPageSections = () => (
 				</>
 			}
 			description={<>Click the microphone icon to start talking to ChatGPT.</>}
-			image={textToSpeechImage}
-			imageAlt="Text-to-speech"
+			image={speechImage}
+			imageAlt='Start speech with "Tell chat..."'
 		/>
 	</main>
 )
