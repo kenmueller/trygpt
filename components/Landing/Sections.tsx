@@ -52,9 +52,7 @@ const LandingPageSections = () => (
 			description={
 				<>
 					Your initial <strong>$1</strong> buys you <strong>7,200</strong>{' '}
-					words. That's almost <strong>1 1/2</strong> 5,000-word essays. Start
-					your school year off with the help of ChatGPT 4, the most advanced AI
-					to help with your homework.
+					words. That's almost <strong>1 1/2</strong> 5,000-word essays.
 				</>
 			}
 			image={startImage}
@@ -72,10 +70,11 @@ const LandingPageSections = () => (
 			}
 			description={
 				<>
-					TryGPT is <strong>much</strong> cheaper than normal ChatGPT 4. We
-					charge {formatCents(COST_PER_1000_PROMPT_TOKENS)} for 1,000 prompt
-					tokens (~750 words) and {formatCents(COST_PER_1000_COMPLETION_TOKENS)}{' '}
-					for 1,000 response tokens (~750 words).
+					TryGPT is <strong>much</strong> cheaper than paying the monthly
+					subscription for ChatGPT 4. We charge{' '}
+					{formatCents(COST_PER_1000_PROMPT_TOKENS)} for 1,000 prompt tokens
+					(~750 words) and {formatCents(COST_PER_1000_COMPLETION_TOKENS)} for
+					1,000 response tokens (~750 words).
 				</>
 			}
 			image={pricingImage}
