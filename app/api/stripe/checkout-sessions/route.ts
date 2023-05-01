@@ -103,7 +103,7 @@ export const POST = async (request: NextRequest) => {
 				const { url: checkoutUrl } = await stripe.checkout.sessions.create({
 					customer: user.customerId,
 					mode: 'setup',
-					payment_method_types: ['card'],
+					payment_method_types: ['card', 'link'],
 					success_url: successUrl.href,
 					cancel_url: cancelUrl.href
 				})
