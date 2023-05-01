@@ -28,7 +28,7 @@ export const generateMetadata = async ({
 
 	return pageMetadata({
 		title: `${title} | TryGPT`,
-		description: `Continue this chat on TryGPT. TryGPT is the cheapest way to get access to GPT-4 which is far, far superior to the free GPT-3.5. Start now for only $1.`,
+		description: `View or continue this chat on TryGPT. TryGPT is the cheapest way to get access to GPT-4 which is far, far superior to the free GPT-3.5. Start now for only $1.`,
 		previewTitle: title
 	})
 }
