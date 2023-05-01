@@ -51,10 +51,10 @@ const LandingPageSections = () => (
 			}
 			description={
 				<>
-					<strong>$1</strong> buys you <strong>11,000</strong> words. That's
-					over <strong>two</strong> 5,000-word essays. Start your school year
-					off with the help of ChatGPT 4, the most advanced AI to help with your
-					homework.
+					Your initial <strong>$1</strong> buys you <strong>7,200</strong>{' '}
+					words. That's almost <strong>1 1/2</strong> 5,000-word essays. Start
+					your school year off with the help of ChatGPT 4, the most advanced AI
+					to help with your homework.
 				</>
 			}
 			image={startImage}
