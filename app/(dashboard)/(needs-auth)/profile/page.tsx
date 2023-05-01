@@ -17,7 +17,6 @@ import RemovePaymentMethodButton from '@/components/Payment/RemovePaymentMethodB
 import PurchaseButton from '@/components/Payment/PurchaseButton'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 import PaymentMethod from '@/components/Profile/PaymentMethod'
-import PaymentMethodErrorBoundary from '@/components/Profile/PaymentMethodErrorBoundary'
 
 export const generateMetadata = () =>
 	pageMetadata({
@@ -57,12 +56,10 @@ const ProfilePage = async () => {
 				<p>
 					Card on file:{' '}
 					{user.paymentMethod ? (
-						<PaymentMethodErrorBoundary>
-							<Suspense fallback={<ThreeDotsLoader />}>
-								{/* @ts-expect-error */}
-								<PaymentMethod paymentMethodId={user.paymentMethod} />
-							</Suspense>
-						</PaymentMethodErrorBoundary>
+						<Suspense fallback={<ThreeDotsLoader />}>
+							{/* @ts-expect-error */}
+							<PaymentMethod paymentMethodId={user.paymentMethod} />
+						</Suspense>
 					) : (
 						<code>
 							<strong>none</strong>
