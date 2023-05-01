@@ -25,7 +25,7 @@ const LandingPageSection = ({
 			<p className="mt-8 text-lg w-1500:text-xl">{description}</p>
 		</article>
 		<Image
-			className="grow-[1.5] w-1500:grow-[1] basis-0 w-1000:w-0 h-auto rounded-2xl shadow-lg"
+			className="grow-[1.5] w-1500:grow-[1] basis-0 w-full w-1000:w-0 h-auto rounded-2xl shadow-lg"
 			src={image}
 			alt={imageAlt}
 		/>
