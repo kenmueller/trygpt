@@ -23,6 +23,9 @@ export const POST = async (request: NextRequest) => {
 		const user = await userFromRequest()
 		if (!user) throw new HttpError(ErrorCode.Unauthorized, 'Unauthorized')
 
+		if (!user.customerId)
+			throw new HttpError(ErrorCode.Forbidden, 'Missing customer ID')
+
 		if (request.headers.get('content-type') !== 'application/json')
 			throw new HttpError(ErrorCode.BadRequest, 'Invalid content type')
 

@@ -24,6 +24,8 @@ export const POST = async () => {
 
 		const results = await Promise.allSettled(
 			users.map(async user => {
+				if (!user.customerId) throw new Error('Missing customer ID')
+
 				if (!user.lastCharged) return 'User has never been charged'
 				if (!user.paymentMethod) return 'Missing payment method'
 

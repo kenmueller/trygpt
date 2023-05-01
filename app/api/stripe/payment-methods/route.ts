@@ -15,6 +15,9 @@ export const DELETE = async () => {
 		const user = await userFromRequest()
 		if (!user) throw new HttpError(ErrorCode.Unauthorized, 'Unauthorized')
 
+		if (!user.customerId)
+			throw new HttpError(ErrorCode.Forbidden, 'Missing customer ID')
+
 		if (!user.paymentMethod)
 			throw new HttpError(ErrorCode.BadRequest, 'You have no payment methods')
 

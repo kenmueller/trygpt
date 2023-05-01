@@ -32,8 +32,7 @@ const createChatMessagesWithConnection = async (
 									sql.unsafe`(${chatId}, ${nanoid()}, ${role}, ${text})`
 							),
 							sql.fragment`, `
-						)}
-				   ON CONFLICT DO NOTHING`
+						)}`
 	)
 }
 

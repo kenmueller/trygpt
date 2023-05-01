@@ -18,14 +18,21 @@ const createUserFromTokenDataWithConnection = async (
 	{ id, photo, name, email }: UserTokenData,
 	connection: DatabasePoolConnection
 ) => {
-	const { id: customerId } = await stripe.customers.create({ name, email })
+	await connection.transaction(async connection => {
+		await connection.query(
+			sql.unsafe`INSERT INTO
+				   users (id, photo, name, email)
+				   VALUES (${id}, ${photo}, ${name}, ${email})`
+		)
 
-	await connection.query(
-		sql.unsafe`INSERT INTO
-				   users (id, customer_id, photo, name, email)
-				   VALUES (${id}, ${customerId}, ${photo}, ${name}, ${email})
-				   ON CONFLICT DO NOTHING`
-	)
+		const { id: customerId } = await stripe.customers.create({ name, email })
+
+		await connection.query(
+			sql.unsafe`UPDATE users
+					   SET customer_id = ${customerId}
+					   WHERE id = ${id}`
+		)
+	})
 }
 
 export default createUserFromTokenData

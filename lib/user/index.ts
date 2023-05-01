@@ -2,7 +2,7 @@ export default interface User {
 	id: string
 
 	/** Stripe customer ID. */
-	customerId: string
+	customerId: string | null
 
 	/** Stripe customer payment method ID. */
 	paymentMethod: string | null
