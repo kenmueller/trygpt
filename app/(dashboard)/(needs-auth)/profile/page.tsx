@@ -54,7 +54,7 @@ const ProfilePage = async () => {
 					Payment info
 				</h2>
 				<p>
-					Card on file:{' '}
+					Payment method:{' '}
 					{user.paymentMethod ? (
 						<Suspense fallback={<ThreeDotsLoader />}>
 							{/* @ts-expect-error */}
