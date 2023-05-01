@@ -29,9 +29,9 @@ const RemovePaymentMethodButton = ({
 
 			if (
 				!confirm(
-					`Are you sure you want to remove your payment method?${
+					`Are you sure you want to remove your payment method? You will have to re-purchase GPT 4 to use it again.${
 						remainingCost > 0
-							? ` You will immediately be charged ${formatCents(
+							? ` You will also immediately be charged ${formatCents(
 									remainingCost
 							  )} for your remaining usage this period.`
 							: ''
