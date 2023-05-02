@@ -20,7 +20,7 @@ const createChat = (
 
 const createChatWithConnection = async (
 	user: User,
-	data: CreateChatData,
+	{ original, name }: CreateChatData,
 	connection: DatabasePoolConnection
 ) => {
 	const id = nanoid()
@@ -28,7 +28,7 @@ const createChatWithConnection = async (
 	await connection.query(
 		sql.unsafe`INSERT INTO
 				   chats (user_id, id, original_id, name)
-				   VALUES (${user.id}, ${id}, ${data.original}, ${data.name})`
+				   VALUES (${user.id}, ${id}, ${original}, ${name})`
 	)
 
 	return id
