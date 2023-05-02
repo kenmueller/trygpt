@@ -8,7 +8,7 @@ export const generateMetadata = () =>
 	})
 
 const ConversationsPage = async () => {
-	return <></>
+	return null
 }
 
 export default ConversationsPage
