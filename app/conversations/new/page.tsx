@@ -1,3 +1,4 @@
+import NewConversationPageForm from '@/components/NewConversationPage/Form'
 import pageMetadata from '@/lib/metadata/page'
 
 export const generateMetadata = () =>
@@ -7,8 +8,6 @@ export const generateMetadata = () =>
 		previewTitle: 'New Conversation'
 	})
 
-const NewConversationPage = async () => {
-	return null
-}
+const NewConversationPage = () => <NewConversationPageForm />
 
 export default NewConversationPage

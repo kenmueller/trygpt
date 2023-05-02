@@ -7,8 +7,6 @@ export const generateMetadata = () =>
 		previewTitle: 'Conversations'
 	})
 
-const ConversationsPage = async () => {
-	return null
-}
+const ConversationsPage = () => null
 
 export default ConversationsPage

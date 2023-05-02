@@ -14,8 +14,6 @@ export const generateMetadata = ({
 	})
 }
 
-const SearchConversationsPage = async () => {
-	return null
-}
+const SearchConversationsPage = () => null
 
 export default SearchConversationsPage
