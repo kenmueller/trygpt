@@ -21,7 +21,7 @@ const NewChatPage = async () => {
 			<Nav canCreateChat={false}>New Chat</Nav>
 			<main className="grid grid-rows-[1fr_auto] gap-4 overflow-y-auto">
 				<div className="flex flex-col overflow-y-auto">
-					<NewChatPageInfo className="flex flex-col items-center m-auto" />
+					<NewChatPageInfo className="flex flex-col items-center m-auto text-center" />
 				</div>
 				<NewChatInput />
 			</main>
