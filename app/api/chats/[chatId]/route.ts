@@ -15,7 +15,7 @@ export const dynamic = 'force-dynamic'
 
 export const DELETE = async (
 	_request: NextRequest,
-	{ params: { id: encodedChatId } }: { params: { id: string } }
+	{ params: { chatId: encodedChatId } }: { params: { chatId: string } }
 ) => {
 	try {
 		const chatId = decodeURIComponent(encodedChatId)

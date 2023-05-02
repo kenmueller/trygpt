@@ -38,7 +38,7 @@ If asked to generate an image, output a markdown image with the URL "https://sou
 
 export const POST = async (
 	request: NextRequest,
-	{ params: { id: encodedChatId } }: { params: { id: string } }
+	{ params: { chatId: encodedChatId } }: { params: { chatId: string } }
 ) => {
 	try {
 		const chatId = decodeURIComponent(encodedChatId)

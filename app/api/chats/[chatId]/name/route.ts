@@ -35,7 +35,7 @@ interface UpdateChatNameData {
 
 export const PATCH = async (
 	request: NextRequest,
-	{ params: { id: encodedChatId } }: { params: { id: string } }
+	{ params: { chatId: encodedChatId } }: { params: { chatId: string } }
 ) => {
 	try {
 		const chatId = decodeURIComponent(encodedChatId)
