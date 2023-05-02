@@ -46,7 +46,7 @@ const ConversationsNav = () => {
 				onSubmit={onSearchSubmit}
 			>
 				<input
-					className="grow-[1] min-w-0 bg-white bg-opacity-10"
+					className="grow-[1] min-w-0 px-3 py-1.5 bg-white bg-opacity-10 rounded-lg outline-none placeholder:text-white placeholder:opacity-50"
 					placeholder="Search"
 					value={searchQuery}
 					onChange={onSearchQueryChange}

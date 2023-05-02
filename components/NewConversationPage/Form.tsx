@@ -1,11 +1,16 @@
 'use client'
 
+if (!process.env.NEXT_PUBLIC_HOST) throw new Error('Missing NEXT_PUBLIC_HOST')
+
 import { ChangeEvent, FormEvent, useCallback, useState } from 'react'
 import TextAreaAutosize from 'react-textarea-autosize'
+
+import DEV from '@/lib/dev'
 
 const NewConversationPageForm = () => {
 	const [title, setTitle] = useState('')
 	const [text, setText] = useState('')
+	const [url, setUrl] = useState('')
 
 	const onSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
@@ -25,6 +30,13 @@ const NewConversationPageForm = () => {
 		[setText]
 	)
 
+	const onUrlChange = useCallback(
+		(event: ChangeEvent<HTMLInputElement>) => {
+			setUrl(event.target.value)
+		},
+		[setUrl]
+	)
+
 	return (
 		<form
 			className="flex flex-col items-stretch gap-4 px-6 py-4"
@@ -37,17 +49,24 @@ const NewConversationPageForm = () => {
 				</button>
 			</div>
 			<TextAreaAutosize
-				className="h-[46px] overflow-hidden resize-none pl-4 pr-[2.7rem] py-[0.7rem] bg-white bg-opacity-10 rounded-lg outline-none placeholder:text-white placeholder:opacity-50"
+				className="h-[46px] overflow-hidden resize-none px-4 py-[0.7rem] bg-white bg-opacity-10 rounded-lg outline-none placeholder:text-white placeholder:opacity-50"
 				placeholder="Title"
 				value={title}
 				onChange={onTitleChange}
 			/>
 			<TextAreaAutosize
-				className="h-[93.2px] overflow-hidden resize-none pl-4 pr-[2.7rem] py-[0.7rem] bg-white bg-opacity-10 rounded-lg outline-none placeholder:text-white placeholder:opacity-50"
+				className="h-[93.2px] overflow-hidden resize-none px-4 py-[0.7rem] bg-white bg-opacity-10 rounded-lg outline-none placeholder:text-white placeholder:opacity-50"
 				placeholder="Description"
-				value={text}
 				minRows={3}
+				value={text}
 				onChange={onTextChange}
+			/>
+			<input
+				className="px-4 py-[0.7rem] bg-white bg-opacity-10 rounded-lg outline-none placeholder:text-white placeholder:opacity-50"
+				placeholder={`${DEV ? 'http' : 'https'}://${process.env
+					.NEXT_PUBLIC_HOST!}/chats/{CHAT_ID}`}
+				value={url}
+				onChange={onUrlChange}
 			/>
 		</form>
 	)

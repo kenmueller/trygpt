@@ -1,5 +1,7 @@
 'use client'
 
+if (!process.env.NEXT_PUBLIC_HOST) throw new Error('Missing NEXT_PUBLIC_HOST')
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShareSquare } from '@fortawesome/free-solid-svg-icons'
 import copy from 'copy-to-clipboard'
@@ -8,15 +10,14 @@ import { useCallback } from 'react'
 
 import Chat from '@/lib/chat'
 import { logEvent } from '@/lib/analytics/lazy'
+import DEV from '@/lib/dev'
 
 const ChatInputShareButton = ({ chat }: { chat: Chat }) => {
 	const share = useCallback(() => {
 		logEvent('share_chat')
 
-		const url = new URL(
-			`/chats/${encodeURIComponent(chat.id)}`,
-			window.location.origin
-		).href
+		const url = `${DEV ? 'http' : 'https'}://${process.env
+			.NEXT_PUBLIC_HOST!}/chats/${encodeURIComponent(chat.id)}`
 
 		copy(url)
 

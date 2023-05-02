@@ -13,3 +13,13 @@ export default interface Conversation {
 	created: number
 	updated: number
 }
+
+export interface ConversationWithUserData extends Conversation {
+	userPhoto: string | null
+	userName: string
+}
+
+export interface ConversationWithChatData extends Conversation {}
+
+export type ConversationWithUserAndChatData = ConversationWithUserData &
+	ConversationWithChatData
