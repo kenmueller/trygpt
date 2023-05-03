@@ -8,6 +8,8 @@ import isChatOwnedByUser from '@/lib/chat/isOwnedByUser'
 import createConversation, {
 	CreateConversationData
 } from '@/lib/conversation/create'
+import { conversationsIndex } from '@/lib/algolia/server'
+import conversationFromId from '@/lib/conversation/fromId'
 
 export const dynamic = 'force-dynamic'
 
@@ -40,7 +42,18 @@ export const POST = async (request: NextRequest) => {
 				'Either this chat does not exist or you do not own it'
 			)
 
-		return NextResponse.json(await createConversation(user, data))
+		const { id, slug } = await createConversation(user, data)
+		const conversation = await conversationFromId(id)
+
+		if (!conversation)
+			throw new HttpError(ErrorCode.Internal, 'Conversation not found')
+
+		await conversationsIndex.saveObject({
+			objectID: conversation.id,
+			...conversation
+		})
+
+		return NextResponse.json({ id, slug })
 	} catch (unknownError) {
 		const { code, message } = errorFromUnknown(unknownError)
 		return new NextResponse(message, { status: code })

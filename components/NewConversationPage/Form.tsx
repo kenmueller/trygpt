@@ -13,7 +13,7 @@ import {
 } from 'react'
 import TextAreaAutosize from 'react-textarea-autosize'
 import { useRecoilValue } from 'recoil'
-import { useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import debounce from 'lodash/debounce'
 import cx from 'classnames'
 
@@ -28,6 +28,7 @@ import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 import Markdown from '@/components/Markdown'
 import ChatPreview from '@/components/Conversations/ChatPreview'
 import ChatMessage from '@/lib/chat/message'
+import alertError from '@/lib/error/alert'
 
 const urlMatch = new RegExp(
 	`^(?:${DEV ? 'http' : 'https'}:\\/\\/)?${process.env.NEXT_PUBLIC_HOST.replace(
@@ -37,6 +38,8 @@ const urlMatch = new RegExp(
 )
 
 const NewConversationPageForm = () => {
+	const router = useRouter()
+
 	const user = useRecoilValue(userState)
 	const userId = user?.id ?? null
 
@@ -62,11 +65,42 @@ const NewConversationPageForm = () => {
 	const trimmedText = text.trim()
 	const trimmedUrl = url.trim()
 
+	const [isLoading, setIsLoading] = useState(false)
 	const disabled = !(user && trimmedTitle && chat)
 
-	const onSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
-		event.preventDefault()
-	}, [])
+	const onSubmit = useCallback(
+		async (event: FormEvent<HTMLFormElement>) => {
+			try {
+				event.preventDefault()
+				setIsLoading(true)
+
+				if (!chat) return
+
+				const response = await fetch('/api/conversations', {
+					method: 'POST',
+					headers: { 'content-type': 'application/json' },
+					body: JSON.stringify({
+						chatId: chat.id,
+						title: trimmedTitle,
+						text: trimmedText
+					})
+				})
+
+				if (!response.ok) throw await errorFromResponse(response)
+
+				const { id, slug } = await response.json()
+
+				router.push(
+					`/conversations/${encodeURIComponent(id)}/${encodeURIComponent(slug)}`
+				)
+			} catch (unknownError) {
+				alertError(errorFromUnknown(unknownError))
+			} finally {
+				setIsLoading(false)
+			}
+		},
+		[router, chat, trimmedTitle, trimmedText, setIsLoading]
+	)
 
 	const onTitleChange = useCallback(
 		(event: ChangeEvent<HTMLTextAreaElement>) => {
@@ -142,13 +176,11 @@ const NewConversationPageForm = () => {
 		}
 	}, [setChat, setChatError, trimmedUrl, loadChatIdDebounced])
 
-	const chatId = chat?.id ?? null
-
 	const loadMessages = useCallback(
-		async (chatId: string, signal: AbortSignal) => {
+		async (chat: ChatWithUserData, signal: AbortSignal) => {
 			try {
 				const response = await fetch(
-					`/api/chats/${encodeURIComponent(chatId)}/messages`
+					`/api/chats/${encodeURIComponent(chat.id)}/messages`
 				)
 				if (!response.ok) throw await errorFromResponse(response)
 
@@ -172,16 +204,16 @@ const NewConversationPageForm = () => {
 		setMessages(null)
 		setMessagesError(null)
 
-		if (!chatId) return
+		if (!chat) return
 
 		const controller = new AbortController()
 
-		loadMessages(chatId, controller.signal)
+		loadMessages(chat, controller.signal)
 
 		return () => {
 			controller.abort()
 		}
-	}, [setMessages, setMessagesError, chatId, loadMessages])
+	}, [setMessages, setMessagesError, chat, loadMessages])
 
 	return (
 		<div className="flex flex-col items-stretch gap-6 px-6 py-4">
@@ -189,10 +221,10 @@ const NewConversationPageForm = () => {
 				<div className="flex justify-between items-center">
 					<h1 className="text-2xl font-bold">New Conversation</h1>
 					<button
-						className="px-4 py-2 font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70 disabled:opacity-50"
+						className="flex flex-col justify-center items-center w-[87.75px] h-[40px] font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70 disabled:opacity-50"
 						disabled={disabled}
 					>
-						Submit
+						{isLoading ? <ThreeDotsLoader /> : 'Submit'}
 					</button>
 				</div>
 				<TextAreaAutosize

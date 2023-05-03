@@ -33,7 +33,7 @@ const ConversationChatPreview = ({
 	continueInNewTab?: boolean
 }) => (
 	<div className="flex flex-col items-stretch gap-4">
-		<h3 className="">{chat.name}</h3>
+		<h3>{chat.name}</h3>
 		<div className="max-h-[1100px] overflow-y-auto border border-white border-opacity-50">
 			{messages.map(message => (
 				<Message key={message.id} chat={chat} message={message} />
