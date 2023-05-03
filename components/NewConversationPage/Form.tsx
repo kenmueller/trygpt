@@ -68,13 +68,18 @@ const NewConversationPageForm = () => {
 	const [isLoading, setIsLoading] = useState(false)
 	const disabled = !(user && trimmedTitle && chat)
 
+	const previewUser = useMemo(
+		() => chat && { photo: chat.userPhoto, name: chat.userName },
+		[chat]
+	)
+
 	const onSubmit = useCallback(
 		async (event: FormEvent<HTMLFormElement>) => {
 			try {
 				event.preventDefault()
-				setIsLoading(true)
-
 				if (!chat) return
+
+				setIsLoading(true)
 
 				const response = await fetch('/api/conversations', {
 					method: 'POST',
@@ -94,9 +99,8 @@ const NewConversationPageForm = () => {
 					`/conversations/${encodeURIComponent(id)}/${encodeURIComponent(slug)}`
 				)
 			} catch (unknownError) {
-				alertError(errorFromUnknown(unknownError))
-			} finally {
 				setIsLoading(false)
+				alertError(errorFromUnknown(unknownError))
 			}
 		},
 		[router, chat, trimmedTitle, trimmedText, setIsLoading]
@@ -205,7 +209,7 @@ const NewConversationPageForm = () => {
 	}, [titleInput])
 
 	return (
-		<div className="flex flex-col items-stretch gap-6 px-6 py-4">
+		<main className="flex flex-col items-stretch gap-6 px-6 py-4 overflow-y-auto">
 			<form className="flex flex-col items-stretch gap-4" onSubmit={onSubmit}>
 				<div className="flex justify-between items-center">
 					<h1 className="text-2xl font-bold">New Conversation</h1>
@@ -255,14 +259,19 @@ const NewConversationPageForm = () => {
 					{trimmedTitle || 'Title'}
 				</h1>
 				{trimmedText && <Markdown text={trimmedText} />}
-				{trimmedUrl && !((chat && messages) || chatError) && (
-					<ThreeDotsLoader />
+				{trimmedUrl && !((chat && messages && previewUser) || chatError) && (
+					<ThreeDotsLoader className="mx-auto mt-2" />
 				)}
-				{chat && messages && (
-					<ChatPreview chat={chat} messages={messages} continueInNewTab />
+				{chat && messages && previewUser && (
+					<ChatPreview
+						chat={chat}
+						user={previewUser}
+						messages={messages}
+						continueInNewTab
+					/>
 				)}
 			</div>
-		</div>
+		</main>
 	)
 }
 

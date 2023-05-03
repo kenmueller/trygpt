@@ -1,8 +1,13 @@
+import { Suspense } from 'react'
 import { notFound, redirect } from 'next/navigation'
 
 import conversationFromId from '@/lib/conversation/fromId'
 import formatDate from '@/lib/date/format'
 import pageMetadata from '@/lib/metadata/page'
+import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
+import Markdown from '@/components/Markdown'
+import ThreeDotsLoader from '@/components/ThreeDotsLoader'
+import ChatPreview from '@/components/ConversationPage/ChatPreview'
 
 export const generateMetadata = async ({
 	params: { conversationId: encodedConversationId }
@@ -51,10 +56,17 @@ const ConversationPage = async ({
 			)}/${encodeURIComponent(conversation.slug)}`
 		)
 
+	const messages = chatMessagesFromChatId(conversation.chatId)
+
 	return (
-		<pre>
-			<code>{JSON.stringify(conversation, null, 2)}</code>
-		</pre>
+		<main className="overflow-y-auto">
+			<h1>{conversation.title}</h1>
+			{conversation.text && <Markdown text={conversation.text} />}
+			<Suspense fallback={<ThreeDotsLoader />}>
+				{/* @ts-expect-error */}
+				<ChatPreview conversation={conversation} messages={messages} />
+			</Suspense>
+		</main>
 	)
 }
 

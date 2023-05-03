@@ -7,6 +7,8 @@ export const generateMetadata = () =>
 		previewTitle: 'Conversations'
 	})
 
-const ConversationsPage = () => null
+const ConversationsPage = () => (
+	<main className="overflow-y-auto">Conversations</main>
+)
 
 export default ConversationsPage

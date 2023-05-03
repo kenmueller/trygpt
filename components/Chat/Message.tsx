@@ -10,13 +10,13 @@ import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 import defaultUserImage from '@/assets/user.png'
 import assistantImage from '@/assets/chatgpt.jpg'
 import SoundButton from './MessageSoundButton'
-import { ChatWithUserData } from '@/lib/chat'
+import User from '@/lib/user'
 
 const ChatMessage = ({
-	chat,
+	user,
 	message
 }: {
-	chat: ChatWithUserData
+	user: Pick<User, 'photo' | 'name'>
 	message: ChatMessage
 }) => (
 	<article
@@ -30,12 +30,12 @@ const ChatMessage = ({
 			className="image shrink-0 rounded-lg w-700:rounded-2xl w-6 h-6 w-700:w-12 w-700:h-12"
 			src={
 				message.role === 'user'
-					? chat.userPhoto ?? defaultUserImage
+					? user.photo ?? defaultUserImage
 					: assistantImage
 			}
-			alt={message.role === 'user' ? chat.userName : 'ChatGPT'}
+			alt={message.role === 'user' ? user.name : 'ChatGPT'}
 			referrerPolicy={
-				message.role === 'user' && chat.userPhoto ? 'no-referrer' : undefined
+				message.role === 'user' && user.photo ? 'no-referrer' : undefined
 			}
 			width={50}
 			height={50}

@@ -1,8 +1,9 @@
 import Link from 'next/link'
 
-import { ChatWithUserData } from '@/lib/chat'
 import ChatMessage from '@/lib/chat/message'
 import Message from '@/components/Chat/Message'
+import User from '@/lib/user'
+import Chat from '@/lib/chat'
 
 const LinkWithNewTab = ({
 	className,
@@ -25,10 +26,12 @@ const LinkWithNewTab = ({
 
 const ConversationChatPreview = ({
 	chat,
+	user,
 	messages,
 	continueInNewTab = false
 }: {
-	chat: ChatWithUserData
+	chat: Pick<Chat, 'id' | 'name'>
+	user: Pick<User, 'photo' | 'name'>
 	messages: ChatMessage[]
 	continueInNewTab?: boolean
 }) => (
@@ -36,7 +39,7 @@ const ConversationChatPreview = ({
 		<h3>{chat.name}</h3>
 		<div className="max-h-[1100px] overflow-y-auto border border-white border-opacity-50">
 			{messages.map(message => (
-				<Message key={message.id} chat={chat} message={message} />
+				<Message key={message.id} user={user} message={message} />
 			))}
 		</div>
 		<LinkWithNewTab

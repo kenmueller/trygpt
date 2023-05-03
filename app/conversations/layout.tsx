@@ -13,7 +13,7 @@ export const generateMetadata = () =>
 const ConversationsLayout = async ({ children }: { children: ReactNode }) => (
 	<div className="grid grid-rows-[auto_1fr] h-full overflow-y-auto">
 		<Nav />
-		<main className="overflow-y-auto">{children}</main>
+		{children}
 	</div>
 )
 
