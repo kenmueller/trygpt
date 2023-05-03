@@ -14,4 +14,5 @@ export default interface Chat {
 export interface ChatWithUserData extends Chat {
 	userPhoto: string | null
 	userName: string
+	userPoints: number
 }

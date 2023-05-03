@@ -17,7 +17,7 @@ const conversationFromIdWithConnection = async (
 ) => {
 	const conversations = (await connection.any(
 		sql.unsafe`SELECT
-				       users.id AS "userId", users.photo AS "userPhoto", users.name AS "userName",
+				       users.id AS "userId", users.photo AS "userPhoto", users.name AS "userName", users.points AS "userPoints",
 					   chats.id AS "chatId", chats.name AS "chatName",
 					   conversations.id,
 					   conversations.slug,

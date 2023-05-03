@@ -16,7 +16,7 @@ const chatFromIdWithConnection = async (
 ) => {
 	const chats = (await connection.any(
 		sql.unsafe`SELECT
-				       users.id AS "userId", users.photo AS "userPhoto", users.name AS "userName",
+				       users.id AS "userId", users.photo AS "userPhoto", users.name AS "userName", users.points as "userPoints",
 					   chats.id, chats.name, chats.created, chats.updated
 				   FROM chats
 				   LEFT JOIN users ON users.id = chats.user_id

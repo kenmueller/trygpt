@@ -17,9 +17,12 @@ export default interface Conversation {
 export interface ConversationWithUserData extends Conversation {
 	userPhoto: string | null
 	userName: string
+	userPoints: number
 }
 
-export interface ConversationWithChatData extends Conversation {}
+export interface ConversationWithChatData extends Conversation {
+	chatName: string
+}
 
 export type ConversationWithUserAndChatData = ConversationWithUserData &
 	ConversationWithChatData

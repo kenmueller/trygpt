@@ -13,6 +13,8 @@ export default interface User {
 	name: string
 	email: string
 
+	points: number
+
 	/** Milliseconds since epoch. */
 	lastCharged: number | null
 

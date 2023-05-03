@@ -22,7 +22,7 @@ const userFromCustomerIdWithConnection = async (
 				       id,
 					   customer_id AS "customerId",
 					   payment_method AS "paymentMethod",
-					   photo, name, email,
+					   photo, name, email, points,
 					   last_charged AS "lastCharged",
 					   prompt_tokens AS "requestTokens",
 					   completion_tokens AS "responseTokens",
