@@ -30,6 +30,7 @@ import Markdown from '@/components/Markdown'
 import ChatPreview from '@/components/Conversations/ChatPreview'
 import ChatMessage from '@/lib/chat/message'
 import alertError from '@/lib/error/alert'
+import formatDate from '@/lib/date/format'
 
 const urlMatch = new RegExp(
 	`^(?:${DEV ? 'http' : 'https'}:\\/\\/)?${process.env.NEXT_PUBLIC_HOST.replace(
@@ -255,9 +256,14 @@ const NewConversationPageForm = () => {
 			</form>
 			<h2 className="pb-1 border-b border-white border-opacity-50">Preview</h2>
 			<div className="self-center max-w-[1500px] w-full flex flex-col items-stretch gap-4">
-				<h1 className={cx('text-white', !trimmedTitle && 'text-opacity-50')}>
-					{trimmedTitle || 'Title'}
-				</h1>
+				<div className="flex flex-col items-stretch gap-2">
+					<h1 className={cx('text-white', !trimmedTitle && 'text-opacity-50')}>
+						{trimmedTitle || 'Title'}
+					</h1>
+					<p className="font-bold text-white text-opacity-50">
+						0 points • 0 views • 0 comments • {formatDate(new Date())}
+					</p>
+				</div>
 				{trimmedText && <Markdown text={trimmedText} />}
 				{trimmedUrl && !((chat && messages && previewUser) || chatError) && (
 					<ThreeDotsLoader className="mx-auto mt-2" />
