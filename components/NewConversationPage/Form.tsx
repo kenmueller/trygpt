@@ -56,10 +56,9 @@ const NewConversationPageForm = () => {
 	)
 
 	const [chat, setChat] = useState<ChatWithUserData | null>(null)
-	const [chatError, setChatError] = useState<Error | null>(null)
-
 	const [messages, setMessages] = useState<ChatMessage[] | null>(null)
-	const [messagesError, setMessagesError] = useState<Error | null>(null)
+
+	const [chatError, setChatError] = useState<Error | null>(null)
 
 	const trimmedTitle = title.trim()
 	const trimmedText = text.trim()
@@ -123,7 +122,7 @@ const NewConversationPageForm = () => {
 		[setUrl]
 	)
 
-	const loadChatId = useCallback(
+	const loadChat = useCallback(
 		async (url: string, signal: AbortSignal) => {
 			try {
 				const encodedId = url.match(urlMatch)?.[1]
@@ -134,86 +133,69 @@ const NewConversationPageForm = () => {
 				if (!userId)
 					throw new HttpError(ErrorCode.Unauthorized, 'You are not signed in')
 
-				const response = await fetch(`/api/chats/${encodeURIComponent(id)}`)
-				if (!response.ok) throw await errorFromResponse(response)
+				const [chat, messages] = await Promise.all([
+					(async () => {
+						const response = await fetch(`/api/chats/${encodeURIComponent(id)}`)
+						if (!response.ok) throw await errorFromResponse(response)
 
-				const chat: ChatWithUserData = await response.json()
+						const chat: ChatWithUserData = await response.json()
 
-				if (userId !== chat.userId)
-					throw new HttpError(ErrorCode.Forbidden, 'You do not own this chat')
+						if (userId !== chat.userId)
+							throw new HttpError(
+								ErrorCode.Forbidden,
+								'You do not own this chat'
+							)
+
+						return chat
+					})(),
+					(async () => {
+						const response = await fetch(
+							`/api/chats/${encodeURIComponent(id)}/messages`
+						)
+						if (!response.ok) throw await errorFromResponse(response)
+
+						const messages: ChatMessage[] = await response.json()
+
+						return messages
+					})()
+				])
 
 				if (signal.aborted) return
 
 				setChat(chat)
+				setMessages(messages)
+
 				setChatError(null)
 			} catch (unknownError) {
 				if (signal.aborted) return
 
 				setChat(null)
+				setMessages(null)
+
 				setChatError(errorFromUnknown(unknownError))
 			}
 		},
-		[userId, setChat, setChatError]
+		[userId, setChat, setMessages, setChatError]
 	)
 
-	const loadChatIdDebounced = useMemo(
-		() => debounce(loadChatId, 500),
-		[loadChatId]
-	)
+	const loadChatDebounced = useMemo(() => debounce(loadChat, 500), [loadChat])
 
 	useEffect(() => {
 		setChat(null)
+		setMessages(null)
+
 		setChatError(null)
 
 		if (!trimmedUrl) return
 
 		const controller = new AbortController()
 
-		loadChatIdDebounced(trimmedUrl, controller.signal)
+		loadChatDebounced(trimmedUrl, controller.signal)
 
 		return () => {
 			controller.abort()
 		}
-	}, [setChat, setChatError, trimmedUrl, loadChatIdDebounced])
-
-	const loadMessages = useCallback(
-		async (chat: ChatWithUserData, signal: AbortSignal) => {
-			try {
-				const response = await fetch(
-					`/api/chats/${encodeURIComponent(chat.id)}/messages`
-				)
-				if (!response.ok) throw await errorFromResponse(response)
-
-				const messages: ChatMessage[] = await response.json()
-
-				if (signal.aborted) return
-
-				setMessages(messages)
-				setMessagesError(null)
-			} catch (unknownError) {
-				if (signal.aborted) return
-
-				setMessages(null)
-				setMessagesError(errorFromUnknown(unknownError))
-			}
-		},
-		[setMessages, setMessagesError]
-	)
-
-	useEffect(() => {
-		setMessages(null)
-		setMessagesError(null)
-
-		if (!chat) return
-
-		const controller = new AbortController()
-
-		loadMessages(chat, controller.signal)
-
-		return () => {
-			controller.abort()
-		}
-	}, [setMessages, setMessagesError, chat, loadMessages])
+	}, [setChat, setMessages, setChatError, trimmedUrl, loadChatDebounced])
 
 	return (
 		<div className="flex flex-col items-stretch gap-6 px-6 py-4">
@@ -265,12 +247,11 @@ const NewConversationPageForm = () => {
 					{trimmedTitle || 'Title'}
 				</h1>
 				{trimmedText && <Markdown text={trimmedText} />}
-				{chat && !(messages || messagesError) && <ThreeDotsLoader />}
+				{trimmedUrl && !((chat && messages) || chatError) && (
+					<ThreeDotsLoader />
+				)}
 				{chat && messages && (
 					<ChatPreview chat={chat} messages={messages} continueInNewTab />
-				)}
-				{chat && messagesError && (
-					<p className="font-bold text-red-500">{messagesError.message}</p>
 				)}
 			</div>
 		</div>
