@@ -26,25 +26,26 @@ const extension: ShowdownExtension = {
 		if (options?.ghCodeBlocks ?? true)
 			text = text.replace(
 				/(^|\n)(```(.*)\n([\s\S]*?)\n```)/g,
-				(_substring, m1, m2) => m1 + hashCodeBlock(m2)
+				(_substring, m1: string, m2: string) => m1 + hashCodeBlock(m2)
 			)
 
 		text = text.replace(
 			/((?:(?:(?: |\t|~Q)*?~Q)?\n){2}|^(?:(?: |\t|~Q)*?~Q)?)((?:(?:(?: |\t|~Q)*?~Q)?(?:[ ]{4}|\t).*\n+)+)((?:(?: |\t|~Q)*?~Q)?\n*[ ]{0,3}(?![^ \t\n])|(?=(?:(?: |\t|~Q)*?~Q)?~0))/g,
-			(_substring, m1, m2, m3) => m1 + hashCodeBlock(m2) + m3
+			(_substring, m1: string, m2: string, m3: string) =>
+				m1 + hashCodeBlock(m2) + m3
 		)
 
 		text = text.replace(/(^|[^\\])((`+)([^\r]*?[^`])\3)(?!`)/gm, substring =>
 			hashCodeBlock(substring)
 		)
 
-		text = text.replace(/<(\/?(?:script|style))/g, '&lt;$1')
+		text = text.replace(/<([^\s>]+)/g, '&lt;$1')
 
-		text = text.replace(/\\\[(.*?)\\\]/gs, (_substring: string, math: string) =>
+		text = text.replace(/\\\[(.*?)\\\]/gs, (_substring, math: string) =>
 			katexToString(math, true)
 		)
 
-		text = text.replace(/\\\((.*?)\\\)/gs, (_substring: string, math: string) =>
+		text = text.replace(/\\\((.*?)\\\)/gs, (_substring, math: string) =>
 			katexToString(math, false)
 		)
 
