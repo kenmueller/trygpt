@@ -234,7 +234,9 @@ const NewConversationPageForm = () => {
 				</h1>
 				{trimmedText && <Markdown text={trimmedText} />}
 				{chat && !(messages || messagesError) && <ThreeDotsLoader />}
-				{chat && messages && <ChatPreview chat={chat} messages={messages} />}
+				{chat && messages && (
+					<ChatPreview chat={chat} messages={messages} continueInNewTab />
+				)}
 				{chat && messagesError && (
 					<p className="font-bold text-red-500">{messagesError.message}</p>
 				)}
