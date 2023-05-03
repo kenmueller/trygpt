@@ -22,6 +22,19 @@ import formatCents from '@/lib/cents/format'
 
 export const dynamic = 'force-dynamic'
 
+export const GET = async (
+	_request: NextRequest,
+	{ params: { chatId: encodedChatId } }: { params: { chatId: string } }
+) => {
+	try {
+		const chatId = decodeURIComponent(encodedChatId)
+		return NextResponse.json(await chatMessagesFromChatId(chatId))
+	} catch (unknownError) {
+		const { code, message } = errorFromUnknown(unknownError)
+		return new NextResponse(message, { status: code })
+	}
+}
+
 const encoder = new TextEncoder()
 
 const systemMessages: ChatCompletionMessage[] = [

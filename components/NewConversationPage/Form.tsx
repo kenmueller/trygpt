@@ -26,6 +26,8 @@ import { ChatWithUserData } from '@/lib/chat'
 import userState from '@/lib/atoms/user'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 import Markdown from '@/components/Markdown'
+import ChatPreview from '@/components/Conversations/ChatPreview'
+import ChatMessage from '@/lib/chat/message'
 
 const urlMatch = new RegExp(
 	`^(?:${DEV ? 'http' : 'https'}:\\/\\/)?${process.env.NEXT_PUBLIC_HOST.replace(
@@ -52,6 +54,9 @@ const NewConversationPageForm = () => {
 
 	const [chat, setChat] = useState<ChatWithUserData | null>(null)
 	const [chatError, setChatError] = useState<Error | null>(null)
+
+	const [messages, setMessages] = useState<ChatMessage[] | null>(null)
+	const [messagesError, setMessagesError] = useState<Error | null>(null)
 
 	const trimmedTitle = title.trim()
 	const trimmedText = text.trim()
@@ -85,7 +90,7 @@ const NewConversationPageForm = () => {
 	)
 
 	const loadChatId = useCallback(
-		async (url: string, abort: MutableRefObject<boolean>) => {
+		async (url: string, signal: AbortSignal) => {
 			try {
 				const encodedId = url.match(urlMatch)?.[1]
 				if (!encodedId) throw new HttpError(ErrorCode.BadRequest, 'Invalid URL')
@@ -103,12 +108,12 @@ const NewConversationPageForm = () => {
 				if (userId !== chat.userId)
 					throw new HttpError(ErrorCode.Forbidden, 'You do not own this chat')
 
-				if (abort.current) return
+				if (signal.aborted) return
 
 				setChat(chat)
 				setChatError(null)
 			} catch (unknownError) {
-				if (abort.current) return
+				if (signal.aborted) return
 
 				setChat(null)
 				setChatError(errorFromUnknown(unknownError))
@@ -126,16 +131,57 @@ const NewConversationPageForm = () => {
 		setChat(null)
 		setChatError(null)
 
-		if (trimmedUrl) {
-			const abort: MutableRefObject<boolean> = { current: false }
+		if (!trimmedUrl) return
 
-			loadChatIdDebounced(trimmedUrl, abort)
+		const controller = new AbortController()
 
-			return () => {
-				abort.current = true
-			}
+		loadChatIdDebounced(trimmedUrl, controller.signal)
+
+		return () => {
+			controller.abort()
 		}
 	}, [setChat, setChatError, trimmedUrl, loadChatIdDebounced])
+
+	const chatId = chat?.id ?? null
+
+	const loadMessages = useCallback(
+		async (chatId: string, signal: AbortSignal) => {
+			try {
+				const response = await fetch(
+					`/api/chats/${encodeURIComponent(chatId)}/messages`
+				)
+				if (!response.ok) throw await errorFromResponse(response)
+
+				const messages: ChatMessage[] = await response.json()
+
+				if (signal.aborted) return
+
+				setMessages(messages)
+				setMessagesError(null)
+			} catch (unknownError) {
+				if (signal.aborted) return
+
+				setMessages(null)
+				setMessagesError(errorFromUnknown(unknownError))
+			}
+		},
+		[setMessages, setMessagesError]
+	)
+
+	useEffect(() => {
+		setMessages(null)
+		setMessagesError(null)
+
+		if (!chatId) return
+
+		const controller = new AbortController()
+
+		loadMessages(chatId, controller.signal)
+
+		return () => {
+			controller.abort()
+		}
+	}, [setMessages, setMessagesError, chatId, loadMessages])
 
 	return (
 		<div className="flex flex-col items-stretch gap-6 px-6 py-4">
@@ -186,7 +232,12 @@ const NewConversationPageForm = () => {
 				<h1 className={cx('text-white', !trimmedTitle && 'text-opacity-50')}>
 					{trimmedTitle || 'Title'}
 				</h1>
-				<Markdown text={trimmedText} />
+				{trimmedText && <Markdown text={trimmedText} />}
+				{chat && !(messages || messagesError) && <ThreeDotsLoader />}
+				{chat && messages && <ChatPreview chat={chat} messages={messages} />}
+				{chat && messagesError && (
+					<p className="font-bold text-red-500">{messagesError.message}</p>
+				)}
 			</div>
 		</div>
 	)
