@@ -13,6 +13,7 @@ import {
 } from 'react'
 import TextAreaAutosize from 'react-textarea-autosize'
 import { useRecoilValue } from 'recoil'
+import { useSearchParams } from 'next/navigation'
 import debounce from 'lodash/debounce'
 import cx from 'classnames'
 
@@ -37,9 +38,17 @@ const NewConversationPageForm = () => {
 	const user = useRecoilValue(userState)
 	const userId = user?.id ?? null
 
+	const searchParams = useSearchParams()
+	const initialChatId = searchParams.get('chat')
+
 	const [title, setTitle] = useState('')
 	const [text, setText] = useState('')
-	const [url, setUrl] = useState('')
+	const [url, setUrl] = useState(
+		initialChatId
+			? `${DEV ? 'http' : 'https'}://${process.env
+					.NEXT_PUBLIC_HOST!}/chats/${encodeURIComponent(initialChatId)}`
+			: ''
+	)
 
 	const [chat, setChat] = useState<ChatWithUserData | null>(null)
 	const [chatError, setChatError] = useState<Error | null>(null)
@@ -78,8 +87,10 @@ const NewConversationPageForm = () => {
 	const loadChatId = useCallback(
 		async (url: string, abort: MutableRefObject<boolean>) => {
 			try {
-				const id = url.match(urlMatch)?.[1]
-				if (!id) throw new HttpError(ErrorCode.BadRequest, 'Invalid URL')
+				const encodedId = url.match(urlMatch)?.[1]
+				if (!encodedId) throw new HttpError(ErrorCode.BadRequest, 'Invalid URL')
+
+				const id = decodeURIComponent(encodedId)
 
 				if (!userId)
 					throw new HttpError(ErrorCode.Unauthorized, 'You are not signed in')
