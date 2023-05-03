@@ -19,7 +19,9 @@ const Sidebar = ({
 			{chatsPromise ? (
 				<>
 					<NewChatLink />
-					<Suspense fallback={<ThreeDotsLoader className="mx-auto mt-8" />}>
+					<Suspense
+						fallback={<ThreeDotsLoader className="!block mx-auto mt-8" />}
+					>
 						{/* @ts-expect-error */}
 						<Await promise={chatsPromise}>
 							<Chats />
