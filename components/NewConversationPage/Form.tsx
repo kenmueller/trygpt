@@ -9,6 +9,7 @@ import {
 	useCallback,
 	useEffect,
 	useMemo,
+	useRef,
 	useState
 } from 'react'
 import TextAreaAutosize from 'react-textarea-autosize'
@@ -197,6 +198,12 @@ const NewConversationPageForm = () => {
 		}
 	}, [setChat, setMessages, setChatError, trimmedUrl, loadChatDebounced])
 
+	const titleInput = useRef<HTMLTextAreaElement | null>(null)
+
+	useEffect(() => {
+		titleInput.current?.focus()
+	}, [titleInput])
+
 	return (
 		<div className="flex flex-col items-stretch gap-6 px-6 py-4">
 			<form className="flex flex-col items-stretch gap-4" onSubmit={onSubmit}>
@@ -210,6 +217,7 @@ const NewConversationPageForm = () => {
 					</button>
 				</div>
 				<TextAreaAutosize
+					ref={titleInput}
 					className="h-[46px] overflow-hidden resize-none px-4 py-[0.7rem] bg-white bg-opacity-10 rounded-lg outline-none placeholder:text-white placeholder:opacity-50"
 					placeholder="Title"
 					value={title}
