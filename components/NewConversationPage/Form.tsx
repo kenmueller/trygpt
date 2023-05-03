@@ -254,7 +254,7 @@ const NewConversationPageForm = () => {
 				</div>
 			</form>
 			<h2 className="pb-1 border-b border-white border-opacity-50">Preview</h2>
-			<div className="self-center max-w-[1000px] w-full flex flex-col items-stretch gap-4">
+			<div className="self-center max-w-[1500px] w-full flex flex-col items-stretch gap-4">
 				<h1 className={cx('text-white', !trimmedTitle && 'text-opacity-50')}>
 					{trimmedTitle || 'Title'}
 				</h1>

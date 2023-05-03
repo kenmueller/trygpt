@@ -59,13 +59,15 @@ const ConversationPage = async ({
 	const messages = chatMessagesFromChatId(conversation.chatId)
 
 	return (
-		<main className="overflow-y-auto">
-			<h1>{conversation.title}</h1>
-			{conversation.text && <Markdown text={conversation.text} />}
-			<Suspense fallback={<ThreeDotsLoader />}>
-				{/* @ts-expect-error */}
-				<ChatPreview conversation={conversation} messages={messages} />
-			</Suspense>
+		<main className="flex flex-col items-center px-6 py-4 overflow-y-auto">
+			<div className="max-w-[1500px] w-full flex flex-col items-stretch gap-4">
+				<h1>{conversation.title}</h1>
+				{conversation.text && <Markdown text={conversation.text} />}
+				<Suspense fallback={<ThreeDotsLoader className="mx-auto mt-4" />}>
+					{/* @ts-expect-error */}
+					<ChatPreview conversation={conversation} messages={messages} />
+				</Suspense>
+			</div>
 		</main>
 	)
 }
