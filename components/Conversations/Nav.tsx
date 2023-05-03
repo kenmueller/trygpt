@@ -51,7 +51,7 @@ const ConversationsNav = () => {
 					value={searchQuery}
 					onChange={onSearchQueryChange}
 				/>
-				<button>Search</button>
+				<button className="shrink-0">Search</button>
 			</form>
 			<Link
 				className="shrink-0 flex items-center gap-2 font-bold"

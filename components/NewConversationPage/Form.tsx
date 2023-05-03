@@ -2,15 +2,51 @@
 
 if (!process.env.NEXT_PUBLIC_HOST) throw new Error('Missing NEXT_PUBLIC_HOST')
 
-import { ChangeEvent, FormEvent, useCallback, useState } from 'react'
+import {
+	ChangeEvent,
+	FormEvent,
+	MutableRefObject,
+	useCallback,
+	useEffect,
+	useMemo,
+	useState
+} from 'react'
 import TextAreaAutosize from 'react-textarea-autosize'
+import { useRecoilValue } from 'recoil'
+import debounce from 'lodash/debounce'
 
 import DEV from '@/lib/dev'
+import errorFromUnknown from '@/lib/error/fromUnknown'
+import HttpError from '@/lib/error/http'
+import ErrorCode from '@/lib/error/code'
+import errorFromResponse from '@/lib/error/fromResponse'
+import { ChatWithUserData } from '@/lib/chat'
+import userState from '@/lib/atoms/user'
+import ThreeDotsLoader from '@/components/ThreeDotsLoader'
+
+const urlMatch = new RegExp(
+	`^(?:${DEV ? 'http' : 'https'}:\\/\\/)?${process.env.NEXT_PUBLIC_HOST.replace(
+		/\./g,
+		'\\.'
+	)}\\/chats\\/([^\\/]+)$`
+)
 
 const NewConversationPageForm = () => {
+	const user = useRecoilValue(userState)
+	const userId = user?.id ?? null
+
 	const [title, setTitle] = useState('')
 	const [text, setText] = useState('')
 	const [url, setUrl] = useState('')
+
+	const [chat, setChat] = useState<ChatWithUserData | null>(null)
+	const [chatError, setChatError] = useState<Error | null>(null)
+
+	const trimmedTitle = title.trim()
+	const trimmedText = text.trim()
+	const trimmedUrl = url.trim()
+
+	const disabled = !(user && trimmedTitle && chat)
 
 	const onSubmit = useCallback((event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault()
@@ -37,6 +73,57 @@ const NewConversationPageForm = () => {
 		[setUrl]
 	)
 
+	const loadChatId = useCallback(
+		async (url: string, abort: MutableRefObject<boolean>) => {
+			try {
+				const id = url.match(urlMatch)?.[1]
+				if (!id) throw new HttpError(ErrorCode.BadRequest, 'Invalid URL')
+
+				if (!userId)
+					throw new HttpError(ErrorCode.Unauthorized, 'You are not signed in')
+
+				const response = await fetch(`/api/chats/${encodeURIComponent(id)}`)
+				if (!response.ok) throw await errorFromResponse(response)
+
+				const chat: ChatWithUserData = await response.json()
+
+				if (userId !== chat.userId)
+					throw new HttpError(ErrorCode.Forbidden, 'You do not own this chat')
+
+				if (abort.current) return
+
+				setChat(chat)
+				setChatError(null)
+			} catch (unknownError) {
+				if (abort.current) return
+
+				setChat(null)
+				setChatError(errorFromUnknown(unknownError))
+			}
+		},
+		[userId, setChat, setChatError]
+	)
+
+	const loadChatIdDebounced = useMemo(
+		() => debounce(loadChatId, 500),
+		[loadChatId]
+	)
+
+	useEffect(() => {
+		setChat(null)
+		setChatError(null)
+
+		if (trimmedUrl) {
+			const abort: MutableRefObject<boolean> = { current: false }
+
+			loadChatIdDebounced(trimmedUrl, abort)
+
+			return () => {
+				abort.current = true
+			}
+		}
+	}, [setChat, setChatError, trimmedUrl, loadChatIdDebounced])
+
 	return (
 		<form
 			className="flex flex-col items-stretch gap-4 px-6 py-4"
@@ -44,7 +131,10 @@ const NewConversationPageForm = () => {
 		>
 			<div className="flex justify-between items-center">
 				<h1 className="text-2xl font-bold">Create Conversation</h1>
-				<button className="px-4 py-2 font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70 disabled:opacity-50">
+				<button
+					className="px-4 py-2 font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70 disabled:opacity-50"
+					disabled={disabled}
+				>
 					Submit
 				</button>
 			</div>
@@ -61,13 +151,24 @@ const NewConversationPageForm = () => {
 				value={text}
 				onChange={onTextChange}
 			/>
-			<input
-				className="px-4 py-[0.7rem] bg-white bg-opacity-10 rounded-lg outline-none placeholder:text-white placeholder:opacity-50"
-				placeholder={`${DEV ? 'http' : 'https'}://${process.env
-					.NEXT_PUBLIC_HOST!}/chats/{CHAT_ID}`}
-				value={url}
-				onChange={onUrlChange}
-			/>
+			<div className="flex flex-col items-stretch gap-2">
+				<input
+					className="px-4 py-[0.7rem] bg-white bg-opacity-10 rounded-lg outline-none placeholder:text-white placeholder:opacity-50"
+					placeholder={`${DEV ? 'http' : 'https'}://${process.env
+						.NEXT_PUBLIC_HOST!}/chats/{CHAT_ID}`}
+					value={url}
+					onChange={onUrlChange}
+				/>
+				{trimmedUrl && !(chat || chatError) && (
+					<p>
+						<ThreeDotsLoader />
+					</p>
+				)}
+				{chat && <p className="font-bold text-green-500">{chat.name}</p>}
+				{chatError && (
+					<p className="font-bold text-red-500">{chatError.message}</p>
+				)}
+			</div>
 		</form>
 	)
 }
