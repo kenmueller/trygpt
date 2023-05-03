@@ -23,9 +23,9 @@ export const generateMetadata = async ({
 		title: `${conversation.title} | Conversations | TryGPT`,
 		description: `${conversation.points} point${
 			conversation.points === 1 ? '' : 's'
-		} | ${conversation.views} view${conversation.views === 1 ? '' : 's'} | ${
+		} • ${conversation.views} view${conversation.views === 1 ? '' : 's'} • ${
 			conversation.comments
-		} comment${conversation.comments === 1 ? '' : 's'} | ${formatDate(
+		} comment${conversation.comments === 1 ? '' : 's'} • ${formatDate(
 			conversation.created
 		)}`,
 		previewTitle: conversation.title
@@ -61,7 +61,18 @@ const ConversationPage = async ({
 	return (
 		<main className="flex flex-col items-center px-6 py-4 overflow-y-auto">
 			<div className="max-w-[1500px] w-full flex flex-col items-stretch gap-4">
-				<h1>{conversation.title}</h1>
+				<div className="flex flex-col items-stretch gap-2">
+					<h1>{conversation.title}</h1>
+					<p className="font-bold text-white text-opacity-50">
+						{conversation.points} point{conversation.points === 1 ? '' : 's'} •{' '}
+						{conversation.views} view{conversation.views === 1 ? '' : 's'} •{' '}
+						<a className="hover:underline" href="#comments">
+							{conversation.comments} comment
+							{conversation.comments === 1 ? '' : 's'}
+						</a>{' '}
+						• {formatDate(conversation.created)}
+					</p>
+				</div>
 				{conversation.text && <Markdown text={conversation.text} />}
 				<Suspense fallback={<ThreeDotsLoader className="mx-auto mt-4" />}>
 					{/* @ts-expect-error */}
