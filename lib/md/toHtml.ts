@@ -11,7 +11,7 @@ const katexToString = (math: string, displayMode: boolean) =>
 
 const extension: ShowdownExtension = {
 	type: 'lang',
-	filter: function (text, converter, options) {
+	filter: function (text, _converter, options) {
 		const codeBlocks: string[] = []
 
 		const hashCodeBlock = (code: string) =>
