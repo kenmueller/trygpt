@@ -14,6 +14,7 @@ import useImmediateEffect from '@/lib/useImmediateEffect'
 import userState from '@/lib/atoms/user'
 import isMobileState from '@/lib/atoms/isMobile'
 import { setUserId } from '@/lib/analytics/lazy'
+import isBotState from '@/lib/atoms/isBot'
 
 const REFRESH_INTERVAL = 10 * 60 * 1000 // 10 minutes
 
@@ -32,19 +33,27 @@ const sendTokenForCurrentUser = async () => {
 
 const SetRootLayoutState = ({
 	isMobile,
+	isBot,
 	user
 }: {
 	isMobile: boolean
+	isBot: boolean
 	user: User | null
 }) => {
 	const router = useRouter()
 
 	const setIsMobile = useSetRecoilState(isMobileState)
+	const setIsBot = useSetRecoilState(isBotState)
+
 	const setUser = useSetRecoilState(userState)
 
 	useImmediateEffect(() => {
 		setIsMobile(isMobile)
 	}, [isMobile, setIsMobile])
+
+	useImmediateEffect(() => {
+		setIsBot(isBot)
+	}, [isBot, setIsBot])
 
 	useImmediateEffect(() => {
 		setUser(user)

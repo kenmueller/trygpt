@@ -4,6 +4,7 @@ import localFont from 'next/font/local'
 import cx from 'classnames'
 
 import getIsMobile from '@/lib/isMobile'
+import getIsBot from '@/lib/isBot'
 import userFromRequest from '@/lib/user/fromRequest'
 import SetRootLayoutState from '@/components/RootLayout/SetState'
 import baseMetadata from '@/lib/metadata/base'
@@ -49,6 +50,8 @@ export const generateMetadata = () => baseMetadata()
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
 	const isMobile = getIsMobile()
+	const isBot = getIsBot()
+
 	const user = await userFromRequest()
 
 	return (
@@ -61,7 +64,7 @@ const RootLayout = async ({ children }: { children: ReactNode }) => {
 				)}
 			>
 				<RecoilRoot>
-					<SetRootLayoutState isMobile={isMobile} user={user} />
+					<SetRootLayoutState isMobile={isMobile} isBot={isBot} user={user} />
 					{children}
 					<PaymentAlert />
 					<ScreenView />

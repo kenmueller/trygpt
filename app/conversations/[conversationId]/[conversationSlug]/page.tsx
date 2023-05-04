@@ -11,6 +11,7 @@ import Comments from '@/components/Conversations/Comments'
 import SetConversationPageState from '@/components/ConversationPage/SetState'
 import Info from '@/components/ConversationPage/Info'
 import Await from '@/components/Await'
+import View from '@/components/ConversationPage/View'
 
 export const generateMetadata = async ({
 	params: { conversationId: encodedConversationId }
@@ -76,6 +77,7 @@ const ConversationPage = async ({
 					</Await>
 				</Suspense>
 				<Comments />
+				<View />
 			</div>
 		</main>
 	)
