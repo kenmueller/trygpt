@@ -1,5 +1,7 @@
 if (!process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID)
 	throw new Error('Missing NEXT_PUBLIC_FIREBASE_PROJECT_ID')
+if (!process.env.NEXT_PUBLIC_DISQUS_SHORTNAME)
+	throw new Error('Missing NEXT_PUBLIC_DISQUS_SHORTNAME')
 
 const { getCSP, SELF, UNSAFE_INLINE, UNSAFE_EVAL, DATA } = require('csp-header')
 const withPlugins = require('next-compose-plugins')
@@ -14,14 +16,18 @@ const csp = getCSP({
 	directives: {
 		'base-uri': [SELF],
 		'default-src': [SELF],
-		'style-src': [SELF, UNSAFE_INLINE],
+		'style-src': [SELF, UNSAFE_INLINE, 'c.disquscdn.com'],
 		'script-src': [
 			SELF,
 			DATA,
 			UNSAFE_INLINE,
 			...(DEV ? [UNSAFE_EVAL] : []),
 			'apis.google.com',
-			'www.googletagmanager.com'
+			'www.googletagmanager.com',
+			`${process.env.NEXT_PUBLIC_DISQUS_SHORTNAME}.disqus.com`,
+			'c.disquscdn.com',
+			'launchpad-wrapper.privacymanager.io',
+			'launchpad.privacymanager.io'
 		],
 		'connect-src': [
 			SELF,
@@ -33,12 +39,15 @@ const csp = getCSP({
 			'firebaseinstallations.googleapis.com',
 			'www.googletagmanager.com',
 			'*.google-analytics.com',
-			...UNSPlASH_SOURCES
+			...UNSPlASH_SOURCES,
+			'links.services.disqus.com',
+			'geo.privacymanager.io'
 		],
-		'img-src': [SELF, DATA, ...UNSPlASH_SOURCES],
+		'img-src': [SELF, DATA, ...UNSPlASH_SOURCES, 'cdn.viglink.com'],
 		'frame-src': [
 			SELF,
-			`${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.firebaseapp.com`
+			`${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.firebaseapp.com`,
+			'disqus.com'
 		]
 	}
 })
