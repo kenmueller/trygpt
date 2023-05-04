@@ -62,7 +62,7 @@ const ConversationPage = async ({
 	const messages = chatMessagesFromChatId(conversation.chatId)
 
 	return (
-		<main className="flex flex-col items-center px-6 py-4 overflow-y-auto">
+		<main className="flex flex-col items-center px-6 py-4 overflow-y-auto scroll-smooth">
 			<SetConversationPageState
 				conversation={conversation}
 				messages={messages}

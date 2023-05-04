@@ -210,7 +210,7 @@ const NewConversationPageForm = () => {
 	}, [titleInput])
 
 	return (
-		<main className="flex flex-col items-stretch gap-6 px-6 py-4 overflow-y-auto">
+		<main className="flex flex-col items-stretch gap-6 px-6 py-4 overflow-y-auto scroll-smooth">
 			<form className="flex flex-col items-stretch gap-4" onSubmit={onSubmit}>
 				<div className="flex justify-between items-center">
 					<h1 className="text-2xl font-bold">New Conversation</h1>

@@ -15,7 +15,7 @@ export const generateMetadata = ({
 }
 
 const SearchConversationsPage = () => (
-	<main className="overflow-y-auto">Search Conversations</main>
+	<main className="overflow-y-auto scroll-smooth">Search Conversations</main>
 )
 
 export default SearchConversationsPage
