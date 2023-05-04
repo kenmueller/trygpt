@@ -42,11 +42,11 @@ const extension: ShowdownExtension = {
 		text = text.replace(/<([^\s>]+)/g, '&lt;$1')
 
 		text = text.replace(/\\\[(.*?)\\\]/gs, (_substring, math: string) =>
-			katexToString(math, true)
+			options?.renderMath ?? true ? katexToString(math, true) : math
 		)
 
 		text = text.replace(/\\\((.*?)\\\)/gs, (_substring, math: string) =>
-			katexToString(math, false)
+			options?.renderMath ?? true ? katexToString(math, false) : math
 		)
 
 		while (text.search(/~C(\d+)C/) >= 0)
@@ -71,6 +71,12 @@ converter.setOption('literalMidWordUnderscores', true)
 converter.setOption('literalMidWordAsterisks', true)
 converter.setOption('tables', true)
 
-const mdToHtml = (md: string) => converter.makeHtml(md)
+const mdToHtml = (
+	md: string,
+	{ renderMath = true }: { renderMath?: boolean } = {}
+) => {
+	converter.setOption('renderMath', renderMath)
+	return converter.makeHtml(md)
+}
 
 export default mdToHtml

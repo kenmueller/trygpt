@@ -1,12 +1,8 @@
+import { stripHtml } from 'string-strip-html'
+
 import mdToHtml from './toHtml'
 
-/** Can only be used on the client. */
-const mdToText = (md: string) => {
-	const element = document.createElement('div')
-
-	element.innerHTML = mdToHtml(md)
-
-	return element.textContent ?? ''
-}
+const mdToText = (md: string) =>
+	stripHtml(mdToHtml(md, { renderMath: false })).result
 
 export default mdToText

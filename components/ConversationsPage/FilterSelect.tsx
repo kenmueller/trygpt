@@ -23,12 +23,11 @@ const ConversationsPageFilterSelect = ({
 }: {
 	filter: ConversationFilter
 }) => (
-	<div>
+	<div className="flex justify-center items-center gap-8 max-w-[1500px] w-[95%]">
 		{CONVERSATION_FILTERS.map(otherFilter => (
 			<Link
 				key={otherFilter}
 				className={cx(
-					'',
 					filter === otherFilter && 'pointer-events-none font-bold text-sky-500'
 				)}
 				href={`/conversations?filter=${encodeURIComponent(otherFilter)}`}

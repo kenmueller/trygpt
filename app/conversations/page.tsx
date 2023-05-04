@@ -39,10 +39,10 @@ const ConversationsPage = ({
 	const conversations = conversationsFromFilter(filter)
 
 	return (
-		<main className="overflow-y-auto scroll-smooth">
+		<main className="flex flex-col items-center gap-4 overflow-y-auto scroll-smooth">
 			<SetConversationsPageState conversations={conversations} />
 			<FilterSelect filter={filter} />
-			<Suspense fallback={<ThreeDotsLoader />}>
+			<Suspense fallback={<ThreeDotsLoader className="mt-4" />}>
 				{/* @ts-expect-error */}
 				<Await promise={conversations}>
 					<Conversations />

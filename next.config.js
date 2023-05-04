@@ -43,7 +43,14 @@ const csp = getCSP({
 			'links.services.disqus.com',
 			'geo.privacymanager.io'
 		],
-		'img-src': [SELF, DATA, ...UNSPlASH_SOURCES, 'cdn.viglink.com'],
+		'img-src': [
+			SELF,
+			DATA,
+			...UNSPlASH_SOURCES,
+			'cdn.viglink.com',
+			'referrer.disqus.com',
+			'c.disquscdn.com'
+		],
 		'frame-src': [
 			SELF,
 			`${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}.firebaseapp.com`,
