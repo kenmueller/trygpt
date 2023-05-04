@@ -18,7 +18,7 @@ const ConversationPageView = () => {
 	const viewConversation = useCallback(async () => {
 		try {
 			const response = await fetch(
-				`/api/conversations/${conversation.id}/view`,
+				`/api/conversations/${conversation.id}/views`,
 				{ method: 'POST' }
 			)
 

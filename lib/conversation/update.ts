@@ -4,6 +4,7 @@ import { connect } from '@/lib/pool'
 
 export interface UpdateConversationData {
 	incrementViews?: number
+	comments?: number
 	updated?: 'now'
 }
 
@@ -20,7 +21,7 @@ const updateConversation = (
 
 const updateConversationWithConnection = async (
 	id: string,
-	{ incrementViews, updated }: UpdateConversationData,
+	{ incrementViews, comments, updated }: UpdateConversationData,
 	connection: DatabasePoolConnection
 ) => {
 	await connection.query(
@@ -29,6 +30,7 @@ const updateConversationWithConnection = async (
 							[
 								incrementViews !== undefined &&
 									sql.unsafe`views = views + ${incrementViews}`,
+								comments !== undefined && sql.unsafe`comments = ${comments}`,
 								updated !== undefined && sql.unsafe`updated = NOW()`
 							].filter(Boolean) as ReturnType<typeof sql.unsafe>[],
 							sql.fragment`, `

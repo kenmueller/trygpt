@@ -5,15 +5,31 @@ if (!process.env.NEXT_PUBLIC_DISQUS_SHORTNAME)
 if (!process.env.NEXT_PUBLIC_DISQUS_HOST)
 	throw new Error('Missing NEXT_PUBLIC_DISQUS_HOST')
 
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { DiscussionEmbed } from 'disqus-react'
 import { useRecoilState } from 'recoil'
 
 import conversationState from '@/lib/atoms/conversation'
+import alertError from '@/lib/error/alert'
+import errorFromUnknown from '@/lib/error/fromUnknown'
+import errorFromResponse from '@/lib/error/fromResponse'
 
 const ConversationComments = () => {
 	const [conversation, setConversation] = useRecoilState(conversationState)
 	if (!conversation) throw new Error('Missing conversation')
+
+	const updateComments = useCallback(async () => {
+		try {
+			const response = await fetch(
+				`/api/conversations/${encodeURIComponent(conversation.id)}/comments`,
+				{ method: 'POST' }
+			)
+
+			if (!response.ok) throw await errorFromResponse(response)
+		} catch (unknownError) {
+			alertError(errorFromUnknown(unknownError))
+		}
+	}, [conversation.id])
 
 	const config = useMemo(
 		() => ({
@@ -31,9 +47,17 @@ const ConversationComments = () => {
 							comments: conversation.comments + 1
 						}
 				)
+
+				updateComments()
 			}
 		}),
-		[conversation.id, conversation.slug, conversation.title, setConversation]
+		[
+			conversation.id,
+			conversation.slug,
+			conversation.title,
+			setConversation,
+			updateComments
+		]
 	)
 
 	return (

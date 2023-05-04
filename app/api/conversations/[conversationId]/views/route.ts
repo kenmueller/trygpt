@@ -9,7 +9,9 @@ export const POST = async (
 	_request: NextRequest,
 	{
 		params: { conversationId: encodedConversationId }
-	}: { params: { conversationId: string } }
+	}: {
+		params: { conversationId: string }
+	}
 ) => {
 	try {
 		const conversationId = decodeURIComponent(encodedConversationId)
