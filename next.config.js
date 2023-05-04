@@ -55,9 +55,6 @@ const csp = getCSP({
 /** @type {import('next').NextConfig} */
 const config = {
 	swcMinify: true,
-	experimental: {
-		appDir: true
-	},
 	images: {
 		domains: [
 			'storage.googleapis.com',
