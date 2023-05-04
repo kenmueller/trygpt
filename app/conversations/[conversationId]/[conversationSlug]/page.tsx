@@ -12,6 +12,7 @@ import SetConversationPageState from '@/components/ConversationPage/SetState'
 import Info from '@/components/ConversationPage/Info'
 import Await from '@/components/Await'
 import View from '@/components/ConversationPage/View'
+import userFromRequest from '@/lib/user/fromRequest'
 
 export const generateMetadata = async ({
 	params: { conversationId: encodedConversationId }
@@ -20,7 +21,9 @@ export const generateMetadata = async ({
 }) => {
 	const conversationId = decodeURIComponent(encodedConversationId)
 
-	const conversation = await conversationFromId(conversationId)
+	const user = await userFromRequest()
+
+	const conversation = await conversationFromId(conversationId, user)
 	if (!conversation) return {}
 
 	return pageMetadata({
@@ -50,7 +53,9 @@ const ConversationPage = async ({
 	const conversationId = decodeURIComponent(encodedConversationId)
 	const conversationSlug = decodeURIComponent(encodedConversationSlug)
 
-	const conversation = await conversationFromId(conversationId)
+	const user = await userFromRequest()
+
+	const conversation = await conversationFromId(conversationId, user)
 	if (!conversation) notFound()
 
 	if (conversation.slug !== conversationSlug)

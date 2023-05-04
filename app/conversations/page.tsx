@@ -11,6 +11,7 @@ import Await from '@/components/Await'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 import FilterSelect from '@/components/ConversationsPage/FilterSelect'
 import Conversations from '@/components/ConversationsPage/Conversations'
+import userFromRequest from '@/lib/user/fromRequest'
 
 export const generateMetadata = () =>
 	pageMetadata({
@@ -19,7 +20,7 @@ export const generateMetadata = () =>
 		previewTitle: 'Conversations'
 	})
 
-const ConversationsPage = ({
+const ConversationsPage = async ({
 	searchParams: { filter: encodedFilter }
 }: {
 	searchParams: { filter?: string }
@@ -36,7 +37,8 @@ const ConversationsPage = ({
 
 	const filter = (rawFilter as ConversationFilter | undefined) ?? 'top-week'
 
-	const conversations = conversationsFromFilter(filter)
+	const user = await userFromRequest()
+	const conversations = conversationsFromFilter(filter, user)
 
 	return (
 		<main className="flex flex-col items-center gap-4 overflow-y-auto scroll-smooth">

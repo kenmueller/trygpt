@@ -4,7 +4,7 @@ import { useSetRecoilState } from 'recoil'
 
 import useImmediateEffect from '@/lib/useImmediateEffect'
 import ChatMessage from '@/lib/chat/message'
-import { ConversationWithUserAndChatData } from '@/lib/conversation'
+import { ConversationWithUserAndChatAndPointData } from '@/lib/conversation'
 import conversationState from '@/lib/atoms/conversation'
 import conversationChatMessagesState from '@/lib/atoms/conversationChatMessages'
 
@@ -12,7 +12,7 @@ const SetConversationPageState = ({
 	conversation,
 	messages
 }: {
-	conversation: ConversationWithUserAndChatData
+	conversation: ConversationWithUserAndChatAndPointData
 	messages: Promise<ChatMessage[]>
 }) => {
 	const setConversation = useSetRecoilState(conversationState)

@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 
-import { ConversationWithUserAndChatData } from '@/lib/conversation'
+import { ConversationWithUserAndChatAndPointData } from '@/lib/conversation'
 import mdToText from '@/lib/md/toText'
 import defaultUserImage from '@/assets/user.png'
 import formatDate from '@/lib/date/format'
@@ -13,7 +13,7 @@ import formatDate from '@/lib/date/format'
 const ConversationRow = ({
 	conversation
 }: {
-	conversation: ConversationWithUserAndChatData
+	conversation: ConversationWithUserAndChatAndPointData
 }) => {
 	return (
 		<Link

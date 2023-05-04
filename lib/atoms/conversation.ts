@@ -1,8 +1,8 @@
 import { atom } from 'recoil'
 
-import { ConversationWithUserAndChatData } from '@/lib/conversation'
+import { ConversationWithUserAndChatAndPointData } from '@/lib/conversation'
 
-const conversationState = atom<ConversationWithUserAndChatData | null>({
+const conversationState = atom<ConversationWithUserAndChatAndPointData | null>({
 	key: 'conversation',
 	default: null
 })

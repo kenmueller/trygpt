@@ -24,5 +24,10 @@ export interface ConversationWithChatData extends Conversation {
 	chatName: string
 }
 
-export type ConversationWithUserAndChatData = ConversationWithUserData &
-	ConversationWithChatData
+export interface ConversationWithPointData extends Conversation {
+	upvoted: boolean | null
+}
+
+export type ConversationWithUserAndChatAndPointData = ConversationWithUserData &
+	ConversationWithChatData &
+	ConversationWithPointData
