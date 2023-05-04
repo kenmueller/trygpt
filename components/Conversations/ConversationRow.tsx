@@ -24,7 +24,7 @@ const ConversationRow = ({
 		>
 			<span className="shrink-0 flex flex-col items-center pt-1">
 				<span
-					className="leading-4"
+					className="leading-4 px-2 py-1.5 bg-white bg-opacity-10 rounded-lg"
 					aria-label={`${conversation.upvotes}`}
 					data-balloon-pos="right"
 				>
@@ -32,7 +32,7 @@ const ConversationRow = ({
 				</span>
 				<span className="font-bold">{conversation.points}</span>
 				<span
-					className="leading-4"
+					className="leading-4 px-2 py-1.5 bg-white bg-opacity-10 rounded-lg"
 					aria-label={`${conversation.downvotes}`}
 					data-balloon-pos="right"
 				>
