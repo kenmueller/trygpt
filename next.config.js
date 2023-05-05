@@ -42,6 +42,10 @@ const csp = getCSP({
 			'*.google-analytics.com',
 			...UNSPlASH_SOURCES,
 			`${process.env.NEXT_PUBLIC_DISQUS_SHORTNAME}.disqus.com`,
+			'referrer.disqus.com',
+			'c.disquscdn.com',
+			'launchpad-wrapper.privacymanager.io',
+			'launchpad.privacymanager.io',
 			'links.services.disqus.com',
 			'geo.privacymanager.io'
 		],
