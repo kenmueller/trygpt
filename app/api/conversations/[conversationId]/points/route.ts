@@ -72,7 +72,7 @@ export const POST = async (
 				incrementDownvotes,
 				incrementPoints
 			}),
-			updateUser(user.id, {
+			updateUser(conversation.userId, {
 				incrementPoints
 			}),
 			updateConversationPoint(conversation.id, user.id, {

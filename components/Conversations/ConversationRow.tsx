@@ -30,44 +30,59 @@ const ConversationRow = ({
 
 	const updateConversation = useCallback(
 		(upvoted: boolean | null) => {
+			const incrementUpvotes =
+				upvoted === true
+					? conversation.upvoted === true
+						? 0
+						: 1
+					: conversation.upvoted === true
+					? -1
+					: 0
+
+			const incrementDownvotes =
+				upvoted === false
+					? conversation.upvoted === false
+						? 0
+						: 1
+					: conversation.upvoted === false
+					? -1
+					: 0
+
+			const incrementPoints = incrementUpvotes - incrementDownvotes
+
 			setConversations(
 				conversations =>
 					conversations &&
 					conversations.map(otherConversation => {
-						if (otherConversation.id !== conversation.id)
-							return otherConversation
+						const newConversation = { ...otherConversation }
 
-						const incrementUpvotes =
-							upvoted === true
-								? otherConversation.upvoted === true
-									? 0
-									: 1
-								: otherConversation.upvoted === true
-								? -1
-								: 0
+						let updated = false
 
-						const incrementDownvotes =
-							upvoted === false
-								? otherConversation.upvoted === false
-									? 0
-									: 1
-								: otherConversation.upvoted === false
-								? -1
-								: 0
+						if (newConversation.id === conversation.id) {
+							updated = true
 
-						const incrementPoints = incrementUpvotes - incrementDownvotes
-
-						return {
-							...otherConversation,
-							upvotes: otherConversation.upvotes + incrementUpvotes,
-							downvotes: otherConversation.downvotes + incrementDownvotes,
-							points: otherConversation.points + incrementPoints,
-							upvoted
+							newConversation.upvotes += incrementUpvotes
+							newConversation.downvotes += incrementDownvotes
+							newConversation.points += incrementPoints
+							newConversation.upvoted = upvoted
 						}
+
+						if (newConversation.userId === conversation.userId) {
+							updated = true
+
+							newConversation.userPoints += incrementPoints
+						}
+
+						return updated ? newConversation : otherConversation
 					})
 			)
 		},
-		[setConversations, conversation.id]
+		[
+			setConversations,
+			conversation.id,
+			conversation.userId,
+			conversation.upvoted
+		]
 	)
 
 	const setUpvoted = useCallback(
