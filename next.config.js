@@ -6,6 +6,7 @@ if (!process.env.NEXT_PUBLIC_DISQUS_SHORTNAME)
 const { getCSP, SELF, UNSAFE_INLINE, UNSAFE_EVAL, DATA } = require('csp-header')
 const withPlugins = require('next-compose-plugins')
 const { default: withPwa } = require('@ducanh2912/next-pwa')
+const withBundleAnalyzer = require('@next/bundle-analyzer')
 const { IgnorePlugin } = require('webpack')
 
 const DEV = process.env.NODE_ENV === 'development'
@@ -40,6 +41,7 @@ const csp = getCSP({
 			'www.googletagmanager.com',
 			'*.google-analytics.com',
 			...UNSPlASH_SOURCES,
+			`${process.env.NEXT_PUBLIC_DISQUS_SHORTNAME}.disqus.com`,
 			'links.services.disqus.com',
 			'geo.privacymanager.io'
 		],
@@ -86,6 +88,9 @@ const config = {
 }
 
 module.exports = withPlugins(
-	[withPwa({ disable: DEV, dest: 'public' })],
+	[
+		withBundleAnalyzer({ enabled: process.env.ANALYZE === 'true' }),
+		withPwa({ disable: DEV, dest: 'public' })
+	],
 	config
 )
