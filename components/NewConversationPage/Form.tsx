@@ -234,6 +234,7 @@ const NewConversationPageForm = () => {
 					ref={titleInput}
 					className="h-[46px] overflow-hidden resize-none px-4 py-[0.7rem] bg-white bg-opacity-10 rounded-lg outline-none placeholder:text-white placeholder:opacity-50"
 					placeholder="Title"
+					maxLength={150}
 					value={title}
 					onChange={onTitleChange}
 				/>
