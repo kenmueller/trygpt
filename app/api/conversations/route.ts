@@ -8,8 +8,8 @@ import isChatOwnedByUser from '@/lib/chat/isOwnedByUser'
 import createConversation, {
 	CreateConversationData
 } from '@/lib/conversation/create'
-import { conversationsIndex } from '@/lib/algolia/server'
-import conversationFromId from '@/lib/conversation/fromId'
+import { conversationsIndex } from '@/lib/algolia'
+import conversationFromIdWithoutPointData from '@/lib/conversation/fromIdWithoutPointData'
 
 export const dynamic = 'force-dynamic'
 
@@ -43,7 +43,7 @@ export const POST = async (request: NextRequest) => {
 			)
 
 		const { id, slug } = await createConversation(user, data)
-		const conversation = await conversationFromId(id, user)
+		const conversation = await conversationFromIdWithoutPointData(id)
 
 		if (!conversation)
 			throw new HttpError(ErrorCode.Internal, 'Conversation not found')

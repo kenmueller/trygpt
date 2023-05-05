@@ -28,6 +28,9 @@ export interface ConversationWithPointData extends Conversation {
 	upvoted: boolean | null
 }
 
+export type ConversationWithUserAndChatData = ConversationWithUserData &
+	ConversationWithChatData
+
 export type ConversationWithUserAndChatAndPointData = ConversationWithUserData &
 	ConversationWithChatData &
 	ConversationWithPointData
