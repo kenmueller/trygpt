@@ -155,6 +155,12 @@ const NewConversationPageForm = () => {
 								'You do not own this chat'
 							)
 
+						if (chat.conversationId)
+							throw new HttpError(
+								ErrorCode.Forbidden,
+								'This chat has already been posted as a conversation'
+							)
+
 						return chat
 					})(),
 					(async () => {

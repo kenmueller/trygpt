@@ -4,6 +4,9 @@ export default interface Chat {
 	id: string
 	name: string | null
 
+	/** If a conversation about this chat has been posted. */
+	conversationId: string | null
+
 	/** Milliseconds since epoch. */
 	created: number
 

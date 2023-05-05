@@ -4,12 +4,12 @@ import errorFromUnknown from '@/lib/error/fromUnknown'
 import userFromRequest from '@/lib/user/fromRequest'
 import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
-import isChatOwnedByUser from '@/lib/chat/isOwnedByUser'
 import createConversation, {
 	CreateConversationData
 } from '@/lib/conversation/create'
 import { conversationsIndex } from '@/lib/algolia'
 import conversationFromIdWithoutPointData from '@/lib/conversation/fromIdWithoutPointData'
+import chatFromId from '@/lib/chat/fromId'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,10 +36,17 @@ export const POST = async (request: NextRequest) => {
 		)
 			throw new HttpError(ErrorCode.BadRequest, 'Invalid data')
 
-		if (!(await isChatOwnedByUser(data.chatId, user.id)))
+		const chat = await chatFromId(data.chatId)
+
+		if (!chat) throw new HttpError(ErrorCode.NotFound, 'Chat not found')
+
+		if (chat.userId !== user.id)
+			throw new HttpError(ErrorCode.Forbidden, 'You do not own this chat')
+
+		if (chat.conversationId)
 			throw new HttpError(
 				ErrorCode.Forbidden,
-				'Either this chat does not exist or you do not own it'
+				'This chat has already been posted as a conversation'
 			)
 
 		const { id, slug } = await createConversation(user, data)

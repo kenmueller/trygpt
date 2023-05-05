@@ -16,10 +16,15 @@ const chatsFromUserIdWithConnection = async (
 	connection: DatabasePoolConnection
 ) => {
 	const chats = (await connection.any(
-		sql.unsafe`SELECT user_id AS "userId", id, name, created, updated
+		sql.unsafe`SELECT
+				       chats.user_id AS "userId",
+					   chats.id, chats.name,
+					   conversations.id AS "conversationId",
+					   chats.created, chats.updated
 				   FROM chats
-				   WHERE user_id = ${userId} AND visible
-				   ORDER BY updated DESC`
+				   LEFT JOIN conversations ON conversations.chat_id = chats.id
+				   WHERE chats.user_id = ${userId} AND chats.visible
+				   ORDER BY chats.updated DESC`
 	)) as Chat[]
 
 	return chats
