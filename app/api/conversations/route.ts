@@ -10,6 +10,7 @@ import createConversation, {
 import { conversationsIndex } from '@/lib/algolia'
 import conversationFromIdWithoutPointData from '@/lib/conversation/fromIdWithoutPointData'
 import chatFromId from '@/lib/chat/fromId'
+import truncate from '@/lib/truncate'
 
 export const dynamic = 'force-dynamic'
 
@@ -48,6 +49,8 @@ export const POST = async (request: NextRequest) => {
 				ErrorCode.Forbidden,
 				'This chat has already been posted as a conversation'
 			)
+
+		data.title = truncate(data.title, 150)
 
 		const { id, slug } = await createConversation(user, data)
 		const conversation = await conversationFromIdWithoutPointData(id)

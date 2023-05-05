@@ -9,6 +9,7 @@ import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
 import createChat, { CreateChatData } from '@/lib/chat/create'
 import formatCents from '@/lib/cents/format'
+import truncate from '@/lib/truncate'
 
 export const dynamic = 'force-dynamic'
 
@@ -46,6 +47,8 @@ export const POST = async (request: NextRequest) => {
 			)
 		)
 			throw new HttpError(ErrorCode.BadRequest, 'Invalid data')
+
+		data.name = truncate(data.name, 150)
 
 		const id = await createChat(user, data)
 

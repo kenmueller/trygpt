@@ -17,6 +17,7 @@ import chatState from '@/lib/atoms/chat'
 import chatsState from '@/lib/atoms/chats'
 import errorFromResponse from '@/lib/error/fromResponse'
 import { logEvent } from '@/lib/analytics/lazy'
+import truncate from '@/lib/truncate'
 
 const PATHNAME_MATCH = /^\/chats\/(.+)$/
 
@@ -48,7 +49,11 @@ const SidebarChatLink = ({ chat }: { chat: Chat }) => {
 
 			logEvent('edit_chat_name')
 
-			const newName = prompt('Edit chat name', chat.name ?? 'Untitled')
+			const newName = truncate(
+				prompt('Edit chat name', chat.name ?? 'Untitled'),
+				150
+			)
+
 			if (!newName) return
 
 			logEvent('edit_chat_name_confirmed')

@@ -4,6 +4,7 @@ import { convert as createSlug } from 'url-slug'
 
 import User from '@/lib/user'
 import { connect } from '@/lib/pool'
+import truncate from '@/lib/truncate'
 
 export interface CreateConversationData {
 	chatId: string
@@ -28,7 +29,7 @@ const createConversationWithConnection = async (
 	connection: DatabasePoolConnection
 ) => {
 	const id = nanoid()
-	const slug = createSlug(title)
+	const slug = truncate(createSlug(title), 50)
 
 	await connection.query(
 		sql.unsafe`INSERT INTO

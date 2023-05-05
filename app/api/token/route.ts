@@ -9,6 +9,7 @@ import ErrorCode from '@/lib/error/code'
 import UserTokenData from '@/lib/user/tokenData'
 import createUserFromTokenData from '@/lib/user/createFromTokenData'
 import userExistsWithId from '@/lib/user/existsWithId'
+import truncate from '@/lib/truncate'
 
 export const dynamic = 'force-dynamic'
 
@@ -35,6 +36,8 @@ export const POST = async (request: NextRequest) => {
 			throw new HttpError(ErrorCode.BadRequest, 'Invalid data')
 
 		if (data) {
+			data.user.name = truncate(data.user.name, 150)
+
 			try {
 				await auth.verifyIdToken(data.token)
 			} catch {

@@ -16,6 +16,7 @@ import trimQuotes from '@/lib/trimQuotes'
 import updateUser from '@/lib/user/update'
 import getTokens from '@/lib/getTokens'
 import formatCents from '@/lib/cents/format'
+import truncate from '@/lib/truncate'
 
 export const dynamic = 'force-dynamic'
 
@@ -109,7 +110,7 @@ export const PATCH = async (
 
 							const promises = [
 								updateChat(chatId, {
-									name: trimQuotes(responseText),
+									name: truncate(trimQuotes(responseText), 150),
 									updated: 'now'
 								})
 							]
@@ -131,7 +132,7 @@ export const PATCH = async (
 			}
 			case 'value': {
 				await updateChat(chatId, {
-					name: data.value,
+					name: truncate(data.value, 150),
 					updated: 'now'
 				})
 
