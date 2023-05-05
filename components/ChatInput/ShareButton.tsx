@@ -14,7 +14,7 @@ const ChatInputShareButton = ({ chat }: { chat: Chat }) => {
 	const router = useRouter()
 	const user = useRecoilValue(userState)
 
-	const isOwner = user && user.id === chat.userId
+	const isOwner = user?.id === chat.userId
 
 	const conversationPath =
 		chat.conversationId && chat.conversationSlug
