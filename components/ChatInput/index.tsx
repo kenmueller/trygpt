@@ -259,6 +259,8 @@ const ChatInput = () => {
 						userId: user.id,
 						id,
 						name: chat.name,
+						conversationId: null,
+						conversationSlug: null,
 						created: Date.now(),
 						updated: Date.now()
 					}

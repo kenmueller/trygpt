@@ -53,6 +53,8 @@ const NewChatInput = () => {
 					userId: user.id,
 					id,
 					name: null,
+					conversationId: null,
+					conversationSlug: null,
 					created: Date.now(),
 					updated: Date.now()
 				}
