@@ -118,7 +118,7 @@ const ConversationPageInfo = () => {
 					>
 						<FontAwesomeIcon icon={faArrowUp} />
 					</button>
-					<span className="font-bold">{conversation.points}</span>
+					<p className="font-bold">{conversation.points}</p>
 					<button
 						className={cx(
 							'leading-4 px-2 py-1.5 bg-opacity-10 rounded-lg transition-colors ease-linear',

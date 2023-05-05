@@ -5,7 +5,6 @@ if (!process.env.NEXT_PUBLIC_HOST) throw new Error('Missing NEXT_PUBLIC_HOST')
 import {
 	ChangeEvent,
 	FormEvent,
-	MutableRefObject,
 	useCallback,
 	useEffect,
 	useMemo,
@@ -15,6 +14,7 @@ import {
 import TextAreaAutosize from 'react-textarea-autosize'
 import { useRecoilValue } from 'recoil'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Image from 'next/image'
 import debounce from 'lodash/debounce'
 import cx from 'classnames'
 
@@ -31,6 +31,9 @@ import ChatPreview from '@/components/Conversations/ChatPreview'
 import ChatMessage from '@/lib/chat/message'
 import alertError from '@/lib/error/alert'
 import formatDate from '@/lib/date/format'
+import defaultUserImage from '@/assets/user.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 
 const urlMatch = new RegExp(
 	`^(?:${DEV ? 'http' : 'https'}:\\/\\/)?${process.env.NEXT_PUBLIC_HOST.replace(
@@ -256,13 +259,51 @@ const NewConversationPageForm = () => {
 			</form>
 			<h2 className="pb-1 border-b border-white border-opacity-50">Preview</h2>
 			<div className="self-center max-w-[1500px] w-full flex flex-col items-stretch gap-4">
-				<div className="flex flex-col items-stretch gap-2">
-					<h1 className={cx('text-white', !trimmedTitle && 'text-opacity-50')}>
-						{trimmedTitle || 'Title'}
-					</h1>
-					<p className="font-bold text-white text-opacity-50">
-						0 points • 0 views • 0 comments • {formatDate(new Date())}
-					</p>
+				<div className="flex items-start gap-6">
+					<div className="shrink-0 flex flex-col items-center pt-1">
+						<button
+							className={cx(
+								'leading-4 px-2 py-1.5 bg-opacity-10 rounded-lg transition-colors ease-linear',
+								'text-white bg-white'
+							)}
+							aria-label="0"
+							data-balloon-pos="right"
+						>
+							<FontAwesomeIcon icon={faArrowUp} />
+						</button>
+						<p className="font-bold">0</p>
+						<button
+							className="leading-4 px-2 py-1.5 text-white bg-white bg-opacity-10 rounded-lg transition-colors ease-linear"
+							aria-label="0"
+							data-balloon-pos="right"
+						>
+							<FontAwesomeIcon icon={faArrowDown} />
+						</button>
+					</div>
+					<div className="grow-[1] flex flex-col items-stretch gap-2">
+						<h1
+							className={cx('text-white', !trimmedTitle && 'text-opacity-50')}
+						>
+							{trimmedTitle || 'Title'}
+						</h1>
+						<div className="flex flex-col items-stretch gap-1">
+							<p className="flex items-center gap-2 font-bold text-white text-opacity-50">
+								<Image
+									className="rounded-lg"
+									src={user?.photo ?? defaultUserImage}
+									alt={user?.name ?? 'Anonymous'}
+									referrerPolicy={user?.photo ? 'no-referrer' : undefined}
+									width={25}
+									height={25}
+									priority
+								/>
+								{user?.name ?? 'Anonymous'} ({user?.points ?? 0})
+							</p>
+							<p className="font-bold text-white text-opacity-50">
+								0 views • 0 comments • {formatDate(new Date())}
+							</p>
+						</div>
+					</div>
 				</div>
 				{trimmedText && <Markdown text={trimmedText} />}
 				{trimmedUrl && !((chat && messages && previewUser) || chatError) && (
