@@ -47,6 +47,7 @@ const csp = getCSP({
 			'launchpad-wrapper.privacymanager.io',
 			'launchpad.privacymanager.io',
 			'links.services.disqus.com',
+			'cdn.viglink.com',
 			'geo.privacymanager.io'
 		],
 		'img-src': [
