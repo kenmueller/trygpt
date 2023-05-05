@@ -43,7 +43,7 @@ export const POST = async (request: NextRequest) => {
 			)
 
 		const { id, slug } = await createConversation(user, data)
-		const conversation = await conversationFromId(id)
+		const conversation = await conversationFromId(id, user)
 
 		if (!conversation)
 			throw new HttpError(ErrorCode.Internal, 'Conversation not found')

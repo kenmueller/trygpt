@@ -3,6 +3,9 @@ import { sql, DatabasePoolConnection } from 'slonik'
 import { connect } from '@/lib/pool'
 
 export interface UpdateConversationData {
+	incrementUpvotes?: number
+	incrementDownvotes?: number
+	incrementPoints?: number
 	incrementViews?: number
 	comments?: number
 	updated?: 'now'
@@ -21,13 +24,26 @@ const updateConversation = (
 
 const updateConversationWithConnection = async (
 	id: string,
-	{ incrementViews, comments, updated }: UpdateConversationData,
+	{
+		incrementUpvotes,
+		incrementDownvotes,
+		incrementPoints,
+		incrementViews,
+		comments,
+		updated
+	}: UpdateConversationData,
 	connection: DatabasePoolConnection
 ) => {
 	await connection.query(
 		sql.unsafe`UPDATE conversations
 				   SET ${sql.join(
 							[
+								incrementUpvotes !== undefined &&
+									sql.unsafe`upvotes = upvotes + ${incrementUpvotes}`,
+								incrementDownvotes !== undefined &&
+									sql.unsafe`downvotes = downvotes + ${incrementDownvotes}`,
+								incrementPoints !== undefined &&
+									sql.unsafe`points = points + ${incrementPoints}`,
 								incrementViews !== undefined &&
 									sql.unsafe`views = views + ${incrementViews}`,
 								comments !== undefined && sql.unsafe`comments = ${comments}`,

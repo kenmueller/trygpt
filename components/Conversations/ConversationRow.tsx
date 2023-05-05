@@ -1,20 +1,123 @@
 'use client'
 
+import { MouseEvent, useCallback } from 'react'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import Link from 'next/link'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import cx from 'classnames'
 
 import { ConversationWithUserAndChatAndPointData } from '@/lib/conversation'
 import mdToText from '@/lib/md/toText'
 import defaultUserImage from '@/assets/user.png'
 import formatDate from '@/lib/date/format'
+import conversationsState from '@/lib/atoms/conversations'
+import alertError from '@/lib/error/alert'
+import errorFromUnknown from '@/lib/error/fromUnknown'
+import errorFromResponse from '@/lib/error/fromResponse'
+import userState from '@/lib/atoms/user'
 
 const ConversationRow = ({
 	conversation
 }: {
 	conversation: ConversationWithUserAndChatAndPointData
 }) => {
+	const user = useRecoilValue(userState)
+	const setConversations = useSetRecoilState(conversationsState)
+
+	const canUpdatePoints = user && user.id !== conversation.userId
+
+	const updateConversation = useCallback(
+		(upvoted: boolean | null) => {
+			setConversations(
+				conversations =>
+					conversations &&
+					conversations.map(otherConversation => {
+						if (otherConversation.id !== conversation.id)
+							return otherConversation
+
+						const incrementUpvotes =
+							upvoted === true
+								? otherConversation.upvoted === true
+									? 0
+									: 1
+								: otherConversation.upvoted === true
+								? -1
+								: 0
+
+						const incrementDownvotes =
+							upvoted === false
+								? otherConversation.upvoted === false
+									? 0
+									: 1
+								: otherConversation.upvoted === false
+								? -1
+								: 0
+
+						const incrementPoints = incrementUpvotes - incrementDownvotes
+
+						return {
+							...otherConversation,
+							upvotes: otherConversation.upvotes + incrementUpvotes,
+							downvotes: otherConversation.downvotes + incrementDownvotes,
+							points: otherConversation.points + incrementPoints,
+							upvoted
+						}
+					})
+			)
+		},
+		[setConversations, conversation.id]
+	)
+
+	const setUpvoted = useCallback(
+		async (upvoted: boolean | null) => {
+			try {
+				const response = await fetch(
+					`/api/conversations/${encodeURIComponent(conversation.id)}/points`,
+					{
+						method: 'POST',
+						headers: { 'content-type': 'application/json' },
+						body: JSON.stringify(upvoted)
+					}
+				)
+
+				if (!response.ok) throw await errorFromResponse(response)
+			} catch (unknownError) {
+				alertError(errorFromUnknown(unknownError))
+			}
+		},
+		[conversation.id]
+	)
+
+	const upvote = useCallback(
+		(event: MouseEvent) => {
+			if (!canUpdatePoints) return
+
+			event.preventDefault()
+
+			const upvoted = conversation.upvoted === true ? null : true
+
+			updateConversation(upvoted)
+			setUpvoted(upvoted)
+		},
+		[canUpdatePoints, conversation.upvoted, updateConversation, setUpvoted]
+	)
+
+	const downvote = useCallback(
+		(event: MouseEvent) => {
+			if (!canUpdatePoints) return
+
+			event.preventDefault()
+
+			const upvoted = conversation.upvoted === false ? null : false
+
+			updateConversation(upvoted)
+			setUpvoted(upvoted)
+		},
+		[canUpdatePoints, conversation.upvoted, updateConversation, setUpvoted]
+	)
+
 	return (
 		<Link
 			className="group flex items-start gap-4 px-4 py-3 bg-white bg-opacity-5 rounded-xl"
@@ -24,17 +127,31 @@ const ConversationRow = ({
 		>
 			<span className="shrink-0 flex flex-col items-center pt-1">
 				<span
-					className="leading-4 px-2 py-1.5 bg-white bg-opacity-10 rounded-lg"
+					className={cx(
+						'leading-4 px-2 py-1.5 bg-opacity-10 rounded-lg transition-colors ease-linear',
+						conversation.upvoted === true
+							? 'text-sky-500 bg-sky-500'
+							: 'text-white bg-white',
+						!canUpdatePoints && 'text-opacity-50 bg-opacity-5'
+					)}
 					aria-label={`${conversation.upvotes}`}
 					data-balloon-pos="right"
+					onClick={upvote}
 				>
 					<FontAwesomeIcon icon={faArrowUp} />
 				</span>
 				<span className="font-bold">{conversation.points}</span>
 				<span
-					className="leading-4 px-2 py-1.5 bg-white bg-opacity-10 rounded-lg"
+					className={cx(
+						'leading-4 px-2 py-1.5 bg-opacity-10 rounded-lg transition-colors ease-linear',
+						conversation.upvoted === false
+							? 'text-orange-500 bg-orange-500'
+							: 'text-white bg-white',
+						!canUpdatePoints && 'text-opacity-50 bg-opacity-5'
+					)}
 					aria-label={`${conversation.downvotes}`}
 					data-balloon-pos="right"
+					onClick={downvote}
 				>
 					<FontAwesomeIcon icon={faArrowDown} />
 				</span>

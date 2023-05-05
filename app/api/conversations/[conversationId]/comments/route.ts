@@ -12,6 +12,7 @@ import conversationFromId from '@/lib/conversation/fromId'
 import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
 import errorFromResponse from '@/lib/error/fromResponse'
+import userFromRequest from '@/lib/user/fromRequest'
 
 export const dynamic = 'force-dynamic'
 
@@ -26,7 +27,9 @@ export const POST = async (
 	try {
 		const conversationId = decodeURIComponent(encodedConversationId)
 
-		const conversation = await conversationFromId(conversationId)
+		const user = await userFromRequest()
+
+		const conversation = await conversationFromId(conversationId, user)
 		if (!conversation)
 			throw new HttpError(ErrorCode.NotFound, 'Conversation not found')
 
