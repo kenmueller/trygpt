@@ -19,6 +19,7 @@ const chatFromIdWithConnection = async (
 				       users.id AS "userId", users.photo AS "userPhoto", users.name AS "userName", users.points as "userPoints",
 					   chats.id, chats.name, 
 					   conversations.id AS "conversationId",
+					   conversations.slug AS "conversationSlug",
 					   chats.created, chats.updated
 				   FROM chats
 				   LEFT JOIN users ON users.id = chats.user_id

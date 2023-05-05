@@ -1,34 +1,45 @@
 'use client'
 
-if (!process.env.NEXT_PUBLIC_HOST) throw new Error('Missing NEXT_PUBLIC_HOST')
-
+import { useRouter } from 'next/navigation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShareSquare } from '@fortawesome/free-solid-svg-icons'
-import copy from 'copy-to-clipboard'
-import { toast } from 'react-toastify'
 import { useCallback } from 'react'
+import { useRecoilValue } from 'recoil'
 
 import Chat from '@/lib/chat'
 import { logEvent } from '@/lib/analytics/lazy'
-import DEV from '@/lib/dev'
+import userState from '@/lib/atoms/user'
 
 const ChatInputShareButton = ({ chat }: { chat: Chat }) => {
+	const router = useRouter()
+	const user = useRecoilValue(userState)
+
+	const isOwner = user && user.id === chat.userId
+
+	const conversationPath =
+		chat.conversationId && chat.conversationSlug
+			? `/conversations/${encodeURIComponent(
+					chat.conversationId
+			  )}/${encodeURIComponent(chat.conversationSlug)}`
+			: null
+
 	const share = useCallback(() => {
-		logEvent('share_chat')
+		logEvent('click_post_chat')
 
-		const url = `${DEV ? 'http' : 'https'}://${process.env
-			.NEXT_PUBLIC_HOST!}/chats/${encodeURIComponent(chat.id)}`
-
-		copy(url)
-
-		toast.success('Chat link copied to clipboard')
-	}, [chat.id])
+		router.push(
+			conversationPath ??
+				`/conversations/new?chat=${encodeURIComponent(chat.id)}`
+		)
+	}, [router, conversationPath, chat.id])
 
 	return (
 		<button
 			className="pl-1 text-xl w-450:text-2xl text-sky-500 transition-colors ease-linear hover:text-opacity-70 disabled:text-opacity-50"
-			aria-label="Copy chat link to clipboard"
+			aria-label={
+				conversationPath ? 'View conversation' : 'Post chat as a conversation'
+			}
 			data-balloon-pos="up-left"
+			disabled={!(isOwner || conversationPath)}
 			onClick={share}
 		>
 			<FontAwesomeIcon icon={faShareSquare} />
