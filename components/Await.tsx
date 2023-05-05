@@ -1,10 +1,11 @@
 import { ReactNode } from 'react'
 
-const Await = async <Value,>({
+// @ts-expect-error
+const Await = async ({
 	promise,
 	children
 }: {
-	promise: Promise<Value>
+	promise: Promise<unknown>
 	children?: ReactNode
 }) => {
 	await promise
