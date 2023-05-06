@@ -69,6 +69,9 @@ const csp = getCSP({
 /** @type {import('next').NextConfig} */
 const config = {
 	swcMinify: true,
+	experimental: {
+		serverActions: true
+	},
 	images: {
 		domains: [
 			'storage.googleapis.com',
