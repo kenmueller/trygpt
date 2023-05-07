@@ -35,7 +35,7 @@ const ConversationsNav = () => {
 				>
 					<FontAwesomeIcon className="text-xl" icon={faPlus} />
 					<span className="hidden w-380:inline">
-						New <span className="hidden w-900:inline">Conversation</span>
+						New<span className="hidden w-900:inline"> Conversation</span>
 					</span>
 				</Link>
 				{user ? (
