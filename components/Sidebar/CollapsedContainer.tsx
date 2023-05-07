@@ -6,6 +6,10 @@ import cx from 'classnames'
 
 import isSidebarShowingState from '@/lib/atoms/isSidebarShowing'
 
+const stopPropagation = (event: MouseEvent) => {
+	event.stopPropagation()
+}
+
 const CollapsedSidebarContainer = ({
 	className,
 	children
@@ -17,21 +21,9 @@ const CollapsedSidebarContainer = ({
 		isSidebarShowingState
 	)
 
-	const sidebar = useRef<HTMLDivElement | null>(null)
-
-	const onRootClick = useCallback(
-		({ target }: MouseEvent<HTMLDivElement>) => {
-			if (
-				!sidebar.current ||
-				sidebar.current === target ||
-				sidebar.current.contains(target as Node)
-			)
-				return
-
-			setIsSidebarShowing(false)
-		},
-		[setIsSidebarShowing, sidebar]
-	)
+	const onRootClick = useCallback(() => {
+		setIsSidebarShowing(false)
+	}, [setIsSidebarShowing])
 
 	return (
 		<div
@@ -43,12 +35,12 @@ const CollapsedSidebarContainer = ({
 			onClick={onRootClick}
 		>
 			<aside
-				ref={sidebar}
 				className={cx(
 					'absolute left-0 inset-y-0 transition-transform duration-200',
 					!isSidebarShowing && '-translate-x-full',
 					className
 				)}
+				onClick={stopPropagation}
 			>
 				{children}
 			</aside>
