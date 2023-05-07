@@ -68,12 +68,12 @@ const ConversationPage = async ({
 	const messages = chatMessagesFromChatId(conversation.chatId)
 
 	return (
-		<main className="flex flex-col items-center px-6 py-4 overflow-y-auto scroll-smooth">
+		<main className="flex flex-col items-center py-4 overflow-y-auto scroll-smooth">
 			<SetConversationPageState
 				conversation={conversation}
 				messages={messages}
 			/>
-			<div className="max-w-[1500px] w-full flex flex-col items-stretch gap-4">
+			<div className="flex flex-col items-stretch gap-4 max-w-[1500px] w-[95%]">
 				<Info />
 				<Suspense fallback={<ThreeDotsLoader className="mx-auto mt-4" />}>
 					{/* @ts-expect-error */}

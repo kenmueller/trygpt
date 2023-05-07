@@ -41,7 +41,7 @@ const ConversationsNav = () => {
 	return (
 		<div className="flex flex-col items-stretch gap-4 max-w-[1500px] w-[95%] mx-auto py-4">
 			<nav className="flex items-center gap-4">
-				<h1 className="shrink-0 text-xl">
+				<h1 className="shrink-0 text-xl mr-auto w-700:mr-0">
 					<Link className="hover:underline" href="/">
 						TryGPT
 					</Link>{' '}
@@ -49,9 +49,7 @@ const ConversationsNav = () => {
 						<strong>Conversations</strong>
 					</Link>
 				</h1>
-				<div className="grow-[1]">
-					{isSearchInline && <Search className="hidden w-700:flex" />}
-				</div>
+				{isSearchInline && <Search className="grow-[1] hidden w-700:flex" />}
 				<Link
 					className="shrink-0 flex items-center gap-2 font-bold hover:opacity-70 transition-opacity ease-linear"
 					href="/conversations/new"
