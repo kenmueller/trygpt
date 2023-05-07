@@ -1,20 +1,21 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShareSquare } from '@fortawesome/free-solid-svg-icons'
-import { useCallback } from 'react'
 import { useRecoilValue } from 'recoil'
+import cx from 'classnames'
 
 import Chat from '@/lib/chat'
 import { logEvent } from '@/lib/analytics/lazy'
 import userState from '@/lib/atoms/user'
 
-const ChatInputShareButton = ({ chat }: { chat: Chat }) => {
-	const router = useRouter()
-	const user = useRecoilValue(userState)
+const onClick = () => {
+	logEvent('click_post_chat')
+}
 
-	const isOwner = user?.id === chat.userId
+const ChatInputShareButton = ({ chat }: { chat: Chat }) => {
+	const user = useRecoilValue(userState)
 
 	const conversationPath =
 		chat.conversationId && chat.conversationSlug
@@ -23,27 +24,28 @@ const ChatInputShareButton = ({ chat }: { chat: Chat }) => {
 			  )}/${encodeURIComponent(chat.conversationSlug)}`
 			: null
 
-	const share = useCallback(() => {
-		logEvent('click_post_chat')
+	const path =
+		conversationPath ?? `/conversations/new?chat=${encodeURIComponent(chat.id)}`
 
-		router.push(
-			conversationPath ??
-				`/conversations/new?chat=${encodeURIComponent(chat.id)}`
-		)
-	}, [router, conversationPath, chat.id])
+	const isOwner = user?.id === chat.userId
+	const disabled = !(isOwner || conversationPath)
 
 	return (
-		<button
-			className="pl-1 text-xl w-450:text-2xl text-sky-500 transition-colors ease-linear hover:text-opacity-70 disabled:text-opacity-50"
+		<Link
+			className={cx(
+				'pl-1 text-xl w-450:text-2xl text-sky-500 transition-colors ease-linear hover:text-opacity-70',
+				disabled && 'pointer-events-none text-opacity-50'
+			)}
 			aria-label={
 				conversationPath ? 'View conversation' : 'Post chat as a conversation'
 			}
 			data-balloon-pos="up-left"
-			disabled={!(isOwner || conversationPath)}
-			onClick={share}
+			aria-disabled={disabled || undefined}
+			href={disabled ? '#' : path}
+			onClick={onClick}
 		>
 			<FontAwesomeIcon icon={faShareSquare} />
-		</button>
+		</Link>
 	)
 }
 
