@@ -196,6 +196,9 @@ const ConversationRow = ({
 						{conversation.comments === 1 ? '' : 's'} •{' '}
 						{formatDate(conversation.created)}
 					</span>
+					<span className="line-clamp-3 font-bold">
+						{conversation.chatName}
+					</span>
 				</span>
 				{conversation.text && (
 					<span className="line-clamp-4">{mdToText(conversation.text)}</span>
