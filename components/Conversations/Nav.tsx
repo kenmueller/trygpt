@@ -53,7 +53,7 @@ const ConversationsNav = () => {
 					{isSearchInline && <Search className="hidden w-700:flex" />}
 				</div>
 				<Link
-					className="shrink-0 flex items-center gap-2 font-bold"
+					className="shrink-0 flex items-center gap-2 font-bold hover:opacity-70 transition-opacity ease-linear"
 					href="/conversations/new"
 				>
 					<FontAwesomeIcon className="text-xl" icon={faPlus} />

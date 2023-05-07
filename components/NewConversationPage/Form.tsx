@@ -219,8 +219,11 @@ const NewConversationPageForm = () => {
 	}, [titleInput])
 
 	return (
-		<main className="flex flex-col items-stretch gap-6 px-6 py-4 overflow-y-auto scroll-smooth">
-			<form className="flex flex-col items-stretch gap-4" onSubmit={onSubmit}>
+		<main className="flex flex-col gap-6 py-4 overflow-y-auto scroll-smooth">
+			<form
+				className="flex flex-col items-stretch gap-4 max-w-[1500px] w-[95%] mx-auto"
+				onSubmit={onSubmit}
+			>
 				<div className="flex justify-between items-center">
 					<h1 className="text-2xl font-bold">New Conversation</h1>
 					<button
@@ -264,8 +267,10 @@ const NewConversationPageForm = () => {
 					)}
 				</div>
 			</form>
-			<h2 className="pb-1 border-b border-white border-opacity-50">Preview</h2>
-			<div className="self-center max-w-[1500px] w-full flex flex-col items-stretch gap-4">
+			<h2 className="max-w-[1500px] w-[95%] mx-auto pb-1 border-b border-white border-opacity-50">
+				Preview
+			</h2>
+			<div className="flex flex-col items-stretch gap-4 max-w-[1500px] w-[95%] mx-auto">
 				<div className="flex items-start gap-6">
 					<div className="shrink-0 flex flex-col items-center pt-1">
 						<button

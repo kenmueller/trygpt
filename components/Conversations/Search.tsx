@@ -45,7 +45,7 @@ const ConversationsSearch = ({ className }: { className?: string }) => {
 				onChange={onSearchQueryChange}
 			/>
 			<button
-				className="shrink-0 absolute right-[12px] top-[6px] text-sky-500 disabled:text-white disabled:text-opacity-50 transition-colors ease-linear"
+				className="shrink-0 absolute right-[12px] top-[6px] text-sky-500 hover:text-opacity-70 disabled:text-white disabled:text-opacity-50 transition-colors ease-linear"
 				disabled={!trimmedSearchQuery}
 			>
 				<FontAwesomeIcon icon={faSearch} />
