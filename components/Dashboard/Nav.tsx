@@ -36,7 +36,7 @@ const DashboardNav = ({
 			>
 				<FontAwesomeIcon icon={faBars} />
 			</button>
-			<h1 className="mx-4 whitespace-nowrap overflow-hidden overflow-ellipsis">
+			<h1 className="mx-4 text-base whitespace-nowrap overflow-hidden overflow-ellipsis">
 				{children}
 			</h1>
 			{canCreateChat ? (
