@@ -1,6 +1,5 @@
 'use client'
 
-import { useCallback, useLayoutEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRecoilValue } from 'recoil'
@@ -10,41 +9,21 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import userState from '@/lib/atoms/user'
 import SignInButton from '@/components/SignInButton'
 import Search from './Search'
+import useMediaQuery from '@/lib/useMediaQuery'
 import defaultUserImage from '@/assets/user.png'
 
 const ConversationsNav = () => {
 	const user = useRecoilValue(userState)
-
-	const [isSearchInline, setIsSearchInline] = useState(true)
-
-	const onMediaQueryChange = useCallback(
-		({ matches }: MediaQueryListEvent) => {
-			setIsSearchInline(matches)
-		},
-		[setIsSearchInline]
-	)
-
-	useLayoutEffect(() => {
-		const mediaQuery = window.matchMedia('(min-width: 700px)')
-
-		onMediaQueryChange(
-			new MediaQueryListEvent('change', { matches: mediaQuery.matches })
-		)
-
-		mediaQuery.addEventListener('change', onMediaQueryChange)
-
-		return () => {
-			mediaQuery.removeEventListener('change', onMediaQueryChange)
-		}
-	}, [onMediaQueryChange])
+	const isSearchInline = useMediaQuery('(min-width: 700px)', true)
 
 	return (
 		<div className="flex flex-col items-stretch gap-4 max-w-[1500px] w-[95%] mx-auto py-4">
 			<nav className="flex items-center gap-4">
-				<h1 className="shrink-0 text-xl mr-auto w-700:mr-0">
+				<h1 className="shrink-0 flex items-center gap-2 mr-auto w-700:mr-0 text-xl">
 					<Link className="hover:underline" href="/">
 						TryGPT
-					</Link>{' '}
+					</Link>
+					<span className="self-stretch w-[2px] bg-white bg-opacity-50 rounded-full" />
 					<Link className="hover:underline" href="/conversations">
 						<strong>Conversations</strong>
 					</Link>
@@ -55,7 +34,7 @@ const ConversationsNav = () => {
 					href="/conversations/new"
 				>
 					<FontAwesomeIcon className="text-xl" icon={faPlus} />
-					<span>
+					<span className="hidden w-380:inline">
 						New <span className="hidden w-900:inline">Conversation</span>
 					</span>
 				</Link>
