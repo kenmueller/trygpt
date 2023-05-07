@@ -41,7 +41,7 @@ const ConversationsPage = async ({
 	const conversations = conversationsFromFilter(filter, user)
 
 	return (
-		<main className="flex flex-col items-center gap-4 overflow-y-auto scroll-smooth">
+		<main className="flex flex-col items-center gap-4 pb-4 overflow-y-auto scroll-smooth">
 			<SetConversationsPageState conversations={conversations} />
 			<FilterSelect filter={filter} />
 			<Suspense fallback={<ThreeDotsLoader className="mt-4" />}>

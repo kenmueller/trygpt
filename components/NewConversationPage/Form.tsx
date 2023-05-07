@@ -247,7 +247,7 @@ const NewConversationPageForm = () => {
 				/>
 				<div className="flex flex-col items-stretch gap-2">
 					<input
-						className="px-4 py-[0.7rem] bg-white bg-opacity-10 rounded-lg outline-none placeholder:text-white placeholder:opacity-50"
+						className="w-0 min-w-full px-4 py-[0.7rem] bg-white bg-opacity-10 rounded-lg outline-none placeholder:text-white placeholder:opacity-50"
 						placeholder={`${DEV ? 'http' : 'https'}://${process.env
 							.NEXT_PUBLIC_HOST!}/chats/{CHAT_ID}`}
 						value={url}
