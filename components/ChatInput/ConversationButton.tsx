@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faShareSquare } from '@fortawesome/free-solid-svg-icons'
+import { faComment } from '@fortawesome/free-solid-svg-icons'
 import { useRecoilValue } from 'recoil'
 import cx from 'classnames'
 
@@ -14,7 +14,7 @@ const onClick = () => {
 	logEvent('click_post_chat')
 }
 
-const ChatInputShareButton = ({ chat }: { chat: Chat }) => {
+const ChatInputConversationButton = ({ chat }: { chat: Chat }) => {
 	const user = useRecoilValue(userState)
 
 	const conversationPath =
@@ -44,9 +44,9 @@ const ChatInputShareButton = ({ chat }: { chat: Chat }) => {
 			href={disabled ? '#' : path}
 			onClick={onClick}
 		>
-			<FontAwesomeIcon icon={faShareSquare} />
+			<FontAwesomeIcon icon={faComment} />
 		</Link>
 	)
 }
 
-export default ChatInputShareButton
+export default ChatInputConversationButton
