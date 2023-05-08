@@ -83,7 +83,7 @@ export const PATCH = async (
 					...systemMessages,
 					{
 						role: 'user',
-						text: `Generate a short title for a conversation starting with this prompt: ${data.value}`
+						text: `Generate a short title for a conversation starting with this prompt: \`\`\`${data.value}\`\`\``
 					}
 				]
 
