@@ -5,6 +5,7 @@ if (!process.env.NEXT_PUBLIC_HOST) throw new Error('Missing NEXT_PUBLIC_HOST')
 import {
 	ChangeEvent,
 	FormEvent,
+	ReactNode,
 	useCallback,
 	useEffect,
 	useMemo,
@@ -13,9 +14,10 @@ import {
 } from 'react'
 import TextAreaAutosize from 'react-textarea-autosize'
 import { useRecoilValue } from 'recoil'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import debounce from 'lodash/debounce'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import DEV from '@/lib/dev'
@@ -32,34 +34,18 @@ import ChatMessage from '@/lib/chat/message'
 import alertError from '@/lib/error/alert'
 import formatDate from '@/lib/date/format'
 import defaultUserImage from '@/assets/user.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import newConversationSelectedChatIdState from '@/lib/atoms/newConversationSelectedChatId'
 
-const urlMatch = new RegExp(
-	`^(?:${DEV ? 'http' : 'https'}:\\/\\/)?${process.env.NEXT_PUBLIC_HOST.replace(
-		/\./g,
-		'\\.'
-	)}\\/chats\\/([^\\/]+)$`
-)
-
-const NewConversationPageForm = () => {
+const NewConversationPageForm = ({ children }: { children: ReactNode }) => {
 	const router = useRouter()
 
 	const user = useRecoilValue(userState)
 	const userId = user?.id ?? null
 
-	const searchParams = useSearchParams()
-	const initialChatId = searchParams.get('chat')
-
 	const [title, setTitle] = useState('')
 	const [text, setText] = useState('')
-	const [url, setUrl] = useState(
-		initialChatId
-			? `${DEV ? 'http' : 'https'}://${process.env
-					.NEXT_PUBLIC_HOST!}/chats/${encodeURIComponent(initialChatId)}`
-			: ''
-	)
 
+	const selectedChatId = useRecoilValue(newConversationSelectedChatIdState)
 	const [chat, setChat] = useState<ChatWithUserData | null>(null)
 	const [messages, setMessages] = useState<ChatMessage[] | null>(null)
 
@@ -67,7 +53,6 @@ const NewConversationPageForm = () => {
 
 	const trimmedTitle = title.trim()
 	const trimmedText = text.trim()
-	const trimmedUrl = url.trim()
 
 	const [isLoading, setIsLoading] = useState(false)
 	const disabled = !(user && trimmedTitle && chat)
@@ -124,21 +109,9 @@ const NewConversationPageForm = () => {
 		[setText]
 	)
 
-	const onUrlChange = useCallback(
-		(event: ChangeEvent<HTMLInputElement>) => {
-			setUrl(event.target.value)
-		},
-		[setUrl]
-	)
-
 	const loadChat = useCallback(
-		async (url: string, signal: AbortSignal) => {
+		async (id: string, signal: AbortSignal) => {
 			try {
-				const encodedId = url.match(urlMatch)?.[1]
-				if (!encodedId) throw new HttpError(ErrorCode.BadRequest, 'Invalid URL')
-
-				const id = decodeURIComponent(encodedId)
-
 				if (!userId)
 					throw new HttpError(ErrorCode.Unauthorized, 'You are not signed in')
 
@@ -193,24 +166,22 @@ const NewConversationPageForm = () => {
 		[userId, setChat, setMessages, setChatError]
 	)
 
-	const loadChatDebounced = useMemo(() => debounce(loadChat, 500), [loadChat])
-
 	useEffect(() => {
 		setChat(null)
 		setMessages(null)
 
 		setChatError(null)
 
-		if (!trimmedUrl) return
+		if (!selectedChatId) return
 
 		const controller = new AbortController()
 
-		loadChatDebounced(trimmedUrl, controller.signal)
+		loadChat(selectedChatId, controller.signal)
 
 		return () => {
 			controller.abort()
 		}
-	}, [setChat, setMessages, setChatError, trimmedUrl, loadChatDebounced])
+	}, [setChat, setMessages, setChatError, selectedChatId, loadChat])
 
 	const titleInput = useRef<HTMLTextAreaElement | null>(null)
 
@@ -248,24 +219,7 @@ const NewConversationPageForm = () => {
 					value={text}
 					onChange={onTextChange}
 				/>
-				<div className="flex flex-col items-stretch gap-2">
-					<input
-						className="w-0 min-w-full px-4 py-[0.7rem] bg-white bg-opacity-10 rounded-lg outline-none placeholder:text-white placeholder:opacity-50"
-						placeholder={`${DEV ? 'http' : 'https'}://${process.env
-							.NEXT_PUBLIC_HOST!}/chats/{CHAT_ID}`}
-						value={url}
-						onChange={onUrlChange}
-					/>
-					{trimmedUrl && !(chat || chatError) && (
-						<p>
-							<ThreeDotsLoader />
-						</p>
-					)}
-					{chat && <p className="font-bold text-green-500">{chat.name}</p>}
-					{chatError && (
-						<p className="font-bold text-red-500">{chatError.message}</p>
-					)}
-				</div>
+				{children}
 			</form>
 			<h2 className="max-w-[1500px] w-[95%] mx-auto pb-1 border-b border-white border-opacity-50">
 				Preview
@@ -318,9 +272,10 @@ const NewConversationPageForm = () => {
 					</div>
 				</div>
 				{trimmedText && <Markdown text={trimmedText} />}
-				{trimmedUrl && !((chat && messages && previewUser) || chatError) && (
-					<ThreeDotsLoader className="mx-auto mt-2" />
-				)}
+				{selectedChatId &&
+					!((chat && messages && previewUser) || chatError) && (
+						<ThreeDotsLoader className="mx-auto mt-2" />
+					)}
 				{chat && messages && previewUser && (
 					<ChatPreview
 						chat={chat}
@@ -328,6 +283,9 @@ const NewConversationPageForm = () => {
 						messages={messages}
 						continueInNewTab
 					/>
+				)}
+				{chatError && (
+					<p className="font-bold text-red-500">{chatError.message}</p>
 				)}
 			</div>
 		</main>
