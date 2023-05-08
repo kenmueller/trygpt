@@ -36,7 +36,7 @@ const NewConversationPage = async ({
 			/>
 			<NewConversationPageForm>
 				{chats ? (
-					<Suspense fallback={<ThreeDotsLoader />}>
+					<Suspense fallback={<ThreeDotsLoader className="mx-auto mt-1" />}>
 						{/* @ts-expect-error */}
 						<Await promise={chats}>
 							<ChatSelect />
