@@ -28,6 +28,7 @@ const userFromCustomerIdWithConnection = async (
 					   completion_tokens AS "responseTokens",
 					   purchased_amount AS "purchasedAmount",
 					   preview_messages AS "previewMessages",
+					   admin,
 					   created, updated
 				   FROM users
 				   WHERE customer_id = ${customerId}`

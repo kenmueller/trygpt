@@ -26,6 +26,8 @@ export default interface User {
 
 	previewMessages: number
 
+	admin: boolean
+
 	/** Milliseconds since epoch. */
 	created: number
 

@@ -25,6 +25,7 @@ const allPayingUsersWithConnection = async (
 					   completion_tokens AS "responseTokens",
 					   purchased_amount AS "purchasedAmount",
 					   preview_messages AS "previewMessages",
+					   admin,
 					   created, updated
 				   FROM users
 				   WHERE purchased_amount > 0`
