@@ -1,8 +1,12 @@
 'use client'
 
+import Link from 'next/link'
 import { useCallback, useMemo } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import Select from 'react-select'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import cx from 'classnames'
 
 import newConversationChatsState from '@/lib/atoms/newConversationChats'
 import newConversationSelectedChatIdState from '@/lib/atoms/newConversationSelectedChatId'
@@ -38,14 +42,23 @@ const NewConversationChatSelect = () => {
 	)
 
 	return (
-		<Select
-			className={styles.root}
-			classNamePrefix="select"
-			placeholder="Select chat..."
-			value={selectedOption}
-			onChange={setSelectedOption}
-			options={options}
-		/>
+		<div className="flex items-stretchg gap-4">
+			<Select
+				className={cx('grow-[1]', styles.select)}
+				classNamePrefix="select"
+				placeholder="Select chat..."
+				value={selectedOption}
+				onChange={setSelectedOption}
+				options={options}
+			/>
+			<Link
+				className="shrink-0 flex items-center gap-2 px-4 text-lg font-bold bg-sky-500 rounded-lg hover:opacity-70 transition-opacity ease-linear"
+				href="/chats/new"
+			>
+				<FontAwesomeIcon icon={faPlus} />
+				<span className="hidden w-450:inline">New</span>
+			</Link>
+		</div>
 	)
 }
 
