@@ -42,7 +42,7 @@ const NewConversationChatSelect = () => {
 	)
 
 	return (
-		<div className="flex items-stretchg gap-4">
+		<div className="flex items-stretch gap-4">
 			<Select
 				className={cx('grow-[1]', styles.select)}
 				classNamePrefix="select"
