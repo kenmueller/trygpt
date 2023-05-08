@@ -28,7 +28,7 @@ const allPayingUsersWithConnection = async (
 					   admin,
 					   created, updated
 				   FROM users
-				   WHERE purchased_amount > 0`
+				   WHERE payment_method IS NOT NULL`
 	)) as User[]
 
 	return users
