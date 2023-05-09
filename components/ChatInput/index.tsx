@@ -32,6 +32,7 @@ import Artyom from '@/lib/artyom'
 import mdToText from '@/lib/md/toText'
 import formatCents from '@/lib/cents/format'
 import { logEvent } from '@/lib/analytics/lazy'
+import ShareButton from './ShareButton'
 
 const ChatInput = () => {
 	const router = useRouter()
@@ -390,6 +391,7 @@ const ChatInput = () => {
 			onSubmit={onSubmitPrompt}
 		>
 			<ConversationButton chat={chat} />
+			<ShareButton chat={chat} />
 			<ScreenshotButton chat={chat} />
 			<SpeechButton
 				isTyping={isLoading}

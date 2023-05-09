@@ -11,6 +11,7 @@ import errorFromUnknown from '@/lib/error/fromUnknown'
 import Chat from '@/lib/chat'
 import chatMessagesContainerRef from '@/lib/atoms/chatMessagesContainer'
 import { logEvent } from '@/lib/analytics/lazy'
+import isMobileState from '@/lib/atoms/isMobile'
 
 const saveImage = async (container: HTMLDivElement, filename: string) => {
 	const saveAsPromise = import('file-saver').then(module => module.default)
@@ -28,7 +29,12 @@ const saveImage = async (container: HTMLDivElement, filename: string) => {
 	saveAs(url, `${filename}.jpg`)
 }
 
+const unsupported = () => {
+	toast.error('Screenshots are not supported on mobile devices')
+}
+
 const ChatInputScreenshotButton = ({ chat }: { chat: Chat }) => {
+	const isMobile = useRecoilValue(isMobileState)
 	const chatMessagesContainer = useRecoilValue(chatMessagesContainerRef)
 
 	const [isLoading, setIsLoading] = useState(false)
@@ -60,7 +66,7 @@ const ChatInputScreenshotButton = ({ chat }: { chat: Chat }) => {
 			aria-label="Capture a full-size screenshot"
 			data-balloon-pos="up-left"
 			disabled={isLoading}
-			onClick={captureImage}
+			onClick={!isMobile ? captureImage : unsupported}
 		>
 			<FontAwesomeIcon icon={faImage} />
 		</button>

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faComment } from '@fortawesome/free-solid-svg-icons'
+import { faComments } from '@fortawesome/free-solid-svg-icons'
 import { useRecoilValue } from 'recoil'
 import cx from 'classnames'
 
@@ -44,7 +44,7 @@ const ChatInputConversationButton = ({ chat }: { chat: Chat }) => {
 			href={disabled ? '#' : path}
 			onClick={onClick}
 		>
-			<FontAwesomeIcon icon={faComment} />
+			<FontAwesomeIcon icon={faComments} />
 		</Link>
 	)
 }

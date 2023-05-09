@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faComment } from '@fortawesome/free-solid-svg-icons'
+import { faComments } from '@fortawesome/free-solid-svg-icons'
 
 import { logEvent } from '@/lib/analytics/lazy'
 
@@ -16,7 +16,7 @@ const SidebarConversationsLink = () => (
 		href="/conversations"
 		onClick={onClick}
 	>
-		<FontAwesomeIcon className="shrink-0 w-[30px] text-xl" icon={faComment} />
+		<FontAwesomeIcon className="shrink-0 w-[30px] text-xl" icon={faComments} />
 		Conversations
 	</Link>
 )

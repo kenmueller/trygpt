@@ -83,7 +83,7 @@ const BaseChatInput = ({
 	return (
 		<div className="flex items-end gap-4 px-4 pb-4">
 			{children && (
-				<div className="flex items-center gap-3 w-450:gap-4 h-[46px]">
+				<div className="grid grid-cols-2 gap-1 w-450:flex w-450:items-center w-450:gap-4 w-450:h-[46px]">
 					{children}
 				</div>
 			)}
