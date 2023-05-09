@@ -18,42 +18,39 @@ const AdminInfo = async () => {
 	)
 
 	return (
-		<div
-			className={cx(
-				'flex flex-col items-stretch gap-4 overflow-x-auto',
-				styles.root
-			)}
-		>
+		<div className={cx('flex flex-col items-stretch gap-4', styles.root)}>
 			<h2>Users</h2>
-			<table>
-				<thead>
-					<tr>
-						<th>Name</th>
-						<th>Email</th>
-						<th>Cost this period</th>
-						<th>Purchased amount</th>
-						<th>Last charged</th>
-						<th>Has payment method</th>
-					</tr>
-				</thead>
-				<tbody>
-					{usersSortedByCost.map(user => (
-						<tr
-							key={user.id}
-							className={cx(user.paymentMethod && 'bg-white bg-opacity-10')}
-						>
-							<td>{user.name}</td>
-							<td>{user.email}</td>
-							<td>{formatCents(costThisPeriod(user))}</td>
-							<td>{formatCents(user.purchasedAmount)}</td>
-							<td>
-								{user.lastCharged ? formatDate(user.lastCharged) : 'Never'}
-							</td>
-							<td>{user.paymentMethod ? 'Yes' : 'No'}</td>
+			<div className="overflow-x-auto">
+				<table>
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Email</th>
+							<th>Cost this period</th>
+							<th>Purchased amount</th>
+							<th>Last charged</th>
+							<th>Has payment method</th>
 						</tr>
-					))}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{usersSortedByCost.map(user => (
+							<tr
+								key={user.id}
+								className={cx(user.paymentMethod && 'bg-white bg-opacity-10')}
+							>
+								<td>{user.name}</td>
+								<td>{user.email}</td>
+								<td>{formatCents(costThisPeriod(user))}</td>
+								<td>{formatCents(user.purchasedAmount)}</td>
+								<td>
+									{user.lastCharged ? formatDate(user.lastCharged) : 'Never'}
+								</td>
+								<td>{user.paymentMethod ? 'Yes' : 'No'}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
 			<p>
 				Total users: <strong>{users.length}</strong>
 			</p>
