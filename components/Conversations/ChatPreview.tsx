@@ -37,7 +37,7 @@ const ConversationChatPreview = ({
 }) => (
 	<div className="flex flex-col items-stretch gap-4">
 		<h3>{chat.name}</h3>
-		<div className="max-h-[1100px] overflow-y-auto border border-white border-opacity-50">
+		<div className="border border-white border-opacity-50">
 			{messages.map(message => (
 				<Message key={message.id} user={user} message={message} />
 			))}
