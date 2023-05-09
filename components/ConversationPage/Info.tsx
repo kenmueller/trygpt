@@ -4,8 +4,14 @@ import { useCallback } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import {
+	faArrowDown,
+	faArrowUp,
+	faShareSquare
+} from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
+import copy from 'copy-to-clipboard'
+import { toast } from 'react-toastify'
 
 import conversationState from '@/lib/atoms/conversation'
 import formatDate from '@/lib/date/format'
@@ -15,6 +21,8 @@ import errorFromResponse from '@/lib/error/fromResponse'
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import alertError from '@/lib/error/alert'
 import defaultUserImage from '@/assets/user.png'
+import { logEvent } from '@/lib/analytics/lazy'
+import ORIGIN from '@/lib/origin'
 
 const ConversationPageInfo = () => {
 	const user = useRecoilValue(userState)
@@ -100,6 +108,20 @@ const ConversationPageInfo = () => {
 		setUpvoted(upvoted)
 	}, [canUpdatePoints, conversation.upvoted, updateConversation, setUpvoted])
 
+	const share = useCallback(() => {
+		logEvent('click_share_conversation')
+
+		copy(
+			new URL(
+				`/conversations/${encodeURIComponent(
+					conversation.id
+				)}/${encodeURIComponent(conversation.slug)}`,
+				ORIGIN
+			).href
+		)
+		toast.success('Conversation link copied to clipboard')
+	}, [conversation.id, conversation.slug])
+
 	return (
 		<>
 			<div className="flex items-start gap-6">
@@ -136,7 +158,7 @@ const ConversationPageInfo = () => {
 				</div>
 				<div className="grow-[1] flex flex-col items-stretch gap-2">
 					<h1>{conversation.title}</h1>
-					<div className="flex flex-col items-stretch gap-1">
+					<div className="flex flex-col items-start gap-1">
 						<p className="flex items-center gap-2 font-bold text-white text-opacity-50">
 							<Image
 								className="rounded-lg"
@@ -157,7 +179,14 @@ const ConversationPageInfo = () => {
 								{conversation.comments} comment
 								{conversation.comments === 1 ? '' : 's'}
 							</a>{' '}
-							• {formatDate(conversation.created)}
+							• {formatDate(conversation.created)} •
+							<button
+								className="inline-flex items-center ml-1.5 align-middle translate-y-[-1.5px] font-bold text-white text-opacity-50 transition-opacity ease-linear hover:opacity-70"
+								onClick={share}
+							>
+								<FontAwesomeIcon className="mr-1" icon={faShareSquare} />
+								<span className="translate-y-[1px]">Share</span>
+							</button>
 						</p>
 					</div>
 				</div>

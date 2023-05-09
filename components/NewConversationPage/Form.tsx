@@ -15,7 +15,11 @@ import { useRecoilValue } from 'recoil'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import {
+	faArrowDown,
+	faArrowUp,
+	faShareSquare
+} from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
 import errorFromUnknown from '@/lib/error/fromUnknown'
@@ -263,7 +267,15 @@ const NewConversationPageForm = ({ children }: { children: ReactNode }) => {
 								{user?.name ?? 'Anonymous'} ({user?.points ?? 0})
 							</p>
 							<p className="font-bold text-white text-opacity-50">
-								0 views • 0 comments • {formatDate(new Date())}
+								0 views •{' '}
+								<span className="cursor-pointer hover:underline">
+									0 comments
+								</span>{' '}
+								• {formatDate(new Date())} •
+								<button className="inline-flex items-center ml-1.5 align-middle translate-y-[-1.5px] font-bold text-white text-opacity-50 transition-opacity ease-linear hover:opacity-70">
+									<FontAwesomeIcon className="mr-1" icon={faShareSquare} />
+									<span className="translate-y-[1px]">Share</span>
+								</button>
 							</p>
 						</div>
 					</div>
