@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import omit from 'lodash/omit'
 
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import userFromRequest from '@/lib/user/fromRequest'
@@ -60,7 +61,7 @@ export const POST = async (request: NextRequest) => {
 
 		await conversationsIndex.saveObject({
 			objectID: conversation.id,
-			...conversation
+			...omit(conversation, ['id'])
 		})
 
 		return NextResponse.json({ id, slug })
