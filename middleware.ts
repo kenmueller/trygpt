@@ -1,13 +1,10 @@
-if (!process.env.NEXT_PUBLIC_HOST) throw new Error('Missing NEXT_PUBLIC_HOST')
-
 import { NextRequest, NextResponse } from 'next/server'
 
 import DEV from './lib/dev'
 import HttpError from './lib/error/http'
 import ErrorCode from './lib/error/code'
 import errorFromUnknown from './lib/error/fromUnknown'
-
-const ORIGIN = `${DEV ? 'http' : 'https'}://${process.env.NEXT_PUBLIC_HOST}`
+import ORIGIN from './lib/origin'
 
 const middleware = (request: NextRequest) => {
 	try {
@@ -24,13 +21,8 @@ const middleware = (request: NextRequest) => {
 		const search = url.searchParams.toString()
 		const path = `${url.pathname}${search && `?${search}`}`
 
-		if (
-			!(
-				(DEV ? /http/ : /https/).test(protocol) &&
-				host === process.env.NEXT_PUBLIC_HOST!
-			)
-		)
-			return NextResponse.redirect(new URL(path, ORIGIN))
+		if (!((DEV ? /http/ : /https/).test(protocol) && host === ORIGIN.host))
+			return NextResponse.redirect(path)
 
 		headers.set('x-url', new URL(path, ORIGIN).href)
 

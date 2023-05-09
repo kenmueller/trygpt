@@ -1,7 +1,5 @@
 'use client'
 
-if (!process.env.NEXT_PUBLIC_HOST) throw new Error('Missing NEXT_PUBLIC_HOST')
-
 import {
 	ChangeEvent,
 	FormEvent,
@@ -20,7 +18,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
 
-import DEV from '@/lib/dev'
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'

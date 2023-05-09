@@ -46,7 +46,7 @@ const sfMono = localFont({
 
 export const dynamic = 'force-dynamic'
 
-export const generateMetadata = () => baseMetadata()
+export const metadata = baseMetadata
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
 	const isMobile = getIsMobile()
