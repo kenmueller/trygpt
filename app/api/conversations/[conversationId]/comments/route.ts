@@ -57,8 +57,6 @@ export const POST = async (
 		if (data.code !== 0)
 			throw new HttpError(ErrorCode.Internal, 'Disqus code not 0')
 
-		console.log(data.response[0]?.posts ?? 0)
-
 		await updateConversation(conversationId, {
 			comments: data.response[0]?.posts ?? 0
 		})
