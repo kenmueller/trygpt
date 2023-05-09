@@ -55,6 +55,9 @@ const AdminInfo = async () => {
 				</tbody>
 			</table>
 			<p>
+				Total users: <strong>{users.length}</strong>
+			</p>
+			<p>
 				Users charged before:{' '}
 				<strong>{users.filter(user => user.purchasedAmount > 0).length}</strong>
 			</p>
