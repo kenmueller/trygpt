@@ -28,7 +28,15 @@ const AdminPage = async () => {
 
 	return (
 		<main className="flex flex-col items-stretch gap-4 max-w-[1500px] w-[95%] mx-auto py-4">
-			<h1>TryGPT Admin</h1>
+			<h1 className="flex items-center gap-2 text-2xl">
+				<Link className="hover:underline" href="/">
+					TryGPT
+				</Link>
+				<span className="self-stretch w-[2px] bg-white bg-opacity-50 rounded-full" />
+				<Link className="hover:underline" href="/admin">
+					<strong>Admin</strong>
+				</Link>
+			</h1>
 			<Suspense fallback={<ThreeDotsLoader className="mx-auto mt-4" />}>
 				{/* @ts-expect-error */}
 				<AdminInfo />
