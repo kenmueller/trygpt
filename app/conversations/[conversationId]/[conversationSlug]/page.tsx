@@ -13,6 +13,8 @@ import Info from '@/components/ConversationPage/Info'
 import Await from '@/components/Await'
 import View from '@/components/ConversationPage/View'
 import userFromRequest from '@/lib/user/fromRequest'
+import mdToText from '@/lib/md/toText'
+import truncate from '@/lib/truncate'
 
 export const generateMetadata = async ({
 	params: { conversationId: encodedConversationId }
@@ -28,13 +30,20 @@ export const generateMetadata = async ({
 
 	return pageMetadata({
 		title: `${conversation.title} | Conversations | TryGPT`,
-		description: `${conversation.points} point${
-			conversation.points === 1 ? '' : 's'
-		} • ${conversation.views} view${conversation.views === 1 ? '' : 's'} • ${
-			conversation.comments
-		} comment${conversation.comments === 1 ? '' : 's'} • ${formatDate(
-			conversation.created
-		)}`,
+		description: [
+			[
+				`${conversation.points} point${conversation.points === 1 ? '' : 's'}`,
+				`${conversation.views} view${conversation.views === 1 ? '' : 's'}`,
+				`${conversation.comments} comment${
+					conversation.comments === 1 ? '' : 's'
+				}`,
+				formatDate(conversation.created)
+			].join(' • '),
+			conversation.chatName,
+			conversation.text && truncate(mdToText(conversation.text), 300)
+		]
+			.filter(Boolean)
+			.join(' | '),
 		previewTitle: conversation.title
 	})
 }

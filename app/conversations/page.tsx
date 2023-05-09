@@ -16,7 +16,8 @@ import userFromRequest from '@/lib/user/fromRequest'
 export const generateMetadata = () =>
 	pageMetadata({
 		title: 'Conversations | TryGPT',
-		description: 'TryGPT Conversations',
+		description:
+			'TryGPT Conversations is a way to share your conversations with ChatGPT with others.',
 		previewTitle: 'Conversations'
 	})
 

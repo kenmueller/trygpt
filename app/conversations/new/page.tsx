@@ -12,7 +12,7 @@ import ChatSelect from '@/components/NewConversationPage/ChatSelect'
 export const generateMetadata = () =>
 	pageMetadata({
 		title: 'New Conversation | TryGPT',
-		description: 'Create new Conversation on TryGPT',
+		description: 'Create a new Conversation on TryGPT',
 		previewTitle: 'New Conversation'
 	})
 
