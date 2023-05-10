@@ -31,10 +31,12 @@ const AdminInfo = async () => {
 				<table>
 					<thead>
 						<tr>
+							<th>ID</th>
 							<th>Name</th>
 							<th>Email</th>
 							<th>Cost this period</th>
 							<th>Purchased amount</th>
+							<th>Total cost</th>
 							<th>Last charged</th>
 							<th>Has payment method</th>
 							<th>Joined</th>
@@ -46,12 +48,14 @@ const AdminInfo = async () => {
 								key={user.id}
 								className={cx(user.paymentMethod && 'bg-white bg-opacity-10')}
 							>
+								<td>{user.id}</td>
 								<td>
 									{user.name} ({user.points})
 								</td>
 								<td>{user.email}</td>
 								<td>{formatCents(amountReceived(costThisPeriod(user)))}</td>
 								<td>{formatCents(user.purchasedAmount)}</td>
+								<td>{formatCents(totalCost(user))}</td>
 								<td>
 									{user.lastCharged ? formatDate(user.lastCharged) : 'Never'}
 								</td>

@@ -18,7 +18,7 @@ const AdminPage = async () => {
 
 	if (!(user && user.admin))
 		return (
-			<main className="flex flex-col justify-center items-center gap-4 max-w-[1500px] w-[95%] h-full mx-auto py-4 text-center">
+			<main className="flex flex-col justify-center items-center gap-4 w-[95%] h-full mx-auto py-4 text-center">
 				<h1>You must be signed in as an admin</h1>
 				<Link className="underline" href="/">
 					Home
@@ -27,7 +27,7 @@ const AdminPage = async () => {
 		)
 
 	return (
-		<main className="flex flex-col items-stretch gap-4 max-w-[1500px] w-[95%] mx-auto py-4">
+		<main className="flex flex-col items-stretch gap-4 w-[95%] mx-auto py-4">
 			<h1 className="flex items-center gap-2 text-2xl">
 				<Link className="hover:underline" href="/">
 					TryGPT
