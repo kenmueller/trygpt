@@ -42,7 +42,7 @@ const ConversationsNav = () => {
 				</Link>
 				<Link
 					className="shrink-0 flex items-center gap-2 font-bold hover:opacity-70 transition-opacity ease-linear"
-					href="/users"
+					href="/leaderboard"
 				>
 					<FontAwesomeIcon
 						className="text-xl translate-y-[-1.5px]"

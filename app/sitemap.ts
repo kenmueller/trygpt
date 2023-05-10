@@ -20,7 +20,7 @@ const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
 			lastModified: deployDate
 		},
 		{
-			url: new URL('/users', ORIGIN).href,
+			url: new URL('/leaderboard', ORIGIN).href,
 			lastModified: deployDate
 		},
 		...users.map(({ id, updated }) => ({

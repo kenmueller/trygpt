@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 import TitleSection from './TitleSection'
 import Section from './Section'
 import {
@@ -9,6 +11,8 @@ import previewMessagesImage from '@/assets/preview-messages.png'
 import initialDollarImage from '@/assets/initial-dollar.png'
 import sampleEssayImage from '@/assets/sample-essay.png'
 import shareImage from '@/assets/share.png'
+import conversationsImage from '@/assets/conversations.png'
+import leaderboardImage from '@/assets/leaderboard.png'
 import screenshotImage from '@/assets/screenshot.png'
 import speechImage from '@/assets/speech.png'
 
@@ -99,6 +103,41 @@ const LandingPageSections = () => (
 			}
 			image={shareImage}
 			imageAlt="Share"
+		/>
+		<Section
+			title={
+				<>
+					<strong>Post</strong> your chat on{' '}
+					<Link href="/conversations">TryGPT Conversations</Link>. Let people{' '}
+					<strong>upvote</strong>, <strong>downvote</strong>, and{' '}
+					<strong>comment</strong> on your post.
+				</>
+			}
+			description={
+				<>
+					Let your collect garner upvotes, comments, and raise to the top of the{' '}
+					<strong>top posts of today</strong>. Ask a question, share your chat,
+					create a discussion.
+				</>
+			}
+			image={conversationsImage}
+			imageAlt="Conversation"
+		/>
+		<Section
+			title={
+				<>
+					Rise to the <strong>top</strong> of the{' '}
+					<Link href="/leaderboard">Leaderboard</Link>
+				</>
+			}
+			description={
+				<>
+					Collect points by posting on <strong>TryGPT Conversations</strong>.
+					People can view your profile and all of your conversations.
+				</>
+			}
+			image={leaderboardImage}
+			imageAlt="Leaderboard"
 		/>
 		<Section
 			title={
