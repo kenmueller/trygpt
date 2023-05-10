@@ -1,18 +1,20 @@
 'use client'
 
-import { ChangeEvent, FormEvent, useCallback, useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { ChangeEvent, FormEvent, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
+import { useRecoilState } from 'recoil'
+
+import conversationsSearchQueryState from '@/lib/atoms/conversationsSearchQuery'
 
 const ConversationsSearch = ({ className }: { className?: string }) => {
 	const router = useRouter()
-	const searchParams = useSearchParams()
 
-	const searchQueryInitialValue = searchParams.get('q') ?? ''
-	const [searchQuery, setSearchQuery] = useState(searchQueryInitialValue)
-
+	const [searchQuery, setSearchQuery] = useRecoilState(
+		conversationsSearchQueryState
+	)
 	const trimmedSearchQuery = searchQuery.trim()
 
 	const onSearchSubmit = useCallback(

@@ -5,21 +5,20 @@ import Image from 'next/image'
 import { useRecoilValue } from 'recoil'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faRankingStar } from '@fortawesome/free-solid-svg-icons'
+import cx from 'classnames'
 
 import userState from '@/lib/atoms/user'
 import SignInButton from '@/components/SignInButton'
 import Search from './Search'
-import useMediaQuery from '@/lib/useMediaQuery'
 import defaultUserImage from '@/assets/user.png'
 
 const ConversationsNav = () => {
 	const user = useRecoilValue(userState)
-	const isSearchInline = useMediaQuery('(min-width: 700px)', true)
 
 	return (
-		<div className="flex flex-col items-stretch gap-4 max-w-[1500px] w-[95%] mx-auto py-4">
-			<nav className="flex items-center gap-4">
-				<h1 className="shrink-0 flex items-center gap-2 mr-auto min-[700px]:mr-0 text-lg min-[380px]:text-xl">
+		<nav className="flex flex-col items-stretch gap-4 max-w-[1500px] w-[95%] mx-auto py-4">
+			<div className="flex items-center gap-4">
+				<h1 className="shrink-0 flex items-center gap-2 mr-auto min-[800px]:mr-0 text-lg min-[400px]:text-xl">
 					<Link className="hover:underline" href="/">
 						TryGPT
 					</Link>
@@ -28,27 +27,7 @@ const ConversationsNav = () => {
 						<strong>Conversations</strong>
 					</Link>
 				</h1>
-				{isSearchInline && (
-					<Search className="grow-[1] hidden min-[700px]:flex" />
-				)}
-				<Link
-					className="shrink-0 flex items-center gap-2 font-bold hover:opacity-70 transition-opacity ease-linear"
-					href="/conversations/new"
-				>
-					<FontAwesomeIcon className="text-xl" icon={faPlus} />
-					<span className="hidden min-[450px]:inline">
-						New<span className="hidden min-[1000px]:inline"> Conversation</span>
-					</span>
-				</Link>
-				<Link
-					className="shrink-0 flex items-center gap-2 font-bold hover:opacity-70 transition-opacity ease-linear"
-					href="/leaderboard"
-				>
-					<FontAwesomeIcon
-						className="text-xl translate-y-[-1.5px]"
-						icon={faRankingStar}
-					/>
-				</Link>
+				<ConversationsNavSearchWithButtons className="grow-[1] hidden min-[800px]:flex" />
 				{user ? (
 					<Link
 						className="shrink-0 flex items-center gap-3 font-bold transition-opacity ease-linear hover:opacity-70"
@@ -73,10 +52,38 @@ const ConversationsNav = () => {
 						iconClassName="shrink-0 mr-2 text-xl"
 					/>
 				)}
-			</nav>
-			{!isSearchInline && <Search />}
-		</div>
+			</div>
+			<ConversationsNavSearchWithButtons className="min-[800px]:hidden" />
+		</nav>
 	)
 }
+
+const ConversationsNavSearchWithButtons = ({
+	className
+}: {
+	className?: string
+}) => (
+	<div className={cx('flex items-center gap-4', className)}>
+		<Search className="grow-[1]" />
+		<Link
+			className="shrink-0 flex items-center gap-2 font-bold hover:opacity-70 transition-opacity ease-linear"
+			href="/conversations/new"
+		>
+			<FontAwesomeIcon className="text-xl" icon={faPlus} />
+			<span className="hidden min-[520px]:inline">
+				New<span className="hidden min-[1000px]:inline"> Conversation</span>
+			</span>
+		</Link>
+		<Link
+			className="shrink-0 flex items-center gap-2 font-bold hover:opacity-70 transition-opacity ease-linear"
+			href="/leaderboard"
+		>
+			<FontAwesomeIcon
+				className="text-xl translate-y-[-1.5px]"
+				icon={faRankingStar}
+			/>
+		</Link>
+	</div>
+)
 
 export default ConversationsNav
