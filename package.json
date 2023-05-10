@@ -4,6 +4,9 @@
 	"engines": {
 		"node": ">=19.6.1"
 	},
+	"cacheDirectories": [
+		".next/cache"
+	],
 	"scripts": {
 		"dev": "next dev",
 		"build": "next build",
