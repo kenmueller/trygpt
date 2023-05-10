@@ -4,11 +4,13 @@ import formatCents from '@/lib/cents/format'
 import formatDate from '@/lib/date/format'
 import allUsers from '@/lib/user/all'
 import costThisPeriod from '@/lib/user/costThisPeriod'
+import User from '@/lib/user'
+import amountReceived from '@/lib/user/amountReceived'
 
 import styles from './Info.module.scss'
-import User from '@/lib/user'
 
-const totalCost = (user: User) => user.purchasedAmount + costThisPeriod(user)
+const totalCost = (user: User) =>
+	user.purchasedAmount + amountReceived(costThisPeriod(user))
 
 const AdminInfo = async () => {
 	const users = await allUsers()
@@ -48,7 +50,7 @@ const AdminInfo = async () => {
 									{user.name} ({user.points})
 								</td>
 								<td>{user.email}</td>
-								<td>{formatCents(costThisPeriod(user))}</td>
+								<td>{formatCents(amountReceived(costThisPeriod(user)))}</td>
 								<td>{formatCents(user.purchasedAmount)}</td>
 								<td>
 									{user.lastCharged ? formatDate(user.lastCharged) : 'Never'}
