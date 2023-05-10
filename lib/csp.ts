@@ -61,7 +61,8 @@ const csp = (nonceKey: string) =>
 				...UNSPlASH_SOURCES,
 				'cdn.viglink.com',
 				'referrer.disqus.com',
-				'c.disquscdn.com'
+				'c.disquscdn.com',
+				'www.googletagmanager.com'
 			],
 			'frame-src': [
 				SELF,
