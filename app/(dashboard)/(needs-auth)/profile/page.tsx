@@ -67,7 +67,7 @@ const ProfilePage = async () => {
 						height={30}
 						priority
 					/>
-					My Profile Page
+					My Public Profile Page
 					<FontAwesomeIcon
 						className="transition-transform group-hover:translate-x-1"
 						icon={faArrowRight}
