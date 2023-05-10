@@ -11,7 +11,6 @@ const UserPageConversations = () => {
 
 	return (
 		<div className="flex flex-col items-stretch gap-4">
-			<h2>Conversations</h2>
 			{conversations.map(conversation => (
 				<ConversationRow
 					key={conversation.id}

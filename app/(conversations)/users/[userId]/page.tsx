@@ -52,6 +52,7 @@ const UserPage = async ({
 			<SetUserPageState publicUser={publicUser} conversations={conversations} />
 			<div className="flex flex-col items-stretch gap-4 max-w-[1500px] w-[95%]">
 				<Info />
+				<h2>Conversations</h2>
 				<Suspense fallback={<ThreeDotsLoader className="mx-auto mt-4" />}>
 					{/* @ts-expect-error */}
 					<Await promise={conversations}>
