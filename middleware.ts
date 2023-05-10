@@ -16,15 +16,17 @@ const middleware = (request: NextRequest) => {
 		if (!(protocol && host))
 			throw new HttpError(ErrorCode.BadRequest, 'Invalid request')
 
-		const url = new URL(request.url)
+		const originalUrl = new URL(request.url)
 
-		const search = url.searchParams.toString()
-		const path = `${url.pathname}${search && `?${search}`}`
+		const search = originalUrl.searchParams.toString()
+		const path = `${originalUrl.pathname}${search && `?${search}`}`
+
+		const url = new URL(path, ORIGIN)
 
 		if (!((DEV ? /http/ : /https/).test(protocol) && host === ORIGIN.host))
-			return NextResponse.redirect(path)
+			return NextResponse.redirect(url)
 
-		headers.set('x-url', new URL(path, ORIGIN).href)
+		headers.set('x-url', url.href)
 
 		return NextResponse.next({
 			request: { headers }
