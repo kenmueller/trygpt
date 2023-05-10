@@ -99,6 +99,7 @@ const NewChatInput = () => {
 			setPrompt={setPrompt}
 			isLoading={isLoading}
 			onSubmit={onSubmit}
+			collapseChildrenIntoGrid={false}
 		>
 			<SpeechButton
 				isTyping={isLoading}

@@ -11,6 +11,7 @@ import {
 import TextAreaAutosize from 'react-textarea-autosize'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import cx from 'classnames'
 
 const BaseChatInput = ({
 	disabledMessage,
@@ -19,6 +20,7 @@ const BaseChatInput = ({
 	setPrompt,
 	isLoading,
 	onSubmit,
+	collapseChildrenIntoGrid = true,
 	children
 }: {
 	disabledMessage?: string
@@ -27,6 +29,7 @@ const BaseChatInput = ({
 	setPrompt: (prompt: string) => void
 	isLoading: boolean
 	onSubmit: (prompt: string) => void | Promise<void>
+	collapseChildrenIntoGrid?: boolean
 	children?: ReactNode
 }) => {
 	const form = useRef<HTMLFormElement | null>(null)
@@ -83,7 +86,13 @@ const BaseChatInput = ({
 	return (
 		<div className="flex items-end gap-4 px-4 pb-4">
 			{children && (
-				<div className="grid grid-cols-2 gap-1 min-[450px]:flex min-[450px]:items-center min-[450px]:gap-4 min-[450px]:h-[46px]">
+				<div
+					className={cx(
+						collapseChildrenIntoGrid
+							? 'grid grid-cols-2 gap-1 min-[450px]:flex min-[450px]:items-center min-[450px]:gap-4 min-[450px]:h-[46px]'
+							: 'flex items-center gap-3 min-[450px]:gap-4 h-[46px]'
+					)}
+				>
 					{children}
 				</div>
 			)}
