@@ -10,6 +10,8 @@ import HttpError from '@/lib/error/http'
 import ErrorCode from '@/lib/error/code'
 import userFromStripeEvent from '@/lib/user/fromStripeEvent'
 import updateUser from '@/lib/user/update'
+import amountReceived from '@/lib/user/amountReceived'
+import costThisPeriod from '@/lib/user/costThisPeriod'
 
 export const dynamic = 'force-dynamic'
 
@@ -93,13 +95,9 @@ export const POST = async (request: NextRequest) => {
 				const { amount_received: amountCharged } = event.data
 					.object as Stripe.PaymentIntent
 
-				const amountReceived = Math.floor(
-					amountCharged - (amountCharged * (2.9 / 100) + 30)
-				)
-
 				await updateUser(user.id, {
 					lastCharged: 'now',
-					incrementPurchasedAmount: amountReceived
+					incrementPurchasedAmount: amountReceived(amountCharged)
 				})
 
 				break
