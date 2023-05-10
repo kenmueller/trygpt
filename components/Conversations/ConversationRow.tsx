@@ -205,7 +205,6 @@ const ConversationRow = ({
 							}
 							width={25}
 							height={25}
-							priority
 						/>
 						{conversation.userName} ({conversation.userPoints})
 					</span>

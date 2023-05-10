@@ -28,7 +28,6 @@ const LeaderboardPageUserRow = ({
 					referrerPolicy={user.photo ? 'no-referrer' : undefined}
 					width={30}
 					height={30}
-					priority
 				/>
 				{user.name}
 			</span>

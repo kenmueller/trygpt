@@ -45,7 +45,6 @@ const SearchConversationsPageSearchResult = ({
 						referrerPolicy={conversation.userPhoto ? 'no-referrer' : undefined}
 						width={25}
 						height={25}
-						priority
 					/>
 					{conversation.userName}
 				</span>
