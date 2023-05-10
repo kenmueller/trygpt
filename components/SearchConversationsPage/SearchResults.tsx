@@ -12,6 +12,7 @@ const SearchConversationsPageSearchResults = ({
 	className?: string
 }) => {
 	const searchResults = useRecoilValue(conversationsSearchResultState)
+	if (!searchResults) throw new Error('Missing searchResults')
 
 	return (
 		<div
@@ -20,9 +21,15 @@ const SearchConversationsPageSearchResults = ({
 				className
 			)}
 		>
-			{searchResults?.map(conversation => (
-				<SearchResult key={conversation.id} conversation={conversation} />
-			))}
+			{searchResults.length ? (
+				searchResults.map(conversation => (
+					<SearchResult key={conversation.id} conversation={conversation} />
+				))
+			) : (
+				<p className="text-center font-bold text-white text-opacity-50">
+					No conversations
+				</p>
+			)}
 		</div>
 	)
 }
