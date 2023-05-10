@@ -94,7 +94,7 @@ const ProfilePage = async () => {
 				{!user.paymentMethod ? (
 					<PurchaseButton className="flex flex-col justify-center items-center w-60 h-10 font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70" />
 				) : (
-					<div className="flex flex-col w-550:flex-row items-center gap-4">
+					<div className="flex flex-col min-[550px]:flex-row items-center gap-4">
 						<UpdatePaymentMethodButton className="flex flex-col justify-center items-center w-60 h-10 font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70" />
 						<RemovePaymentMethodButton
 							className="flex flex-col justify-center items-center w-60 h-10 font-bold bg-red-500 rounded-lg transition-opacity ease-linear hover:opacity-70"

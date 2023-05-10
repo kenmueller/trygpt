@@ -2,7 +2,7 @@
 	@apply w-[1500px] h-max overflow-visible;
 
 	> .message {
-		@apply pr-2 w-700:pr-4;
+		@apply pr-2 min-[700px]:pr-4;
 
 		> .content {
 			@apply min-h-[auto];

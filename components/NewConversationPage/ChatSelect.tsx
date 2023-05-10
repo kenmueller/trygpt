@@ -56,7 +56,7 @@ const NewConversationChatSelect = () => {
 				href="/chats/new"
 			>
 				<FontAwesomeIcon icon={faPlus} />
-				<span className="hidden w-450:inline">New</span>
+				<span className="hidden min-[450px]:inline">New</span>
 			</Link>
 		</div>
 	)

@@ -62,7 +62,7 @@ const ChatInputScreenshotButton = ({ chat }: { chat: Chat }) => {
 
 	return (
 		<button
-			className="text-xl w-450:text-2xl text-sky-500 transition-colors ease-linear hover:text-opacity-70 disabled:text-opacity-50"
+			className="text-xl min-[450px]:text-2xl text-sky-500 transition-colors ease-linear hover:text-opacity-70 disabled:text-opacity-50"
 			aria-label="Capture a full-size screenshot"
 			data-balloon-pos="up-left"
 			disabled={isLoading}

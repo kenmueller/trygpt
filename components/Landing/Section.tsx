@@ -15,17 +15,17 @@ const LandingPageSection = ({
 	imageAlt: string
 }) => (
 	<section
-		className="flex items-stretch w-1000:items-center gap-8 max-w-[1800px] w-[95%] flex-col w-1000:flex-row w-1000:even:flex-row-reverse"
+		className="flex items-stretch min-[1000px]:items-center gap-8 max-w-[1800px] w-[95%] flex-col min-[1000px]:flex-row min-[1000px]:even:flex-row-reverse"
 		id={id}
 	>
 		<article className="grow-[1] basis-0">
-			<h2 className="text-2xl w-1500:text-4xl font-extrabold [&_strong]:text-[#24e098] [&_strong.bad]:text-red-500 [&_br]:content-[''] [&_br]:block [&_br]:mt-4">
+			<h2 className="text-2xl min-[1500px]:text-4xl font-extrabold [&_strong]:text-[#24e098] [&_strong.bad]:text-red-500 [&_br]:content-[''] [&_br]:block [&_br]:mt-4">
 				{title}
 			</h2>
-			<p className="mt-8 text-lg w-1500:text-xl">{description}</p>
+			<p className="mt-8 text-lg min-[1500px]:text-xl">{description}</p>
 		</article>
 		<Image
-			className="grow-[1.5] w-1500:grow-[1] basis-0 w-full w-1000:w-0 h-auto rounded-2xl shadow-lg"
+			className="grow-[1.5] min-[1500px]:grow-[1] basis-0 w-full min-[1000px]:w-0 h-auto rounded-2xl shadow-lg"
 			src={image}
 			alt={imageAlt}
 		/>

@@ -11,7 +11,7 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
 	const chats = user && chatsFromUserId(user.id)
 
 	return (
-		<div className="grid grid-rows-[auto_1fr] w-1000:grid-rows-none w-1000:grid-cols-[auto_1fr] relative z-0 h-full">
+		<div className="grid grid-rows-[auto_1fr] min-[1000px]:grid-rows-none min-[1000px]:grid-cols-[auto_1fr] relative z-0 h-full">
 			<SetDashboardLayoutState chats={chats} />
 			<Sidebar chats={chats} />
 			{children}

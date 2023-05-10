@@ -5,7 +5,7 @@ import chatImage from '@/assets/chat.png'
 
 const LandingPageHeader = () => (
 	<header className="max-w-[1000px] w-[95%] mx-auto pt-4 pb-8">
-		<h1 className="text-center text-4xl w-450:text-5xl font-black [&_strong]:text-[#24e098]">
+		<h1 className="text-center text-4xl min-[450px]:text-5xl font-black [&_strong]:text-[#24e098]">
 			ChatGPT <strong>4</strong> for <strong>$1</strong>
 		</h1>
 		<p className="mt-4 text-center">

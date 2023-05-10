@@ -5,15 +5,6 @@ module.exports = {
 		'./components/**/*.{js,ts,jsx,tsx,mdx,css,scss}'
 	],
 	theme: {
-		screens: {
-			'w-380': '380px',
-			'w-450': '450px',
-			'w-550': '550px',
-			'w-700': '700px',
-			'w-900': '900px',
-			'w-1000': '1000px',
-			'w-1500': '1500px'
-		},
 		extend: {}
 	},
 	plugins: []

@@ -28,7 +28,7 @@ const DashboardNav = ({
 	}, [setIsSidebarShowing])
 
 	return (
-		<nav className="flex justify-between items-center w-screen w-1000:hidden">
+		<nav className="flex justify-between items-center w-screen min-[1000px]:hidden">
 			<button
 				className="shrink-0 px-4 py-2 text-xl transition-opacity ease-linear hover:opacity-70"
 				aria-label="Show sidebar"

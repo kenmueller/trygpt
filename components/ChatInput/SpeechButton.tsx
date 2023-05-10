@@ -147,7 +147,7 @@ const ChatInputSpeechButton = ({
 	return (
 		<button
 			className={cx(
-				'text-xl w-450:text-2xl transition-colors ease-linear hover:text-opacity-70 disabled:text-opacity-50',
+				'text-xl min-[450px]:text-2xl transition-colors ease-linear hover:text-opacity-70 disabled:text-opacity-50',
 				!isStarted ? 'text-sky-500' : 'text-red-500'
 			)}
 			aria-label={!isStarted ? 'Start speaking your messages' : 'Stop speech'}

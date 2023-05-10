@@ -17,7 +17,9 @@ const SidebarContainer = ({
 	const isExpanded = useMediaQuery('(min-width: 1000px)', true)
 
 	return isExpanded ? (
-		<aside className={cx('hidden w-1000:grid', className)}>{children}</aside>
+		<aside className={cx('hidden min-[1000px]:grid', className)}>
+			{children}
+		</aside>
 	) : (
 		createPortal(
 			<CollapsedContainer className={className}>{children}</CollapsedContainer>,
