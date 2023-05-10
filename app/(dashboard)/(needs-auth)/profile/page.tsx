@@ -1,4 +1,8 @@
 import { Suspense } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
 import pageMetadata from '@/lib/metadata/page'
 import userFromRequest from '@/lib/user/fromRequest'
@@ -17,6 +21,7 @@ import RemovePaymentMethodButton from '@/components/Payment/RemovePaymentMethodB
 import PurchaseButton from '@/components/Payment/PurchaseButton'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 import PaymentMethod from '@/components/Profile/PaymentMethod'
+import defaultUserImage from '@/assets/user.png'
 
 export const generateMetadata = () =>
 	pageMetadata({
@@ -49,6 +54,25 @@ const ProfilePage = async () => {
 				<h1 className="text-4xl font-bold border-b-2 border-gray-500">
 					Profile
 				</h1>
+				<Link
+					className="group flex items-center gap-2 text-xl font-bold text-sky-500 transition-opacity ease-linear hover:opacity-70"
+					href={`/users/${encodeURIComponent(user.id)}`}
+				>
+					<Image
+						className="rounded-lg"
+						src={user.photo ?? defaultUserImage}
+						alt={user.name}
+						referrerPolicy={user.photo ? 'no-referrer' : undefined}
+						width={30}
+						height={30}
+						priority
+					/>
+					My Profile Page
+					<FontAwesomeIcon
+						className="transition-transform group-hover:translate-x-1"
+						icon={faArrowRight}
+					/>
+				</Link>
 				<p>Name: {user.name}</p>
 				<p>Email: {user.email}</p>
 				<h2 className="text-2xl font-bold border-b-2 border-gray-500">

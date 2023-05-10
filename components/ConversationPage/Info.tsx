@@ -23,6 +23,7 @@ import alertError from '@/lib/error/alert'
 import defaultUserImage from '@/assets/user.png'
 import { logEvent } from '@/lib/analytics/lazy'
 import ORIGIN from '@/lib/origin'
+import Link from 'next/link'
 
 const ConversationPageInfo = () => {
 	const user = useRecoilValue(userState)
@@ -159,7 +160,10 @@ const ConversationPageInfo = () => {
 				<div className="grow-[1] flex flex-col items-stretch gap-2">
 					<h1>{conversation.title}</h1>
 					<div className="flex flex-col items-start gap-1">
-						<p className="flex items-center gap-2 font-bold text-white text-opacity-50">
+						<Link
+							className="flex items-center gap-2 font-bold text-white text-opacity-50 hover:underline"
+							href={`/users/${encodeURIComponent(conversation.userId)}`}
+						>
 							<Image
 								className="rounded-lg"
 								src={conversation.userPhoto ?? defaultUserImage}
@@ -172,7 +176,7 @@ const ConversationPageInfo = () => {
 								priority
 							/>
 							{conversation.userName} ({conversation.userPoints})
-						</p>
+						</Link>
 						<p className="font-bold text-white text-opacity-50">
 							{conversation.views} view{conversation.views === 1 ? '' : 's'} •{' '}
 							<a className="hover:underline" href="#comments">

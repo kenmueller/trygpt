@@ -253,8 +253,8 @@ const NewConversationPageForm = ({ children }: { children: ReactNode }) => {
 						>
 							{trimmedTitle || 'Title'}
 						</h1>
-						<div className="flex flex-col items-stretch gap-1">
-							<p className="flex items-center gap-2 font-bold text-white text-opacity-50">
+						<div className="flex flex-col items-start gap-1">
+							<p className="flex items-center gap-2 font-bold text-white text-opacity-50 cursor-pointer hover:underline">
 								<Image
 									className="rounded-lg"
 									src={user?.photo ?? defaultUserImage}

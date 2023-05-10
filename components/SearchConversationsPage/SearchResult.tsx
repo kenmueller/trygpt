@@ -1,3 +1,5 @@
+import { useRouter } from 'next/navigation'
+import { MouseEvent, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -11,6 +13,16 @@ const SearchConversationsPageSearchResult = ({
 }: {
 	conversation: ConversationWithUserAndChatData
 }) => {
+	const router = useRouter()
+
+	const visitUserPage = useCallback(
+		(event: MouseEvent) => {
+			event.preventDefault()
+			router.push(`/users/${encodeURIComponent(conversation.userId)}`)
+		},
+		[router, conversation.userId]
+	)
+
 	return (
 		<Link
 			className="group flex flex-col items-stretch gap-2 px-4 py-3 bg-white bg-opacity-5 rounded-xl"
@@ -21,8 +33,11 @@ const SearchConversationsPageSearchResult = ({
 			<span className="text-xl font-bold line-clamp-3 group-hover:underline">
 				{conversation.title}
 			</span>
-			<span className="flex flex-col items-stretch gap-1">
-				<span className="flex items-center gap-2 font-bold text-white text-opacity-50">
+			<span className="flex flex-col items-start gap-1">
+				<span
+					className="flex items-center gap-2 font-bold text-white text-opacity-50 hover:underline"
+					onClick={visitUserPage}
+				>
 					<Image
 						className="rounded-lg"
 						src={conversation.userPhoto ?? defaultUserImage}

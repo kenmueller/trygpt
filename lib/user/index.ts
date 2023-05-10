@@ -34,3 +34,8 @@ export default interface User {
 	/** Milliseconds since epoch. */
 	updated: number
 }
+
+export type PublicUser = Pick<
+	User,
+	'id' | 'photo' | 'name' | 'points' | 'admin' | 'created' | 'updated'
+>

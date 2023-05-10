@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import cx from 'classnames'
+import { useRouter } from 'next/navigation'
 
 import { ConversationWithUserAndChatAndPointData } from '@/lib/conversation'
 import mdToText from '@/lib/md/toText'
@@ -23,6 +24,8 @@ const ConversationRow = ({
 }: {
 	conversation: ConversationWithUserAndChatAndPointData
 }) => {
+	const router = useRouter()
+
 	const user = useRecoilValue(userState)
 	const setConversations = useSetRecoilState(conversationsState)
 
@@ -133,6 +136,14 @@ const ConversationRow = ({
 		[canUpdatePoints, conversation.upvoted, updateConversation, setUpvoted]
 	)
 
+	const visitUserPage = useCallback(
+		(event: MouseEvent) => {
+			event.preventDefault()
+			router.push(`/users/${encodeURIComponent(conversation.userId)}`)
+		},
+		[router, conversation.userId]
+	)
+
 	return (
 		<Link
 			className="group flex items-start gap-4 px-4 py-3 bg-white bg-opacity-5 rounded-xl"
@@ -175,8 +186,11 @@ const ConversationRow = ({
 				<span className="text-xl font-bold line-clamp-3 group-hover:underline">
 					{conversation.title}
 				</span>
-				<span className="flex flex-col items-stretch gap-1">
-					<span className="flex items-center gap-2 font-bold text-white text-opacity-50">
+				<span className="flex flex-col items-start gap-1">
+					<span
+						className="flex items-center gap-2 font-bold text-white text-opacity-50 hover:underline"
+						onClick={visitUserPage}
+					>
 						<Image
 							className="rounded-lg"
 							src={conversation.userPhoto ?? defaultUserImage}
