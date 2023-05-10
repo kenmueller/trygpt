@@ -226,7 +226,7 @@ const NewConversationPageForm = ({ children }: { children: ReactNode }) => {
 				Preview
 			</h2>
 			<div className="flex flex-col items-stretch gap-4 max-w-[1500px] w-[95%] mx-auto">
-				<div className="flex items-start gap-6">
+				<div className="flex items-start gap-3 min-[600px]:gap-6">
 					<div className="shrink-0 flex flex-col items-center pt-1">
 						<button
 							className={cx(
@@ -249,7 +249,10 @@ const NewConversationPageForm = ({ children }: { children: ReactNode }) => {
 					</div>
 					<div className="grow-[1] flex flex-col items-stretch gap-2">
 						<h1
-							className={cx('text-white', !trimmedTitle && 'text-opacity-50')}
+							className={cx(
+								'text-2xl min-[600px]:text-3xl text-white',
+								!trimmedTitle && 'text-opacity-50'
+							)}
 						>
 							{trimmedTitle || 'Title'}
 						</h1>

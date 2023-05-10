@@ -125,7 +125,7 @@ const ConversationPageInfo = () => {
 
 	return (
 		<>
-			<div className="flex items-start gap-6">
+			<div className="flex items-start gap-3 min-[600px]:gap-6">
 				<div className="shrink-0 flex flex-col items-center pt-1">
 					<button
 						className={cx(
@@ -158,7 +158,9 @@ const ConversationPageInfo = () => {
 					</button>
 				</div>
 				<div className="grow-[1] flex flex-col items-stretch gap-2">
-					<h1>{conversation.title}</h1>
+					<h1 className="text-2xl min-[600px]:text-3xl">
+						{conversation.title}
+					</h1>
 					<div className="flex flex-col items-start gap-1">
 						<Link
 							className="flex items-center gap-2 font-bold text-white text-opacity-50 hover:underline"
