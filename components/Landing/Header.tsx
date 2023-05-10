@@ -10,7 +10,8 @@ const LandingPageHeader = () => (
 		</h1>
 		<p className="mt-4 text-center">
 			TryGPT is a <strong>pay-as-you-go</strong> service for{' '}
-			<strong>ChatGPT 4</strong>. Start now for only <strong>$1</strong>.
+			<strong>ChatGPT 4</strong>. Try ChatGPT 3.5 for <strong>free</strong>,
+			then buy ChatGPT 4 for <strong>$1</strong>.
 		</p>
 		<Image
 			className="w-full h-auto mt-8 bg-zinc-800 rounded-2xl shadow-lg"
