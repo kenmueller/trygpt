@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useRecoilValue } from 'recoil'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faRankingStar } from '@fortawesome/free-solid-svg-icons'
 
 import userState from '@/lib/atoms/user'
 import SignInButton from '@/components/SignInButton'
@@ -19,7 +19,7 @@ const ConversationsNav = () => {
 	return (
 		<div className="flex flex-col items-stretch gap-4 max-w-[1500px] w-[95%] mx-auto py-4">
 			<nav className="flex items-center gap-4">
-				<h1 className="shrink-0 flex items-center gap-2 mr-auto w-700:mr-0 text-xl">
+				<h1 className="shrink-0 flex items-center gap-2 mr-auto w-700:mr-0 text-lg w-380:text-xl">
 					<Link className="hover:underline" href="/">
 						TryGPT
 					</Link>
@@ -34,9 +34,18 @@ const ConversationsNav = () => {
 					href="/conversations/new"
 				>
 					<FontAwesomeIcon className="text-xl" icon={faPlus} />
-					<span className="hidden w-380:inline">
-						New<span className="hidden w-900:inline"> Conversation</span>
+					<span className="hidden w-450:inline">
+						New<span className="hidden w-1000:inline"> Conversation</span>
 					</span>
+				</Link>
+				<Link
+					className="shrink-0 flex items-center gap-2 font-bold hover:opacity-70 transition-opacity ease-linear"
+					href="/users"
+				>
+					<FontAwesomeIcon
+						className="text-xl translate-y-[-1.5px]"
+						icon={faRankingStar}
+					/>
 				</Link>
 				{user ? (
 					<Link
@@ -52,7 +61,9 @@ const ConversationsNav = () => {
 							height={30}
 							priority
 						/>
-						<span className="hidden w-900:inline">{user.name}</span>
+						<span className="hidden w-1000:inline">
+							{user.name} ({user.points})
+						</span>
 					</Link>
 				) : (
 					<SignInButton
