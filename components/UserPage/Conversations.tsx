@@ -4,20 +4,30 @@ import { useRecoilValue } from 'recoil'
 
 import publicUserConversationsState from '@/lib/atoms/publicUserConversations'
 import ConversationRow from '@/components/Conversations/ConversationRow'
+import publicUserState from '@/lib/atoms/publicUser'
 
 const UserPageConversations = () => {
+	const publicUser = useRecoilValue(publicUserState)
 	const conversations = useRecoilValue(publicUserConversationsState)
-	if (!conversations) throw new Error('Missing conversations')
+
+	if (!(publicUser && conversations))
+		throw new Error('Missing publicUser or conversations')
 
 	return (
 		<div className="flex flex-col items-stretch gap-4">
-			{conversations.map(conversation => (
-				<ConversationRow
-					key={conversation.id}
-					conversation={conversation}
-					userLink={false}
-				/>
-			))}
+			{conversations.length ? (
+				conversations.map(conversation => (
+					<ConversationRow
+						key={conversation.id}
+						conversation={conversation}
+						userLink={false}
+					/>
+				))
+			) : (
+				<p className="text-center font-bold text-white text-opacity-50">
+					{publicUser.name} has no conversations
+				</p>
+			)}
 		</div>
 	)
 }
