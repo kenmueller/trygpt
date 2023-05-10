@@ -17,6 +17,11 @@ const AdminInfo = async () => {
 		(a, b) => totalCost(b) - totalCost(a)
 	)
 
+	const mostRecentUser = users.reduce(
+		(max, user) => (user.created >= (max?.created ?? 0) ? user : max),
+		(users[0] as User | undefined) ?? null
+	)
+
 	return (
 		<div className={cx('flex flex-col items-stretch gap-4', styles.root)}>
 			<h2>Users</h2>
@@ -30,6 +35,7 @@ const AdminInfo = async () => {
 							<th>Purchased amount</th>
 							<th>Last charged</th>
 							<th>Has payment method</th>
+							<th>Joined</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -38,7 +44,9 @@ const AdminInfo = async () => {
 								key={user.id}
 								className={cx(user.paymentMethod && 'bg-white bg-opacity-10')}
 							>
-								<td>{user.name}</td>
+								<td>
+									{user.name} ({user.points})
+								</td>
 								<td>{user.email}</td>
 								<td>{formatCents(costThisPeriod(user))}</td>
 								<td>{formatCents(user.purchasedAmount)}</td>
@@ -46,11 +54,21 @@ const AdminInfo = async () => {
 									{user.lastCharged ? formatDate(user.lastCharged) : 'Never'}
 								</td>
 								<td>{user.paymentMethod ? 'Yes' : 'No'}</td>
+								<td>{formatDate(user.created)}</td>
 							</tr>
 						))}
 					</tbody>
 				</table>
 			</div>
+			{mostRecentUser && (
+				<p>
+					Most recent user:{' '}
+					<strong>
+						{mostRecentUser.name} ({mostRecentUser.points}) (Joined{' '}
+						{formatDate(mostRecentUser.created)})
+					</strong>
+				</p>
+			)}
 			<p>
 				Total users: <strong>{users.length}</strong>
 			</p>
