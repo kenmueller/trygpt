@@ -20,9 +20,11 @@ import errorFromResponse from '@/lib/error/fromResponse'
 import userState from '@/lib/atoms/user'
 
 const ConversationRow = ({
-	conversation
+	conversation,
+	userLink = true
 }: {
 	conversation: ConversationWithUserAndChatAndPointData
+	userLink?: boolean
 }) => {
 	const router = useRouter()
 
@@ -188,8 +190,11 @@ const ConversationRow = ({
 				</span>
 				<span className="flex flex-col items-start gap-1">
 					<span
-						className="flex items-center gap-2 font-bold text-white text-opacity-50 hover:underline"
-						onClick={visitUserPage}
+						className={cx(
+							'flex items-center gap-2 font-bold text-white text-opacity-50',
+							userLink && 'hover:underline'
+						)}
+						onClick={userLink ? visitUserPage : undefined}
 					>
 						<Image
 							className="rounded-lg"

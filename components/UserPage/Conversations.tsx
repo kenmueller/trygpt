@@ -10,9 +10,14 @@ const UserPageConversations = () => {
 	if (!conversations) throw new Error('Missing conversations')
 
 	return (
-		<div>
+		<div className="flex flex-col items-stretch gap-4">
+			<h2>Conversations</h2>
 			{conversations.map(conversation => (
-				<ConversationRow key={conversation.id} conversation={conversation} />
+				<ConversationRow
+					key={conversation.id}
+					conversation={conversation}
+					userLink={false}
+				/>
 			))}
 		</div>
 	)
