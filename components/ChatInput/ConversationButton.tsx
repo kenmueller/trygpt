@@ -33,7 +33,7 @@ const ChatInputConversationButton = ({ chat }: { chat: Chat }) => {
 	return (
 		<Link
 			className={cx(
-				'pl-1 text-xl w-450:text-2xl text-sky-500 transition-colors ease-linear hover:text-opacity-70',
+				'text-xl w-450:text-2xl text-sky-500 transition-colors ease-linear hover:text-opacity-70',
 				disabled && 'pointer-events-none text-opacity-50'
 			)}
 			aria-label={

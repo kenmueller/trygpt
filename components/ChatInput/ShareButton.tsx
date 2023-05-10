@@ -20,7 +20,7 @@ const ChatInputShareButton = ({ chat }: { chat: Chat }) => {
 
 	return (
 		<button
-			className="pl-1 text-xl w-450:text-2xl text-sky-500 transition-colors ease-linear hover:text-opacity-70"
+			className="pl-1 w-450:pl-0 text-xl w-450:text-2xl text-sky-500 transition-colors ease-linear hover:text-opacity-70"
 			aria-label="Copy chat link to clipboard"
 			data-balloon-pos="up-left"
 			onClick={onClick}
