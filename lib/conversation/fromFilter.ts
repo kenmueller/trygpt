@@ -64,6 +64,10 @@ const conversationsFromFilterWithConnection = async (
 			return (await connection.any(sql.unsafe`${SELECT(user)}
 													WHERE conversations.created >= NOW() - INTERVAL '30 DAYS' AND conversations.visible
 													ORDER BY conversations.points DESC`)) as ConversationWithUserAndChatAndPointData[]
+		case 'top-all':
+			return (await connection.any(sql.unsafe`${SELECT(user)}
+													WHERE conversations.visible
+													ORDER BY conversations.points DESC`)) as ConversationWithUserAndChatAndPointData[]
 	}
 }
 
