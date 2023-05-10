@@ -2,23 +2,9 @@ import Link from 'next/link'
 import cx from 'classnames'
 
 import ConversationFilter, {
+	filterName,
 	CONVERSATION_FILTERS
 } from '@/lib/conversation/filter'
-
-const filterName = (filter: ConversationFilter) => {
-	switch (filter) {
-		case 'new-week':
-			return 'New this week'
-		case 'top-day':
-			return 'Top today'
-		case 'top-week':
-			return 'Top this week'
-		case 'top-month':
-			return 'Top this month'
-		case 'top-all':
-			return 'Top of all time'
-	}
-}
 
 const ConversationsPageFilterSelect = ({
 	filter

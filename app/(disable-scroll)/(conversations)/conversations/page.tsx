@@ -2,7 +2,8 @@ import { Suspense } from 'react'
 import { redirect } from 'next/navigation'
 
 import ConversationFilter, {
-	CONVERSATION_FILTERS
+	CONVERSATION_FILTERS,
+	filterName
 } from '@/lib/conversation/filter'
 import conversationsFromFilter from '@/lib/conversation/fromFilter'
 import pageMetadata from '@/lib/metadata/page'
@@ -13,13 +14,30 @@ import FilterSelect from '@/components/ConversationsPage/FilterSelect'
 import Conversations from '@/components/ConversationsPage/Conversations'
 import userFromRequest from '@/lib/user/fromRequest'
 
-export const generateMetadata = () =>
-	pageMetadata({
-		title: 'Conversations | TryGPT',
+export const generateMetadata = ({
+	searchParams: { filter: encodedFilter }
+}: {
+	searchParams: { filter?: string }
+}) => {
+	const rawFilter = encodedFilter && decodeURIComponent(encodedFilter)
+
+	if (
+		!(
+			rawFilter === undefined ||
+			CONVERSATION_FILTERS.includes(rawFilter as ConversationFilter)
+		)
+	)
+		return {}
+
+	const filter = (rawFilter as ConversationFilter | undefined) ?? 'top-week'
+
+	return pageMetadata({
+		title: `${filterName(filter)} | Conversations | TryGPT`,
 		description:
 			'TryGPT Conversations is a way to share your conversations with ChatGPT with others.',
 		previewTitle: 'Conversations'
 	})
+}
 
 const ConversationsPage = async ({
 	searchParams: { filter: encodedFilter }
