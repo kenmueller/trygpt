@@ -102,7 +102,7 @@ CREATE TABLE IF NOT EXISTS chats (
 	name CHAT_NAME, -- NULL initially. Immediately generate chat name from initial prompt.
 	visible BOOLEAN NOT NULL DEFAULT TRUE,
 	created TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-	updated TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+	updated TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE IF NOT EXISTS chat_messages (
