@@ -13,7 +13,11 @@ const ConversationsPageConversations = () => {
 		<div className="flex flex-col items-stretch gap-4 max-w-[1500px] w-[95%]">
 			{conversations.length ? (
 				conversations.map(conversation => (
-					<ConversationRow key={conversation.id} conversation={conversation} />
+					<ConversationRow
+						key={conversation.id}
+						state={conversationsState}
+						conversation={conversation}
+					/>
 				))
 			) : (
 				<p className="mt-4 text-center font-bold text-white text-opacity-50">

@@ -1,7 +1,7 @@
 'use client'
 
 import { MouseEvent, useCallback } from 'react'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { RecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import Link from 'next/link'
 import Image from 'next/image'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -13,23 +13,24 @@ import { ConversationWithUserAndChatAndPointData } from '@/lib/conversation'
 import mdToText from '@/lib/md/toText'
 import defaultUserImage from '@/assets/user.png'
 import formatDate from '@/lib/date/format'
-import conversationsState from '@/lib/atoms/conversations'
 import alertError from '@/lib/error/alert'
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import errorFromResponse from '@/lib/error/fromResponse'
 import userState from '@/lib/atoms/user'
 
 const ConversationRow = ({
+	state,
 	conversation,
 	userLink = true
 }: {
+	state: RecoilState<ConversationWithUserAndChatAndPointData[] | null>
 	conversation: ConversationWithUserAndChatAndPointData
 	userLink?: boolean
 }) => {
 	const router = useRouter()
 
 	const user = useRecoilValue(userState)
-	const setConversations = useSetRecoilState(conversationsState)
+	const setConversations = useSetRecoilState(state)
 
 	const canUpdatePoints = user && user.id !== conversation.userId
 

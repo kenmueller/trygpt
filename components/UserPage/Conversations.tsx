@@ -19,6 +19,7 @@ const UserPageConversations = () => {
 				conversations.map(conversation => (
 					<ConversationRow
 						key={conversation.id}
+						state={publicUserConversationsState}
 						conversation={conversation}
 						userLink={false}
 					/>
