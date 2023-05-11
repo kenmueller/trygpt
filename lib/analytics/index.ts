@@ -5,7 +5,6 @@ import {
 } from 'firebase/analytics'
 
 import app from '@/lib/firebase'
-import DEV from '@/lib/dev'
 
 const analytics = getAnalytics(app)
 
@@ -26,5 +25,5 @@ export const setScreen = (
 }
 
 export const logEvent = (event: string, params?: Record<string, unknown>) => {
-	_logEvent(analytics, DEV ? `dev_${event}` : event, params)
+	_logEvent(analytics, event, params)
 }
