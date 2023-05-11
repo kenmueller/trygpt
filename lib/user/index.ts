@@ -18,8 +18,8 @@ export default interface User {
 	/** Milliseconds since epoch. */
 	lastCharged: number | null
 
-	requestTokens: number
-	responseTokens: number
+	promptTokens: number
+	completionTokens: number
 
 	/** In cents. */
 	purchasedAmount: number

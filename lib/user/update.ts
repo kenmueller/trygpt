@@ -8,8 +8,8 @@ import ErrorCode from '@/lib/error/code'
 export interface UpdateUserData {
 	paymentMethod?: string | null
 	lastCharged?: 'now'
-	incrementRequestTokens?: number
-	incrementResponseTokens?: number
+	incrementPromptTokens?: number
+	incrementCompletionTokens?: number
 	incrementPurchasedAmount?: number
 	incrementPreviewMessages?: number
 	incrementPoints?: number
@@ -34,8 +34,8 @@ const updateUserWithConnection = async (
 	{
 		paymentMethod,
 		lastCharged,
-		incrementRequestTokens,
-		incrementResponseTokens,
+		incrementPromptTokens,
+		incrementCompletionTokens,
 		incrementPurchasedAmount,
 		incrementPreviewMessages,
 		incrementPoints,
@@ -50,10 +50,10 @@ const updateUserWithConnection = async (
 								paymentMethod !== undefined &&
 									sql.unsafe`payment_method = ${paymentMethod}`,
 								lastCharged !== undefined && sql.unsafe`last_charged = NOW()`,
-								incrementRequestTokens !== undefined &&
-									sql.unsafe`prompt_tokens = prompt_tokens + ${incrementRequestTokens}`,
-								incrementResponseTokens !== undefined &&
-									sql.unsafe`completion_tokens = completion_tokens + ${incrementResponseTokens}`,
+								incrementPromptTokens !== undefined &&
+									sql.unsafe`prompt_tokens = prompt_tokens + ${incrementPromptTokens}`,
+								incrementCompletionTokens !== undefined &&
+									sql.unsafe`completion_tokens = completion_tokens + ${incrementCompletionTokens}`,
 								incrementPurchasedAmount !== undefined &&
 									sql.unsafe`purchased_amount = purchased_amount + ${incrementPurchasedAmount}`,
 								incrementPreviewMessages !== undefined &&

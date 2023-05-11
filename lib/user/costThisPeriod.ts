@@ -7,8 +7,8 @@ import {
 /** Can be less than 0 and does not include Stripe fee. */
 export const baseCostThisPeriod = (user: User) => {
 	const totalCost =
-		(user.requestTokens / 1000) * COST_PER_1000_PROMPT_TOKENS +
-		(user.responseTokens / 1000) * COST_PER_1000_COMPLETION_TOKENS
+		(user.promptTokens / 1000) * COST_PER_1000_PROMPT_TOKENS +
+		(user.completionTokens / 1000) * COST_PER_1000_COMPLETION_TOKENS
 
 	return Math.ceil(totalCost - user.purchasedAmount)
 }

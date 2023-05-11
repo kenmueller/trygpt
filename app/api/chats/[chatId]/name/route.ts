@@ -79,7 +79,7 @@ export const PATCH = async (
 
 		switch (data.type) {
 			case 'prompt': {
-				const requestMessages: ChatCompletionMessage[] = [
+				const promptMessages: ChatCompletionMessage[] = [
 					...systemMessages,
 					{
 						role: 'user',
@@ -87,7 +87,7 @@ export const PATCH = async (
 					}
 				]
 
-				const chatCompletion = createChatCompletion(requestMessages, preview)
+				const chatCompletion = createChatCompletion(promptMessages, preview)
 
 				let responseText = ''
 
@@ -118,8 +118,8 @@ export const PATCH = async (
 							if (!preview)
 								promises.push(
 									updateUser(user.id, {
-										incrementRequestTokens: getTokens(requestMessages),
-										incrementResponseTokens: getTokens([responseMessage])
+										incrementPromptTokens: getTokens(promptMessages),
+										incrementCompletionTokens: getTokens([responseMessage])
 									})
 								)
 

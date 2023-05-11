@@ -100,7 +100,7 @@ export const POST = async (
 			({ role, text }) => ({ chatId, role, text })
 		)
 
-		const requestMessages = [
+		const promptMessages = [
 			...systemMessages,
 			...previousMessages,
 			...newMessages
@@ -114,7 +114,7 @@ export const POST = async (
 				incrementPreviewMessages: 1
 			})
 
-		const chatCompletion = createChatCompletion(requestMessages, preview)
+		const chatCompletion = createChatCompletion(promptMessages, preview)
 
 		let responseText = ''
 
@@ -130,24 +130,22 @@ export const POST = async (
 						return
 					}
 
-					const responseMessage: CreateChatMessageData = {
+					const completionMessage: CreateChatMessageData = {
 						chatId,
 						role: 'assistant',
 						text: responseText
 					}
 
 					const promises = [
-						createChatMessages([responseMessage]),
-						updateChat(chatId, {
-							updated: 'now'
-						})
+						createChatMessages([completionMessage]),
+						updateChat(chatId, { updated: 'now' })
 					]
 
 					if (!preview)
 						promises.push(
 							updateUser(user.id, {
-								incrementRequestTokens: getTokens(requestMessages),
-								incrementResponseTokens: getTokens([responseMessage])
+								incrementPromptTokens: getTokens(promptMessages),
+								incrementCompletionTokens: getTokens([completionMessage])
 							})
 						)
 
