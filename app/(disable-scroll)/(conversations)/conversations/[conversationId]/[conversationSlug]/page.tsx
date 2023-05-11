@@ -29,7 +29,9 @@ export const generateMetadata = async ({
 	if (!conversation) return {}
 
 	return pageMetadata({
-		title: `${conversation.title} | Conversations | TryGPT`,
+		title: `${
+			conversation.title || conversation.chatName || 'Untitled'
+		} | Conversations | TryGPT`,
 		description: [
 			[
 				`${conversation.points} point${conversation.points === 1 ? '' : 's'}`,
@@ -39,12 +41,12 @@ export const generateMetadata = async ({
 				}`,
 				formatDate(conversation.created)
 			].join(' • '),
-			conversation.chatName,
+			conversation.title ? conversation.chatName || 'Untitled' : null,
 			conversation.text && truncate(mdToText(conversation.text), 300)
 		]
 			.filter(Boolean)
 			.join(' | '),
-		previewTitle: conversation.title
+		previewTitle: conversation.title || conversation.chatName || 'Untitled'
 	})
 }
 

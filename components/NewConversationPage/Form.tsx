@@ -56,7 +56,7 @@ const NewConversationPageForm = ({ children }: { children: ReactNode }) => {
 	const trimmedText = text.trim()
 
 	const [isLoading, setIsLoading] = useState(false)
-	const disabled = !(user && trimmedTitle && chat)
+	const disabled = !(user && chat)
 
 	const previewUser = useMemo(
 		() => chat && { photo: chat.userPhoto, name: chat.userName },
@@ -208,14 +208,14 @@ const NewConversationPageForm = ({ children }: { children: ReactNode }) => {
 				<TextAreaAutosize
 					ref={titleInput}
 					className="h-[46px] overflow-hidden resize-none px-4 py-[0.7rem] bg-white bg-opacity-10 rounded-lg outline-none placeholder:text-white placeholder:opacity-50"
-					placeholder="Title"
+					placeholder="Title (optional)"
 					maxLength={150}
 					value={title}
 					onChange={onTitleChange}
 				/>
 				<TextAreaAutosize
 					className="h-[93.2px] overflow-hidden resize-none px-4 py-[0.7rem] bg-white bg-opacity-10 rounded-lg outline-none placeholder:text-white placeholder:opacity-50"
-					placeholder="Description"
+					placeholder="Description (optional)"
 					minRows={3}
 					value={text}
 					onChange={onTextChange}
@@ -251,10 +251,10 @@ const NewConversationPageForm = ({ children }: { children: ReactNode }) => {
 						<h1
 							className={cx(
 								'text-2xl min-[600px]:text-3xl text-white',
-								!trimmedTitle && 'text-opacity-50'
+								!(trimmedTitle || chat?.name) && 'text-opacity-50'
 							)}
 						>
-							{trimmedTitle || 'Title'}
+							{trimmedTitle || chat?.name || 'Title'}
 						</h1>
 						<div className="flex flex-col items-start gap-1">
 							<p className="flex items-center gap-2 font-bold text-white text-opacity-50 cursor-pointer hover:underline">
@@ -290,6 +290,7 @@ const NewConversationPageForm = ({ children }: { children: ReactNode }) => {
 					)}
 				{chat && messages && previewUser && (
 					<ChatPreview
+						title={trimmedTitle}
 						chat={chat}
 						user={previewUser}
 						messages={messages}

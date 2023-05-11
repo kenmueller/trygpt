@@ -38,7 +38,7 @@ const ConversationComments = () => {
 				.NEXT_PUBLIC_DISQUS_HOST!}/conversations/${encodeURIComponent(
 				conversation.id
 			)}/${encodeURIComponent(conversation.slug)}`,
-			title: conversation.title,
+			title: conversation.title || conversation.chatName || 'Untitled',
 			onNewComment: () => {
 				setConversation(
 					conversation =>
@@ -55,6 +55,7 @@ const ConversationComments = () => {
 			conversation.id,
 			conversation.slug,
 			conversation.title,
+			conversation.chatName,
 			setConversation,
 			updateComments
 		]

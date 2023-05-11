@@ -159,7 +159,7 @@ const ConversationPageInfo = () => {
 				</div>
 				<div className="grow-[1] flex flex-col items-stretch gap-2">
 					<h1 className="text-2xl min-[600px]:text-3xl">
-						{conversation.title}
+						{conversation.title || conversation.chatName || 'Untitled'}
 					</h1>
 					<div className="flex flex-col items-start gap-1">
 						<Link

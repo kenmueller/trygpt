@@ -25,18 +25,20 @@ const LinkWithNewTab = ({
 	)
 
 const ConversationChatPreview = ({
+	title,
 	chat,
 	user,
 	messages,
 	continueInNewTab = false
 }: {
+	title: string
 	chat: Pick<Chat, 'id' | 'name'>
 	user: Pick<User, 'photo' | 'name'>
 	messages: ChatMessage[]
 	continueInNewTab?: boolean
 }) => (
 	<div className="flex flex-col items-stretch gap-4">
-		<h3>{chat.name}</h3>
+		{title && <h3>{chat.name || 'Untitled'}</h3>}
 		<div className="border border-white border-opacity-50">
 			{messages.map(message => (
 				<Message key={message.id} user={user} message={message} />

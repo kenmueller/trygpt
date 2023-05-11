@@ -24,7 +24,14 @@ const ConversationPageChatPreview = () => {
 		[conversation]
 	)
 
-	return <ChatPreview chat={chat} user={user} messages={messages} />
+	return (
+		<ChatPreview
+			title={conversation.title}
+			chat={chat}
+			user={user}
+			messages={messages}
+		/>
+	)
 }
 
 export default ConversationPageChatPreview

@@ -32,7 +32,6 @@ export const POST = async (request: NextRequest) => {
 				typeof data.chatId === 'string' &&
 				data.chatId &&
 				typeof data.title === 'string' &&
-				data.title &&
 				typeof data.text === 'string'
 			)
 		)
@@ -51,9 +50,9 @@ export const POST = async (request: NextRequest) => {
 				'This chat has already been posted as a conversation'
 			)
 
-		data.title = truncate(data.title, 150)
+		data.title = data.title && truncate(data.title, 150)
 
-		const { id, slug } = await createConversation(user, data)
+		const { id, slug } = await createConversation(user, data, chat)
 		const conversation = await conversationFromIdWithoutPointData(id)
 
 		if (!conversation)

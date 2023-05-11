@@ -21,7 +21,7 @@ export interface ConversationWithUserData extends Conversation {
 }
 
 export interface ConversationWithChatData extends Conversation {
-	chatName: string
+	chatName: string | null
 }
 
 export interface ConversationWithPointData extends Conversation {
