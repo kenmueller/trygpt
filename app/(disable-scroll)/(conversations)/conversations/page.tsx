@@ -7,11 +7,11 @@ import ConversationFilter, {
 } from '@/lib/conversation/filter'
 import conversationsFromFilter from '@/lib/conversation/fromFilter'
 import pageMetadata from '@/lib/metadata/page'
-import SetConversationsPageState from '@/components/ConversationsPage/SetState'
+import SetConversationsPageState from './SetState'
 import Await from '@/components/Await'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
-import FilterSelect from '@/components/ConversationsPage/FilterSelect'
-import Conversations from '@/components/ConversationsPage/Conversations'
+import FilterSelect from './FilterSelect'
+import Conversations from './Conversations'
 import userFromRequest from '@/lib/user/fromRequest'
 
 export const generateMetadata = ({

@@ -1,8 +1,8 @@
 import { ReactNode } from 'react'
 
 import pageMetadata from '@/lib/metadata/page'
-import Nav from '@/components/Conversations/Nav'
-import SetConversationsLayoutState from '@/components/ConversationsLayout/SetState'
+import Nav from '@/components/Conversation/Nav'
+import SetConversationsLayoutState from './SetState'
 
 export const generateMetadata = () =>
 	pageMetadata({

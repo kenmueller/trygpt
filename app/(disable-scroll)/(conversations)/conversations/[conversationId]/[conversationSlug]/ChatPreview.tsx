@@ -3,7 +3,7 @@
 import { useMemo } from 'react'
 import { useRecoilValue } from 'recoil'
 
-import ChatPreview from '@/components/Conversations/ChatPreview'
+import ChatPreview from '@/components/Conversation/ChatPreview'
 import conversationChatMessagesState from '@/lib/atoms/conversationChatMessages'
 import conversationState from '@/lib/atoms/conversation'
 

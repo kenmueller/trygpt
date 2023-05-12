@@ -8,11 +8,11 @@ import ChatMessages from '@/components/Chat/Messages'
 import ChatMessagesContainer from '@/components/Chat/MessagesContainer'
 import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
 import Await from '@/components/Await'
-import SetChatPageState from '@/components/ChatPage/SetState'
+import SetChatPageState from './SetState'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
-import ChatPageNav from '@/components/ChatPage/Nav'
-import ChatPageContainer from '@/components/ChatPage/Container'
-import ChatPagePurchaseButton from '@/components/ChatPage/PurchaseButton'
+import ChatPageNav from './Nav'
+import ChatPageContainer from './Container'
+import ChatPagePurchaseButton from './PurchaseButton'
 
 export const generateMetadata = async ({
 	params: { chatId: encodedChatId }

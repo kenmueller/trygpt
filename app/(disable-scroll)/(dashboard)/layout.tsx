@@ -1,9 +1,9 @@
 import { ReactNode } from 'react'
 
-import Sidebar from '@/components/Sidebar'
+import Sidebar from '@/components/Dashboard/Sidebar'
 import userFromRequest from '@/lib/user/fromRequest'
 import chatsFromUserId from '@/lib/chat/fromUserId'
-import SetDashboardLayoutState from '@/components/DashboardLayout/SetState'
+import SetDashboardLayoutState from './SetState'
 
 const DashboardLayout = async ({ children }: { children: ReactNode }) => {
 	const user = await userFromRequest()

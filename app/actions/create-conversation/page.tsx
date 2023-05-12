@@ -4,7 +4,7 @@ import Link from 'next/link'
 import userFromRequest from '@/lib/user/fromRequest'
 import pageMetadata from '@/lib/metadata/page'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
-import AdminInfo from './Info'
+import AdminInfo from '@/components/AdminPage/Info'
 
 export const generateMetadata = () =>
 	pageMetadata({

@@ -114,7 +114,11 @@ export const POST = async (
 				incrementPreviewMessages: 1
 			})
 
-		const chatCompletion = createChatCompletion(promptMessages, preview)
+		const chatCompletion = createChatCompletion({
+			messages: promptMessages,
+			preview,
+			stream: true
+		})
 
 		let responseText = ''
 

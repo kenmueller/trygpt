@@ -1,13 +1,13 @@
 import { Suspense } from 'react'
 
 import Await from '@/components/Await'
-import NewConversationPageForm from '@/components/NewConversationPage/Form'
-import SetNewConversationPageState from '@/components/NewConversationPage/SetState'
+import NewConversationPageForm from './Form'
+import SetNewConversationPageState from './SetState'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 import chatsFromUserId from '@/lib/chat/fromUserId'
 import pageMetadata from '@/lib/metadata/page'
 import userFromRequest from '@/lib/user/fromRequest'
-import ChatSelect from '@/components/NewConversationPage/ChatSelect'
+import ChatSelect from './ChatSelect'
 
 export const generateMetadata = () =>
 	pageMetadata({

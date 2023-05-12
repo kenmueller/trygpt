@@ -3,7 +3,7 @@
 import { useRecoilValue } from 'recoil'
 
 import publicUserConversationsState from '@/lib/atoms/publicUserConversations'
-import ConversationRow from '@/components/Conversations/ConversationRow'
+import ConversationRow from '@/components/Conversation/ConversationRow'
 import publicUserState from '@/lib/atoms/publicUser'
 
 const UserPageConversations = () => {

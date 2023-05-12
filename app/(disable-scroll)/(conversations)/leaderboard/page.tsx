@@ -5,8 +5,8 @@ import { Suspense } from 'react'
 
 import pageMetadata from '@/lib/metadata/page'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
-import SetLeaderboardPageState from '@/components/LeaderboardPage/SetState'
-import Users from '@/components/LeaderboardPage/Users'
+import SetLeaderboardPageState from './SetState'
+import Users from './Users'
 import Await from '@/components/Await'
 import allPublicUsers from '@/lib/user/allPublic'
 

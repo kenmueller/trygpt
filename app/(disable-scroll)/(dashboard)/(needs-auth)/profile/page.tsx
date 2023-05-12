@@ -20,7 +20,7 @@ import UpdatePaymentMethodButton from '@/components/Payment/UpdatePaymentMethodB
 import RemovePaymentMethodButton from '@/components/Payment/RemovePaymentMethodButton'
 import PurchaseButton from '@/components/Payment/PurchaseButton'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
-import PaymentMethod from '@/components/Profile/PaymentMethod'
+import PaymentMethod from './PaymentMethod'
 import defaultUserImage from '@/assets/user.png'
 
 export const generateMetadata = () =>

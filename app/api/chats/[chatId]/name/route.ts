@@ -87,7 +87,11 @@ export const PATCH = async (
 					}
 				]
 
-				const chatCompletion = createChatCompletion(promptMessages, preview)
+				const chatCompletion = createChatCompletion({
+					messages: promptMessages,
+					preview,
+					stream: true
+				})
 
 				let responseText = ''
 

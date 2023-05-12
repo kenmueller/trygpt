@@ -2,7 +2,7 @@ import pageMetadata from '@/lib/metadata/page'
 import userFromRequest from '@/lib/user/fromRequest'
 import NewChatInput from '@/components/ChatInput/New'
 import Nav from '@/components/Dashboard/Nav'
-import NewChatPageInfo from '@/components/NewChatPage/Info'
+import NewChatPageInfo from './Info'
 
 export const generateMetadata = () =>
 	pageMetadata({

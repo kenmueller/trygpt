@@ -2,10 +2,10 @@ import { redirect } from 'next/navigation'
 
 import userFromRequest from '@/lib/user/fromRequest'
 import pageMetadata from '@/lib/metadata/page'
-import Nav from '@/components/Landing/Nav'
-import Header from '@/components/Landing/Header'
-import Sections from '@/components/Landing/Sections'
-import Footer from '@/components/Landing/Footer'
+import Nav from './Nav'
+import Header from './Header'
+import Sections from './Sections'
+import Footer from './Footer'
 
 export const generateMetadata = () =>
 	pageMetadata({

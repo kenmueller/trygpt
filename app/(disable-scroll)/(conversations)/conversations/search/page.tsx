@@ -3,10 +3,10 @@ import { redirect } from 'next/navigation'
 
 import conversationsFromQuery from '@/lib/conversation/fromQuery'
 import pageMetadata from '@/lib/metadata/page'
-import SetSearchConversationsPageState from '@/components/SearchConversationsPage/SetState'
+import SetSearchConversationsPageState from './SetState'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 import Await from '@/components/Await'
-import SearchResults from '@/components/SearchConversationsPage/SearchResults'
+import SearchResults from './SearchResults'
 
 export const generateMetadata = ({
 	searchParams: { q: encodedQuery }
