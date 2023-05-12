@@ -9,6 +9,7 @@ export interface UpdateConversationData {
 	incrementViews?: number
 	comments?: number
 	updated?: 'now'
+	visible?: false
 }
 
 const updateConversation = (
@@ -30,7 +31,8 @@ const updateConversationWithConnection = async (
 		incrementPoints,
 		incrementViews,
 		comments,
-		updated
+		updated,
+		visible
 	}: UpdateConversationData,
 	connection: DatabasePoolConnection
 ) => {
@@ -47,7 +49,8 @@ const updateConversationWithConnection = async (
 								incrementViews !== undefined &&
 									sql.unsafe`views = views + ${incrementViews}`,
 								comments !== undefined && sql.unsafe`comments = ${comments}`,
-								updated !== undefined && sql.unsafe`updated = NOW()`
+								updated !== undefined && sql.unsafe`updated = NOW()`,
+								visible !== undefined && sql.unsafe`visible = ${visible}`
 							].filter(Boolean) as ReturnType<typeof sql.unsafe>[],
 							sql.fragment`, `
 						)}
