@@ -140,6 +140,15 @@ const ConversationPageInfo = () => {
 
 	const deleteConversation = useCallback(async () => {
 		try {
+			if (
+				!confirm(
+					`Are you sure you want to permanently delete "${
+						conversation.title || conversation.chatName || 'Untitled'
+					}"?`
+				)
+			)
+				return
+
 			setIsDeleteLoading(true)
 
 			await toast.promise(_deleteConversation(conversation.id), {
@@ -153,7 +162,7 @@ const ConversationPageInfo = () => {
 			setIsDeleteLoading(false)
 			alertError(errorFromUnknown(unknownError))
 		}
-	}, [router, conversation.id])
+	}, [router, conversation.id, conversation.title, conversation.chatName])
 
 	return (
 		<>

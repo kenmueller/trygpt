@@ -23,7 +23,7 @@ const chatFromIdWithConnection = async (
 					   chats.created, chats.updated
 				   FROM chats
 				   LEFT JOIN users ON users.id = chats.user_id
-			       LEFT JOIN conversations ON conversations.chat_id = chats.id
+			       LEFT JOIN conversations ON conversations.chat_id = chats.id AND conversations.visible
 				   WHERE chats.id = ${id} AND chats.visible`
 	)) as ChatWithUserData[]
 
