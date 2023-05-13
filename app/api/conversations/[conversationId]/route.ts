@@ -6,6 +6,7 @@ import ErrorCode from '@/lib/error/code'
 import conversationFromIdWithoutPointData from '@/lib/conversation/fromIdWithoutPointData'
 import updateConversation from '@/lib/conversation/update'
 import errorFromUnknown from '@/lib/error/fromUnknown'
+import { conversationsIndex } from '@/lib/algolia'
 
 export const dynamic = 'force-dynamic'
 
@@ -40,6 +41,8 @@ export const DELETE = async (
 			visible: false,
 			updated: 'now'
 		})
+
+		await conversationsIndex.deleteObject(conversation.id)
 
 		return new NextResponse('')
 	} catch (unknownError) {
