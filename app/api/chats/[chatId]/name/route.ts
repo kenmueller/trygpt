@@ -17,17 +17,11 @@ import updateUser from '@/lib/user/update'
 import getTokens from '@/lib/getTokens'
 import formatCents from '@/lib/cents/format'
 import truncate from '@/lib/truncate'
+import { namePromptMessages } from '@/lib/promptMessages'
 
 export const dynamic = 'force-dynamic'
 
 const encoder = new TextEncoder()
-
-const systemMessages: ChatCompletionMessage[] = [
-	{
-		role: 'system',
-		text: 'Do not surround your response in quotes. Write a maximum of 15 words.'
-	}
-]
 
 interface UpdateChatNameData {
 	type: 'prompt' | 'value'
@@ -79,13 +73,9 @@ export const PATCH = async (
 
 		switch (data.type) {
 			case 'prompt': {
-				const promptMessages: ChatCompletionMessage[] = [
-					...systemMessages,
-					{
-						role: 'user',
-						text: `Generate a short title for a conversation starting with this prompt: \`\`\`${data.value}\`\`\``
-					}
-				]
+				const promptMessages: ChatCompletionMessage[] = namePromptMessages(
+					data.value
+				)
 
 				const chatCompletion = createChatCompletion({
 					messages: promptMessages,

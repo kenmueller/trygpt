@@ -19,6 +19,7 @@ import updateUser from '@/lib/user/update'
 import getTokens from '@/lib/getTokens'
 import updateChat from '@/lib/chat/update'
 import formatCents from '@/lib/cents/format'
+import { messagePromptMessages } from '@/lib/promptMessages'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,18 +37,6 @@ export const GET = async (
 }
 
 const encoder = new TextEncoder()
-
-const systemMessages: ChatCompletionMessage[] = [
-	{
-		role: 'system',
-		text: '\
-Surround code in backticks and provide a language. \
-Surround display mode math in \\[ and \\] and inline math in \\( and \\) and format as LaTeX. \
-Format everything else as markdown. \
-If asked to generate an image, output a markdown image with the URL "https://source.unsplash.com/1600x900/?{query}" with a detailed query and do not surround it in a code block.\
-'
-	}
-]
 
 export const POST = async (
 	request: NextRequest,
@@ -100,11 +89,10 @@ export const POST = async (
 			({ role, text }) => ({ chatId, role, text })
 		)
 
-		const promptMessages = [
-			...systemMessages,
+		const promptMessages = messagePromptMessages([
 			...previousMessages,
 			...newMessages
-		]
+		])
 
 		await createChatMessages(newMessages)
 

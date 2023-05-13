@@ -23,7 +23,7 @@ export const POST = async (request: NextRequest) => {
 		const user = await userFromRequest()
 		if (!user) throw new HttpError(ErrorCode.Unauthorized, 'Unauthorized')
 
-		const data: CreateConversationData = await request.json()
+		const data: Omit<CreateConversationData, 'chatName'> = await request.json()
 
 		if (
 			!(
@@ -52,7 +52,11 @@ export const POST = async (request: NextRequest) => {
 
 		data.title = data.title && truncate(data.title, 150)
 
-		const { id, slug } = await createConversation(user, data, chat)
+		const { id, slug } = await createConversation(user, {
+			...data,
+			chatName: chat.name
+		})
+
 		const conversation = await conversationFromIdWithoutPointData(id)
 
 		if (!conversation)

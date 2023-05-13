@@ -5,10 +5,10 @@ import { convert as createSlug } from 'url-slug'
 import User from '@/lib/user'
 import { connect } from '@/lib/pool'
 import truncate from '@/lib/truncate'
-import { ChatWithUserData } from '@/lib/chat'
 
 export interface CreateConversationData {
 	chatId: string
+	chatName: string | null
 	title: string
 	text: string
 }
@@ -16,23 +16,21 @@ export interface CreateConversationData {
 const createConversation = (
 	user: User,
 	data: CreateConversationData,
-	chat: ChatWithUserData,
 	connection?: DatabasePoolConnection
 ) =>
 	connection
-		? createConversationWithConnection(user, data, chat, connection)
+		? createConversationWithConnection(user, data, connection)
 		: connect(connection =>
-				createConversationWithConnection(user, data, chat, connection)
+				createConversationWithConnection(user, data, connection)
 		  )
 
 const createConversationWithConnection = async (
 	user: User,
-	{ chatId, title, text }: CreateConversationData,
-	chat: ChatWithUserData,
+	{ chatId, chatName, title, text }: CreateConversationData,
 	connection: DatabasePoolConnection
 ) => {
 	const id = nanoid()
-	const slug = truncate(createSlug(title || chat.name || 'Untitled'), 50)
+	const slug = truncate(createSlug(title || chatName || 'Untitled'), 50)
 
 	await connection.query(
 		sql.unsafe`INSERT INTO

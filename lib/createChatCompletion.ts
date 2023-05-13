@@ -67,7 +67,7 @@ const createChatCompletionStream = async function* (
 			try {
 				const parsed: ParsedDeltaMessage = JSON.parse(message)
 
-				const chunk = parsed.choices[0].delta.content
+				const chunk = parsed.choices[0]?.delta.content
 				if (!chunk) continue
 
 				yield chunk
@@ -79,7 +79,7 @@ const createChatCompletionStream = async function* (
 }
 
 interface ParsedCompleteMessage {
-	choices: [{ text: string }]
+	choices: [{ message: { content?: string } }]
 }
 
 const createChatCompletionWait = async (
@@ -102,7 +102,7 @@ const createChatCompletionWait = async (
 
 	const parsed: ParsedCompleteMessage = await response.json()
 
-	return JSON.stringify(parsed, null, 2)
+	return parsed.choices[0]?.message.content ?? ''
 }
 
 export default createChatCompletion

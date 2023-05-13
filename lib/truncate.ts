@@ -3,10 +3,12 @@ const truncate = <Text extends string | null>(
 	maxLength: number,
 	ellipsis = false
 ) => {
-	if (!text) return null
-	if (!ellipsis) return text.slice(0, maxLength)
+	if (!text) return null as Text
+	if (!ellipsis) return text.slice(0, maxLength) as Text
 
-	return text.length <= maxLength ? text : `${text.slice(0, maxLength - 1)}…`
+	return (
+		text.length <= maxLength ? text : `${text.slice(0, maxLength - 1)}…`
+	) as Text
 }
 
 export default truncate
