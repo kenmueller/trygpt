@@ -39,6 +39,7 @@ const AdminInfo = async () => {
 							<th>Total cost</th>
 							<th>Last charged</th>
 							<th>Has payment method</th>
+							<th>Preview messages</th>
 							<th>Joined</th>
 						</tr>
 					</thead>
@@ -60,6 +61,7 @@ const AdminInfo = async () => {
 									{user.lastCharged ? formatDate(user.lastCharged) : 'Never'}
 								</td>
 								<td>{user.paymentMethod ? 'Yes' : 'No'}</td>
+								<td>{user.previewMessages}</td>
 								<td>{formatDate(user.created)}</td>
 							</tr>
 						))}
