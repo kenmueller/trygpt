@@ -190,13 +190,6 @@ export const POST = async (request: NextRequest) => {
 			...omit(conversation, ['id'])
 		})
 
-		const conversationUrl = new URL(
-			`/conversations/${encodeURIComponent(
-				conversation.id
-			)}/${encodeURIComponent(conversation.slug)}`,
-			ORIGIN
-		)
-
 		const shortenedConversationUrl = new URL(
 			`/c/${encodeURIComponent(conversation.id)}`,
 			ORIGIN
@@ -210,7 +203,11 @@ export const POST = async (request: NextRequest) => {
 			true
 		)}${suffix}`
 
-		return NextResponse.json({ text, conversation: conversationUrl.href })
+		return NextResponse.json({
+			text,
+			conversationId: conversation.id,
+			conversationSlug: conversation.slug
+		})
 	} catch (unknownError) {
 		const { code, message } = errorFromUnknown(unknownError)
 		return new NextResponse(message, { status: code })

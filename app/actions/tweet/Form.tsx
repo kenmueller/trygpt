@@ -19,7 +19,8 @@ import errorFromResponse from '@/lib/error/fromResponse'
 
 interface ResponseValue {
 	text: string
-	conversation: string
+	conversationId: string
+	conversationSlug: string
 }
 
 const TweetActionForm = () => {
@@ -53,9 +54,6 @@ const TweetActionForm = () => {
 				const responseValue: ResponseValue = await response.json()
 
 				setResponseValue(responseValue)
-
-				copy(responseValue.text)
-				toast.success('Copied tweet text to clipboard')
 			} catch (unknownError) {
 				alertError(errorFromUnknown(unknownError))
 			} finally {
@@ -78,6 +76,13 @@ const TweetActionForm = () => {
 		},
 		[setPrompt]
 	)
+
+	const copyText = useCallback(() => {
+		if (!responseValue) return
+
+		copy(responseValue.text)
+		toast.success('Copied tweet text to clipboard')
+	}, [responseValue])
 
 	const promptInput = useRef<HTMLTextAreaElement | null>(null)
 
@@ -123,13 +128,23 @@ const TweetActionForm = () => {
 							Tweet Text
 						</h2>
 						<p>{responseValue.text}</p>
-						<a
-							className="max-w-max font-bold text-sky-500 underline transition-opacity ease-linear hover:opacity-70"
-							href={responseValue.conversation}
-							target="_blank"
-						>
-							View Conversation
-						</a>
+						<div className="flex justify-start items-center gap-4">
+							<button
+								className="font-bold text-sky-500 underline transition-opacity ease-linear hover:opacity-70"
+								onClick={copyText}
+							>
+								Copy Text
+							</button>
+							<a
+								className="font-bold text-sky-500 underline transition-opacity ease-linear hover:opacity-70"
+								href={`/conversations/${encodeURIComponent(
+									responseValue.conversationId
+								)}/${encodeURIComponent(responseValue.conversationSlug)}`}
+								target="_blank"
+							>
+								View Conversation
+							</a>
+						</div>
 					</div>
 				</>
 			)}

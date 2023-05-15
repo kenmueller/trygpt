@@ -6,12 +6,12 @@ import TweetActionForm from './Form'
 
 export const generateMetadata = () =>
 	pageMetadata({
-		title: 'Admin | TryGPT',
-		description: 'TryGPT Admin Interface',
-		previewTitle: 'Admin'
+		title: 'Tweet | TryGPT',
+		description: 'TryGPT Tweet Action',
+		previewTitle: 'Tweet'
 	})
 
-const AdminPage = async () => {
+const TweetActionPage = async () => {
 	const user = await userFromRequest()
 
 	if (!user)
@@ -27,4 +27,4 @@ const AdminPage = async () => {
 	return <TweetActionForm />
 }
 
-export default AdminPage
+export default TweetActionPage
