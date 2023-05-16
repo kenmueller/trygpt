@@ -11,6 +11,7 @@ import {
 import TextAreaAutosize from 'react-textarea-autosize'
 import copy from 'copy-to-clipboard'
 import { toast } from 'react-toastify'
+import cx from 'classnames'
 
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 import alertError from '@/lib/error/alert'
@@ -99,7 +100,10 @@ const TweetActionForm = () => {
 				<div className="flex justify-between items-center">
 					<h1 className="text-2xl font-bold">Get Tweet Text</h1>
 					<button
-						className="flex flex-col justify-center items-center w-[87.75px] h-[40px] font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70 disabled:opacity-50"
+						className={cx(
+							'flex flex-col justify-center items-center w-[87.75px] h-[40px] font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70 disabled:opacity-50',
+							isLoading && 'pointer-events-none'
+						)}
 						disabled={disabled}
 					>
 						{isLoading ? <ThreeDotsLoader /> : 'Submit'}

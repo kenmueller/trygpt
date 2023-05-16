@@ -195,11 +195,12 @@ export const POST = async (request: NextRequest) => {
 			ORIGIN
 		)
 
+		const prefix = data.name ? `${data.name} ` : ''
 		const suffix = ` ${shortenedConversationUrl.href}`
 
-		const text = `${truncate(
+		const text = `${prefix}${truncate(
 			mdToText(responseText),
-			TWEET_LENGTH - suffix.length,
+			TWEET_LENGTH - (prefix.length + suffix.length),
 			true
 		)}${suffix}`
 
