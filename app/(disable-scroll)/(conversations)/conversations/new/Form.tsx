@@ -199,7 +199,10 @@ const NewConversationPageForm = ({ children }: { children: ReactNode }) => {
 				<div className="flex justify-between items-center">
 					<h1 className="text-2xl font-bold">New Conversation</h1>
 					<button
-						className="flex flex-col justify-center items-center w-[87.75px] h-[40px] font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70 disabled:opacity-50"
+						className={cx(
+							'flex flex-col justify-center items-center w-[87.75px] h-[40px] font-bold bg-sky-500 rounded-lg transition-opacity ease-linear hover:opacity-70 disabled:opacity-50',
+							isLoading && 'pointer-events-none'
+						)}
 						disabled={disabled}
 					>
 						{isLoading ? <ThreeDotsLoader /> : 'Submit'}
