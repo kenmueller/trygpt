@@ -1,3 +1,5 @@
+import { Suspense } from 'react'
+
 import pageMetadata from '@/lib/metadata/page'
 import userFromRequest from '@/lib/user/fromRequest'
 import Nav from '@/components/Dashboard/Nav'
@@ -5,6 +7,8 @@ import SetImagesPageState from './SetState'
 import imagesFromUserId from '@/lib/image/fromUserId'
 import Images from './Images'
 import ImagesInput from './Input'
+import ThreeDotsLoader from '@/components/ThreeDotsLoader'
+import Await from '@/components/Await'
 
 export const generateMetadata = () =>
 	pageMetadata({
@@ -25,7 +29,18 @@ const ImagesPage = async () => {
 			<SetImagesPageState images={images} />
 			<Nav>My Images</Nav>
 			<main className="grid grid-rows-[1fr_auto] gap-4 overflow-y-auto">
-				<Images />
+				<Suspense
+					fallback={
+						<div className="flex flex-col overflow-y-auto">
+							<ThreeDotsLoader className="m-auto" />
+						</div>
+					}
+				>
+					{/* @ts-expect-error */}
+					<Await promise={images}>
+						<Images />
+					</Await>
+				</Suspense>
 				<ImagesInput />
 			</main>
 		</>
