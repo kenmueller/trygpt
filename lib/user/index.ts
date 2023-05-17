@@ -25,6 +25,7 @@ export default interface User {
 	purchasedAmount: number
 
 	previewMessages: number
+	previewImages: number
 
 	admin: boolean
 

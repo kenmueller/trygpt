@@ -9,7 +9,7 @@ import userFromRequest from '@/lib/user/fromRequest'
 import {
 	COST_PER_1000_PROMPT_TOKENS,
 	COST_PER_1000_COMPLETION_TOKENS
-} from '@/lib/costPerToken'
+} from '@/lib/cost'
 import costThisPeriod, { baseCostThisPeriod } from '@/lib/user/costThisPeriod'
 import formatDate from '@/lib/date/format'
 import nextMonth from '@/lib/date/nextMonth'

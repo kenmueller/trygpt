@@ -5,7 +5,7 @@ import Section from './Section'
 import {
 	COST_PER_1000_COMPLETION_TOKENS,
 	COST_PER_1000_PROMPT_TOKENS
-} from '@/lib/costPerToken'
+} from '@/lib/cost'
 import formatCents from '@/lib/cents/format'
 import previewMessagesImage from '@/assets/preview-messages.png'
 import initialDollarImage from '@/assets/initial-dollar.png'

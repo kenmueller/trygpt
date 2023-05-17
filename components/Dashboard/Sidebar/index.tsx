@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 import Await from '@/components/Await'
 import Chat from '@/lib/chat'
 import NewChatLink from './NewChatLink'
+import ImagesLink from './ImagesLink'
 import Chats from './Chats'
 import Settings from './Settings'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
@@ -19,6 +20,7 @@ const Sidebar = ({
 			{chatsPromise ? (
 				<>
 					<NewChatLink />
+					<ImagesLink />
 					<Suspense
 						fallback={<ThreeDotsLoader className="!block mx-auto mt-8" />}
 					>

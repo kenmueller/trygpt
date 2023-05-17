@@ -22,6 +22,7 @@ const allUsersWithConnection = async (connection: DatabasePoolConnection) => {
 					   completion_tokens AS "completionTokens",
 					   purchased_amount AS "purchasedAmount",
 					   preview_messages AS "previewMessages",
+					   preview_images AS "previewImages",
 					   admin,
 					   created, updated
 				   FROM users`

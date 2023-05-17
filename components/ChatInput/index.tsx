@@ -383,7 +383,9 @@ const ChatInput = () => {
 			message={
 				previewMessagesRemaining === null
 					? ''
-					: `(${previewMessagesRemaining} free messages remaining)`
+					: `(${previewMessagesRemaining} free message${
+							previewMessagesRemaining === 1 ? '' : 's'
+					  } remaining)`
 			}
 			prompt={prompt}
 			setPrompt={setPrompt}

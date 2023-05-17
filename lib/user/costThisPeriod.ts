@@ -2,7 +2,7 @@ import User from '.'
 import {
 	COST_PER_1000_PROMPT_TOKENS,
 	COST_PER_1000_COMPLETION_TOKENS
-} from '@/lib/costPerToken'
+} from '@/lib/cost'
 
 /** Can be less than 0 and does not include Stripe fee. */
 export const baseCostThisPeriod = (user: User) => {
