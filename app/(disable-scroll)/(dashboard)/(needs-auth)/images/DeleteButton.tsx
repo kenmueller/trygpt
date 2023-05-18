@@ -35,7 +35,11 @@ const ImageCompletionDeleteButton = ({ image }: { image: ImageCompletion }) => {
 	}, [image.id, setImages])
 
 	return (
-		<button onClick={deleteImage}>
+		<button
+			className="text-red-500 transition-colors ease-linear hover:text-opacity-70"
+			disabled={image.loading}
+			onClick={deleteImage}
+		>
 			<FontAwesomeIcon icon={faTrash} />
 		</button>
 	)

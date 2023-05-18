@@ -7,6 +7,7 @@ export default interface ImageCompletion {
 	created: number
 	updated: number
 
+	expanded?: true
 	loading?: true
 	error?: true
 }

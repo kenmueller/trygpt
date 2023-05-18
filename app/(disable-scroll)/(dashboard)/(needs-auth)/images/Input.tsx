@@ -98,6 +98,7 @@ const ImagesInput = () => {
 					prompt,
 					created: Date.now(),
 					updated: Date.now(),
+					expanded: true,
 					loading: true
 				}
 
