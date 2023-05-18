@@ -142,6 +142,10 @@ const ProfilePage = async () => {
 					<strong>1,000 response tokens</strong>.
 				</p>
 				<p>
+					Each <strong>1024x1024</strong> image is{' '}
+					<strong>{formatCents(3)}</strong>.
+				</p>
+				<p>
 					We also charge an{' '}
 					<strong>extra {formatCents(30)} + 2.9% per month</strong> with a{' '}
 					<strong>minimum of {formatCents(50)} per month</strong> (if you've
