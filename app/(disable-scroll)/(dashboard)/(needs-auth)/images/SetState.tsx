@@ -15,7 +15,14 @@ const SetImagesPageState = ({
 
 	useImmediateEffect(() => {
 		setImages(null)
-		images.then(setImages)
+
+		images.then(images => {
+			const expandedImages: ImageCompletion[] = images.map((image, index) =>
+				index === images.length - 1 ? { ...image, expanded: true } : image
+			)
+
+			setImages(expandedImages)
+		})
 	}, [images, setImages])
 
 	return null
