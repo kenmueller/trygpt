@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import { useRecoilValue } from 'recoil'
 
 import imagesState from '@/lib/atoms/images'
@@ -9,8 +10,15 @@ const Images = () => {
 	const images = useRecoilValue(imagesState)
 	if (!images) throw new Error('Missing images')
 
+	const root = useRef<HTMLDivElement | null>(null)
+
+	useEffect(() => {
+		if (!(images && root.current)) return
+		root.current.scrollTop = root.current.scrollHeight
+	}, [images, root])
+
 	return (
-		<div className="flex flex-col overflow-y-auto">
+		<div ref={root} className="flex flex-col overflow-y-auto">
 			{images.map(image => (
 				<ImageMessage key={image.id} image={image} />
 			))}
