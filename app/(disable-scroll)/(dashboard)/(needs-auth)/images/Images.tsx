@@ -10,12 +10,14 @@ const Images = () => {
 	const images = useRecoilValue(imagesState)
 	if (!images) throw new Error('Missing images')
 
+	const lastImage = images.length ? images[images.length - 1] : null
+
 	const root = useRef<HTMLDivElement | null>(null)
 
 	useEffect(() => {
-		if (!(images && root.current)) return
+		if (!(lastImage && root.current)) return
 		root.current.scrollTop = root.current.scrollHeight
-	}, [images, root])
+	}, [lastImage, root])
 
 	return (
 		<div ref={root} className="flex flex-col overflow-y-auto">
