@@ -125,6 +125,8 @@ const ImagesInput = () => {
 						loading: undefined,
 						error: true
 					}))
+
+					throw unknownError
 				}
 			} catch (unknownError) {
 				alertError(errorFromUnknown(unknownError))

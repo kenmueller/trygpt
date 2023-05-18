@@ -3,6 +3,13 @@ import 'server-only'
 if (!process.env.OPENAI_API_KEY) throw new Error('Missing OPENAI_API_KEY')
 
 import errorFromResponse from '@/lib/error/fromResponse'
+import HttpError from '../error/http'
+
+interface ErrorResponse {
+	error: {
+		message: string
+	}
+}
 
 interface ParsedCompleteMessage {
 	data: [{ url: string }]
@@ -22,7 +29,10 @@ const createImageCompletion = async (prompt: string) => {
 		})
 	})
 
-	if (!response.ok) throw await errorFromResponse(response)
+	if (!response.ok) {
+		const errorResponse: ErrorResponse = await response.json()
+		throw new HttpError(response.status, errorResponse.error.message)
+	}
 
 	const parsed: ParsedCompleteMessage = await response.json()
 
