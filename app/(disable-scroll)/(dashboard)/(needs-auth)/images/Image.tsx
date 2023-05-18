@@ -16,6 +16,8 @@ const ImageMessage = ({ image }: { image: ImageCompletion }) => {
 						alt={image.prompt}
 						width={1024}
 						height={1024}
+						quality={100}
+						priority
 					/>
 				</article>
 			)}
