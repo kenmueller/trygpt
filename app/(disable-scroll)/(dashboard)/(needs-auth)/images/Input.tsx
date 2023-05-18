@@ -97,6 +97,7 @@ const ImagesInput = () => {
 					id: nanoid(),
 					prompt,
 					created: Date.now(),
+					updated: Date.now(),
 					loading: true
 				}
 
