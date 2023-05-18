@@ -9,6 +9,8 @@ import Images from './Images'
 import ImagesInput from './Input'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 import Await from '@/components/Await'
+import ImagesPageContainer from './Container'
+import ImagesPagePurchaseButton from './PurchaseButton'
 
 export const generateMetadata = () =>
 	pageMetadata({
@@ -28,7 +30,7 @@ const ImagesPage = async () => {
 		<>
 			<SetImagesPageState images={images} />
 			<Nav>My Images</Nav>
-			<main className="grid grid-rows-[1fr_auto] gap-4 overflow-y-auto">
+			<ImagesPageContainer>
 				<Suspense
 					fallback={
 						<div className="flex flex-col overflow-y-auto">
@@ -41,8 +43,9 @@ const ImagesPage = async () => {
 						<Images />
 					</Await>
 				</Suspense>
+				<ImagesPagePurchaseButton />
 				<ImagesInput />
-			</main>
+			</ImagesPageContainer>
 		</>
 	)
 }
