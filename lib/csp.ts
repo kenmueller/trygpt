@@ -53,7 +53,8 @@ const csp = (nonceKey: string) =>
 				'links.services.disqus.com',
 				'cdn.viglink.com',
 				'geo.privacymanager.io',
-				'realtime.services.disqus.com'
+				'realtime.services.disqus.com',
+				'firebasestorage.googleapis.com'
 			],
 			'img-src': [
 				SELF,
