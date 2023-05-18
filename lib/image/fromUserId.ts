@@ -4,16 +4,16 @@ import { sql, DatabasePoolConnection } from 'slonik'
 import { connect } from '@/lib/pool'
 import ImageCompletion from '.'
 
-const imagesFromUserId = cache(
+const imageCompletionsFromUserId = cache(
 	(userId: string, connection?: DatabasePoolConnection) =>
 		connection
-			? imagesFromUserIdWithConnection(userId, connection)
+			? imageCompletionsFromUserIdWithConnection(userId, connection)
 			: connect(connection =>
-					imagesFromUserIdWithConnection(userId, connection)
+					imageCompletionsFromUserIdWithConnection(userId, connection)
 			  )
 )
 
-const imagesFromUserIdWithConnection = async (
+const imageCompletionsFromUserIdWithConnection = async (
 	userId: string,
 	connection: DatabasePoolConnection
 ) => {
@@ -30,4 +30,4 @@ const imagesFromUserIdWithConnection = async (
 	return images
 }
 
-export default imagesFromUserId
+export default imageCompletionsFromUserId

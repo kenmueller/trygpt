@@ -11,7 +11,7 @@ import alertError from '@/lib/error/alert'
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import errorFromResponse from '@/lib/error/fromResponse'
 
-const ImageCompletionDeleteButton = ({ image }: { image: ImageCompletion }) => {
+const ImageMessageDeleteButton = ({ image }: { image: ImageCompletion }) => {
 	const setImages = useSetRecoilState(imagesState)
 
 	const deleteImage = useCallback(async () => {
@@ -47,4 +47,4 @@ const ImageCompletionDeleteButton = ({ image }: { image: ImageCompletion }) => {
 	)
 }
 
-export default ImageCompletionDeleteButton
+export default ImageMessageDeleteButton

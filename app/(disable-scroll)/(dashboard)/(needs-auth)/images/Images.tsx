@@ -6,7 +6,7 @@ import { useRecoilValue } from 'recoil'
 import imagesState from '@/lib/atoms/images'
 import ImageMessage from './Image'
 
-const Images = () => {
+const ImagesPageImages = () => {
 	const images = useRecoilValue(imagesState)
 	if (!images) throw new Error('Missing images')
 
@@ -28,4 +28,4 @@ const Images = () => {
 	)
 }
 
-export default Images
+export default ImagesPageImages

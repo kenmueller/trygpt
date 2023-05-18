@@ -4,7 +4,7 @@ import pageMetadata from '@/lib/metadata/page'
 import userFromRequest from '@/lib/user/fromRequest'
 import Nav from '@/components/Dashboard/Nav'
 import SetImagesPageState from './SetState'
-import imagesFromUserId from '@/lib/image/fromUserId'
+import imageCompletionsFromUserId from '@/lib/image/fromUserId'
 import Images from './Images'
 import ImagesInput from './Input'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
@@ -22,7 +22,7 @@ const ImagesPage = async () => {
 	const user = await userFromRequest()
 	if (!user) return null
 
-	const images = imagesFromUserId(user.id)
+	const images = imageCompletionsFromUserId(user.id)
 
 	return (
 		<>

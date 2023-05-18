@@ -9,7 +9,7 @@ import { faShareSquare } from '@fortawesome/free-solid-svg-icons'
 import ImageCompletion from '@/lib/image'
 import ORIGIN from '@/lib/origin'
 
-const ImageCompletionShareButton = ({ image }: { image: ImageCompletion }) => {
+const ImageMessageShareButton = ({ image }: { image: ImageCompletion }) => {
 	const shareImage = useCallback(() => {
 		copy(new URL(`/images/${encodeURIComponent(image.id)}`, ORIGIN).href)
 		toast.success('Copied image URL to clipboard')
@@ -28,4 +28,4 @@ const ImageCompletionShareButton = ({ image }: { image: ImageCompletion }) => {
 	)
 }
 
-export default ImageCompletionShareButton
+export default ImageMessageShareButton

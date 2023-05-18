@@ -9,11 +9,7 @@ import alertError from '@/lib/error/alert'
 import errorFromUnknown from '@/lib/error/fromUnknown'
 import imageCompletionUrlFromId from '@/lib/image/urlFromId'
 
-const ImageCompletionDownloadButton = ({
-	image
-}: {
-	image: ImageCompletion
-}) => {
+const ImageMessageDownloadButton = ({ image }: { image: ImageCompletion }) => {
 	const downloadImage = useCallback(async () => {
 		try {
 			const { default: saveAs } = await import('file-saver')
@@ -36,4 +32,4 @@ const ImageCompletionDownloadButton = ({
 	)
 }
 
-export default ImageCompletionDownloadButton
+export default ImageMessageDownloadButton
