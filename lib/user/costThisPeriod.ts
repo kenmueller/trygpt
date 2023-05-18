@@ -1,14 +1,16 @@
 import User from '.'
 import {
 	COST_PER_1000_PROMPT_TOKENS,
-	COST_PER_1000_COMPLETION_TOKENS
+	COST_PER_1000_COMPLETION_TOKENS,
+	COST_PER_IMAGE
 } from '@/lib/cost'
 
 /** Can be less than 0 and does not include Stripe fee. */
 export const baseCostThisPeriod = (user: User) => {
 	const totalCost =
 		(user.promptTokens / 1000) * COST_PER_1000_PROMPT_TOKENS +
-		(user.completionTokens / 1000) * COST_PER_1000_COMPLETION_TOKENS
+		(user.completionTokens / 1000) * COST_PER_1000_COMPLETION_TOKENS +
+		user.images * COST_PER_IMAGE
 
 	return Math.ceil(totalCost - user.purchasedAmount)
 }

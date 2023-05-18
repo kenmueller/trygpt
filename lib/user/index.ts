@@ -21,6 +21,8 @@ export default interface User {
 	promptTokens: number
 	completionTokens: number
 
+	images: number
+
 	/** In cents. */
 	purchasedAmount: number
 
