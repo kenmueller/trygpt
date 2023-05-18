@@ -14,6 +14,7 @@ const config = {
 	images: {
 		domains: [
 			'storage.googleapis.com',
+			'firebasestorage.googleapis.com',
 			'lh1.googleusercontent.com',
 			'lh2.googleusercontent.com',
 			'lh3.googleusercontent.com',
