@@ -5,6 +5,7 @@ export default interface ImageCompletion {
 	prompt: string
 
 	created: number
+	updated: number
 
 	loading?: true
 	error?: true

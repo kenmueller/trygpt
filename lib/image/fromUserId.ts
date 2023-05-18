@@ -21,7 +21,7 @@ const imagesFromUserIdWithConnection = async (
 		sql.unsafe`SELECT
 				       user_id AS "userId",
 					   id, prompt,
-					   created
+					   created, updated
 				   FROM images
 				   WHERE user_id = ${userId} AND visible
 				   ORDER BY images.created ASC`
