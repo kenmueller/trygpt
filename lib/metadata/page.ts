@@ -2,28 +2,31 @@ import { Metadata } from 'next'
 
 import getUrl from '@/lib/getUrl'
 
-const pageMetadata = ({
-	title,
-	description,
-	previewTitle
-}: {
+export interface PageMetadataBaseOptions {
 	title: string
 	description: string
-	previewTitle: string
-}): Metadata => {
+}
+
+export type PageMetadataOptions = PageMetadataBaseOptions &
+	({ previewTitle: string } | { previewImage: string })
+
+const pageMetadata = (options: PageMetadataOptions): Metadata => {
 	const fullUrl = getUrl()
 	const url = new URL(fullUrl.pathname, fullUrl.origin).href
 
-	const image = `/api/preview?title=${encodeURIComponent(previewTitle)}`
+	const image =
+		'previewTitle' in options
+			? `/api/preview?title=${encodeURIComponent(options.previewTitle)}`
+			: options.previewImage
 
 	return {
 		alternates: { canonical: url },
-		title,
-		description,
+		title: options.title,
+		description: options.description,
 		openGraph: {
 			type: 'website',
-			title,
-			description,
+			title: options.title,
+			description: options.description,
 			siteName: 'TryGPT',
 			locale: 'en_US',
 			url,
@@ -34,8 +37,8 @@ const pageMetadata = ({
 			card: 'summary_large_image',
 			site: '@trygpt',
 			creator: '@trygpt',
-			title,
-			description,
+			title: options.title,
+			description: options.description,
 			images: image
 		}
 	}
