@@ -37,6 +37,8 @@ const ImageCompletionDeleteButton = ({ image }: { image: ImageCompletion }) => {
 	return (
 		<button
 			className="text-red-500 transition-colors ease-linear hover:text-opacity-70"
+			aria-label="Delete image"
+			data-balloon-pos="left"
 			disabled={image.loading}
 			onClick={deleteImage}
 		>

@@ -10,6 +10,7 @@ import imageCompletionUrlFromId from '@/lib/image/urlFromId'
 import ThreeDotsLoader from '@/components/ThreeDotsLoader'
 import DeleteButton from './DeleteButton'
 import imagesState from '@/lib/atoms/images'
+import ShareButton from './ShareButton'
 
 const ImageMessage = ({ image }: { image: ImageCompletion }) => {
 	const setImages = useSetRecoilState(imagesState)
@@ -56,9 +57,12 @@ const ImageMessage = ({ image }: { image: ImageCompletion }) => {
 					</button>
 				)}
 			</div>
-			<div className="shrink-0 flex flex-col items-center">
-				<DeleteButton image={image} />
-			</div>
+			{!image.error && (
+				<div className="shrink-0 flex flex-col items-center gap-1">
+					<ShareButton image={image} />
+					<DeleteButton image={image} />
+				</div>
+			)}
 		</article>
 	)
 }
