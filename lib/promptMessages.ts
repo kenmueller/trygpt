@@ -1,4 +1,4 @@
-import { ChatCompletionMessage } from './createChatCompletion'
+import { ChatCompletionMessage } from './completion/chat'
 
 export const namePromptMessages = (prompt: string): ChatCompletionMessage[] => [
 	{

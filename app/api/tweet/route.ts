@@ -16,7 +16,7 @@ import formatCents from '@/lib/cents/format'
 import createChat from '@/lib/chat/create'
 import createChatCompletion, {
 	ChatCompletionMessage
-} from '@/lib/createChatCompletion'
+} from '@/lib/completion/chat'
 import { messagePromptMessages, namePromptMessages } from '@/lib/promptMessages'
 import updateChat from '@/lib/chat/update'
 import trimQuotes from '@/lib/trimQuotes'

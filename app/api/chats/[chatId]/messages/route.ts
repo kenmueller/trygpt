@@ -13,7 +13,7 @@ import createChatMessages, {
 import isChatOwnedByUser from '@/lib/chat/isOwnedByUser'
 import createChatCompletion, {
 	ChatCompletionMessage
-} from '@/lib/createChatCompletion'
+} from '@/lib/completion/chat'
 import chatMessagesFromChatId from '@/lib/chat/message/fromChatId'
 import updateUser from '@/lib/user/update'
 import getTokens from '@/lib/getTokens'

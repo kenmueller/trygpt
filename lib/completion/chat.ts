@@ -7,8 +7,8 @@ if (!process.env.NEXT_PUBLIC_OPENAI_MODEL)
 	throw new Error('Missing NEXT_PUBLIC_OPENAI_MODEL')
 
 import ChatMessage from '@/lib/chat/message'
-import responseToGenerator from './responseToGenerator'
-import errorFromResponse from './error/fromResponse'
+import responseToGenerator from '@/lib/responseToGenerator'
+import errorFromResponse from '@/lib/error/fromResponse'
 
 export type ChatCompletionMessage = Pick<ChatMessage, 'role' | 'text'>
 

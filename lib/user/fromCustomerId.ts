@@ -26,6 +26,7 @@ const userFromCustomerIdWithConnection = async (
 					   last_charged AS "lastCharged",
 					   prompt_tokens AS "promptTokens",
 					   completion_tokens AS "completionTokens",
+					   images,
 					   purchased_amount AS "purchasedAmount",
 					   preview_messages AS "previewMessages",
 					   preview_images AS "previewImages",

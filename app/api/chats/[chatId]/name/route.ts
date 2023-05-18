@@ -10,7 +10,7 @@ import ErrorCode from '@/lib/error/code'
 import isChatOwnedByUser from '@/lib/chat/isOwnedByUser'
 import createChatCompletion, {
 	ChatCompletionMessage
-} from '@/lib/createChatCompletion'
+} from '@/lib/completion/chat'
 import updateChat from '@/lib/chat/update'
 import trimQuotes from '@/lib/trimQuotes'
 import updateUser from '@/lib/user/update'

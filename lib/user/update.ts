@@ -10,6 +10,7 @@ export interface UpdateUserData {
 	lastCharged?: 'now'
 	incrementPromptTokens?: number
 	incrementCompletionTokens?: number
+	incrementImages?: number
 	incrementPurchasedAmount?: number
 	incrementPreviewMessages?: number
 	incrementPreviewImages?: number
@@ -37,6 +38,7 @@ const updateUserWithConnection = async (
 		lastCharged,
 		incrementPromptTokens,
 		incrementCompletionTokens,
+		incrementImages,
 		incrementPurchasedAmount,
 		incrementPreviewMessages,
 		incrementPreviewImages,
@@ -56,6 +58,8 @@ const updateUserWithConnection = async (
 									sql.unsafe`prompt_tokens = prompt_tokens + ${incrementPromptTokens}`,
 								incrementCompletionTokens !== undefined &&
 									sql.unsafe`completion_tokens = completion_tokens + ${incrementCompletionTokens}`,
+								incrementImages !== undefined &&
+									sql.unsafe`images = images + ${incrementImages}`,
 								incrementPurchasedAmount !== undefined &&
 									sql.unsafe`purchased_amount = purchased_amount + ${incrementPurchasedAmount}`,
 								incrementPreviewMessages !== undefined &&
