@@ -2,8 +2,7 @@ import 'server-only'
 
 if (!process.env.OPENAI_API_KEY) throw new Error('Missing OPENAI_API_KEY')
 
-import errorFromResponse from '@/lib/error/fromResponse'
-import HttpError from '../error/http'
+import HttpError from '@/lib/error/http'
 
 interface ErrorResponse {
 	error: {
