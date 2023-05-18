@@ -47,7 +47,7 @@ const ImagesInput = () => {
 		  user.previewImages
 
 	const disabledMessage = !user.paymentMethod
-		? user.previewMessages <
+		? user.previewImages <
 		  Number.parseInt(process.env.NEXT_PUBLIC_PREVIEW_IMAGE_LIMIT!)
 			? undefined
 			: `You have no free images remaining. Purchase GPT 4 for ${formatCents(
