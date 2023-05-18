@@ -8,7 +8,10 @@ export interface PageMetadataBaseOptions {
 }
 
 export type PageMetadataOptions = PageMetadataBaseOptions &
-	({ previewTitle: string } | { previewImage: string })
+	(
+		| { previewTitle: string }
+		| { previewImage: { src: string; quality?: number } }
+	)
 
 const pageMetadata = (options: PageMetadataOptions): Metadata => {
 	const fullUrl = getUrl()
@@ -17,7 +20,9 @@ const pageMetadata = (options: PageMetadataOptions): Metadata => {
 	const image =
 		'previewTitle' in options
 			? `/api/preview?title=${encodeURIComponent(options.previewTitle)}`
-			: options.previewImage
+			: `/_next/image?url=${encodeURIComponent(
+					options.previewImage.src
+			  )}&w=1200&q=${options.previewImage.quality ?? 75}`
 
 	return {
 		alternates: { canonical: url },
