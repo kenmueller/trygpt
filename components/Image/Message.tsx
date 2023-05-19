@@ -17,7 +17,7 @@ const ImageMessage = ({
 }) => (
 	<article
 		className={cx(
-			'message flex gap-2 min-[700px]:gap-4 relative px-2 min-[700px]:px-4 py-4 even:bg-white even:bg-opacity-10',
+			'flex gap-2 min-[700px]:gap-4 relative px-2 min-[700px]:px-4 py-4 even:bg-white even:bg-opacity-10',
 			image.error && '!bg-red-500 bg-opacity-100'
 		)}
 	>
