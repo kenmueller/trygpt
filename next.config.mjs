@@ -1,7 +1,9 @@
-const withPlugins = require('next-compose-plugins')
-const { default: withPwa } = require('@ducanh2912/next-pwa')
-const withBundleAnalyzer = require('@next/bundle-analyzer')
-const { IgnorePlugin } = require('webpack')
+import withPlugins from 'next-compose-plugins'
+import withPwa from '@ducanh2912/next-pwa'
+import withBundleAnalyzer from '@next/bundle-analyzer'
+import webpack from 'webpack'
+
+const { IgnorePlugin } = webpack
 
 const DEV = process.env.NODE_ENV === 'development'
 
@@ -12,6 +14,7 @@ const config = {
 		serverActions: true
 	},
 	images: {
+		formats: ['image/avif', 'image/webp'],
 		domains: [
 			'storage.googleapis.com',
 			'firebasestorage.googleapis.com',
@@ -29,7 +32,7 @@ const config = {
 	}
 }
 
-module.exports = withPlugins(
+export default withPlugins(
 	[
 		withBundleAnalyzer({ enabled: process.env.ANALYZE === 'true' }),
 		withPwa({ disable: DEV, dest: 'public' })
