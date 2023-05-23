@@ -14,7 +14,6 @@ const config = {
 		serverActions: true
 	},
 	images: {
-		formats: ['image/avif', 'image/webp'],
 		domains: [
 			'storage.googleapis.com',
 			'firebasestorage.googleapis.com',
